@@ -2,3 +2,8 @@
     name = {{ promptStringOnce . "name" "Git user name" | quote }}
     email = {{ promptStringOnce . "email" "Git email address" | quote }}
     machine_type = {{ promptChoiceOnce . "machine_type" "Machine type" (list "personal" "work") | quote }}
+{{- if eq (promptChoiceOnce . "machine_type" "Machine type" (list "personal" "work")) "work" }}
+    work_name = {{ promptStringOnce . "work_name" "Work Git user name" | quote }}
+    work_email = {{ promptStringOnce . "work_email" "Work Git email address" | quote }}
+    work_gitdir = {{ promptStringOnce . "work_gitdir" "Work Git directory (e.g. ~/ghq/github.com/your-org/)" | quote }}
+{{- end }}

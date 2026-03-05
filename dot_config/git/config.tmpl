@@ -2,6 +2,11 @@
 	email = {{ .email }}
 	name = {{ .name }}
 
+{{ if eq .machine_type "work" -}}
+[includeIf "gitdir:{{ .work_gitdir }}"]
+	path = ~/.config/git/users/work.gitconfig
+{{ end -}}
+
 [core]
 	quotepath = false
 	pager = delta
@@ -19,6 +24,9 @@
 
 [merge]
 	conflictStyle = zdiff3
+
+[ghq]
+	root = ~/ghq
 
 [include]
 	path = ~/.config/delta/themes/catppuccin.gitconfig

@@ -22,3 +22,8 @@ chezmoi-migration-guide.md
 .config/gh/**
 .config/nvm/**
 .config/github-copilot/**
+
+# Work-specific config (only include when machine_type is "work")
+{{ if ne .machine_type "work" }}
+.config/git/users/work.gitconfig
+{{ end }}
