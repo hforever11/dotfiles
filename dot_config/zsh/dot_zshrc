@@ -25,7 +25,6 @@ compinit -u
 # ===== Tools =====
 command -v fzf      >/dev/null && source <(fzf --zsh)
 command -v starship >/dev/null && eval "$(starship init zsh)"
-command -v mise     >/dev/null && eval "$(mise activate zsh)"
 command -v zoxide   >/dev/null && eval "$(zoxide init zsh)"
 
 # ===== Functions =====
@@ -45,29 +44,29 @@ alias c='clear'
 alias gds='git diff --delta-features="+side-by-side"'
 
 # ===== Abbreviations =====
-abbr -S g=git
-abbr -S ga="git add"
-abbr -S gc="git commit"
-abbr -S gco="git checkout"
-abbr -S gd="git diff"
-abbr -S gp="git push"
-abbr -S gl="git pull"
-abbr -S gs="git status"
-abbr -S glog="git log --oneline --graph"
+abbr -S -q g=git
+abbr -S -q ga="git add"
+abbr -S -q gc="git commit"
+abbr -S -q gco="git checkout"
+abbr -S -q gd="git diff"
+abbr -S -q gp="git push"
+abbr -S -q gl="git pull"
+abbr -S -q gs="git status"
+abbr -S -q glog="git log --oneline --graph"
 
-abbr -S d=docker
-abbr -S dc="docker compose"
-abbr -S dcu="docker compose up -d"
-abbr -S dcd="docker compose down"
-abbr -S dps="docker ps"
+abbr -S -q d=docker
+abbr -S -q dc="docker compose"
+abbr -S -q dcu="docker compose up -d"
+abbr -S -q dcd="docker compose down"
+abbr -S -q dps="docker ps"
 
-abbr -S k=kubectl
-abbr -S kgp="kubectl get pods"
-abbr -S kgs="kubectl get svc"
-abbr -S kgd="kubectl get deploy"
-abbr -S kd="kubectl describe"
-abbr -S kl="kubectl logs"
-abbr -S kex="kubectl exec -it"
+abbr -S -q k=kubectl
+abbr -S -q kgp="kubectl get pods"
+abbr -S -q kgs="kubectl get svc"
+abbr -S -q kgd="kubectl get deploy"
+abbr -S -q kd="kubectl describe"
+abbr -S -q kl="kubectl logs"
+abbr -S -q kex="kubectl exec -it"
 
-abbr -S ls='eza --icons --git'
-abbr -S ll='eza -l --icons --git'
+abbr -S -q ls='eza --icons --git'
+abbr -S -q ll='eza -l --icons --git'

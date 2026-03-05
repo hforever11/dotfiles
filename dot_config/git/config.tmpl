@@ -1,6 +1,5 @@
-[user]
-	email = {{ .email }}
-	name = {{ .name }}
+[includeIf "gitdir:{{ .gitdir }}"]
+	path = ~/.config/git/users/personal.gitconfig
 
 {{ if eq .machine_type "work" -}}
 [includeIf "gitdir:{{ .work_gitdir }}"]

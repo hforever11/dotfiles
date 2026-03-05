@@ -6,7 +6,7 @@ My dotfiles managed with [chezmoi](https://www.chezmoi.io/).
 
 ```sh
 # Install chezmoi and apply dotfiles
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply ShoFukunaga/dotfiles-v2
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply ShoFukunaga/dotfiles
 ```
 
 ## Usage

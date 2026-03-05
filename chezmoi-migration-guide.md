@@ -5,7 +5,7 @@
 - macOS (Apple Silicon)
 - Homebrew インストール済み
 - 移行元: `~/.config` を git で直接管理
-- 移行先: `hforever11/dotfiles-v2.git`（chezmoi 形式）
+- 移行先: `hforever11/dotfiles.git`（chezmoi 形式）
 
 ---
 
@@ -44,7 +44,7 @@ EOF
 ## Step 4: chezmoi 初期化
 
 ```bash
-chezmoi init https://github.com/hforever11/dotfiles-v2.git
+chezmoi init https://github.com/hforever11/dotfiles.git
 ```
 
 - `~/.local/share/chezmoi` にリポジトリがクローンされる
@@ -78,7 +78,7 @@ chezmoi apply -v
 - 初回は `run_once_install-packages.sh` が実行され、Brewfile のパッケージインストールが走る
 - temurin 等の cask は sudo が必要なため、手動で別途インストールが必要な場合がある
 
-## Step 7: dotfiles-v2 に無いファイルの対応
+## Step 7: dotfiles に無いファイルの対応
 
 chezmoi 管理に追加したいファイルがあれば：
 
@@ -146,7 +146,7 @@ git push
 
 ```bash
 # 1コマンドで init + apply
-chezmoi init --apply https://github.com/hforever11/dotfiles-v2.git
+chezmoi init --apply https://github.com/hforever11/dotfiles.git
 ```
 
 ### リモートの変更を取り込む

@@ -23,7 +23,7 @@ Git の `includeIf` により、指定ディレクトリ配下のリポジトリ
 ### 初回セットアップ
 
 ```sh
-chezmoi init --apply hforever11/dotfiles-v2
+chezmoi init --apply hforever11/dotfiles
 ```
 
 対話プロンプトで以下を聞かれる：
