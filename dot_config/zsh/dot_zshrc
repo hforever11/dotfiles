@@ -31,6 +31,7 @@ command -v zoxide   >/dev/null && eval "$(zoxide init zsh)"
 # ===== Alias =====
 alias vim='nvim'
 alias c='clear'
+alias gds='git diff --delta-features="+side-by-side"'
 
 # ===== Abbreviations =====
 abbr -S g=git
