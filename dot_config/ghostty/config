@@ -7,7 +7,7 @@ font-family = "HackGen Console NF"
 font-feature = -dlig
 font-feature = -liga
 font-feature = -calt
-font-size = 13.5
+font-size = 12
 
 font-style-bold = false
 font-style-italic = false

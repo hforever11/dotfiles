@@ -1,4 +1,15 @@
-ZDOTDIR=$HOME/.config/zsh
+# XDG Base Directory
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
+export XDG_CACHE_HOME="$HOME/.cache"
 
-# Homebrew (最初に読み込まれる .zshenv で設定)
+# Zsh config directory
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+
+# Tool-specific XDG paths
+export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/starship.toml"
+export FZF_DEFAULT_OPTS_FILE="$XDG_CONFIG_HOME/fzf/config"
+
+# Homebrew (earliest entry point)
 [ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"

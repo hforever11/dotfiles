@@ -1,0 +1,8 @@
+os:
+  edit: 'nvim --server "$NVIM" --remote-send "<C-\\><C-n>:close<CR>:e {{filename}}<CR>"'
+  editAtLine: 'nvim --server "$NVIM" --remote-send "<C-\\><C-n>:close<CR>:e {{filename}}<CR>{{line}}G"'
+
+git:
+  pagers:
+    - pager: delta --paging=never
+      colorArg: always

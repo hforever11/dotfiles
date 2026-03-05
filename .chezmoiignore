@@ -2,6 +2,7 @@
 README.md
 LICENSE
 Brewfile
+chezmoi-migration-guide.md
 
 # Wallpapers
 .config/wall.png
