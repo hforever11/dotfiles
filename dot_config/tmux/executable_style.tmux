@@ -33,12 +33,12 @@ main() {
   tmux set -g status-justify "right"
   tmux set -g status-style "none"
 
-  # left panel
-  tmux set -g status-left-length 50
+  # left panel: リポジトリ + ブランチ
+  tmux set -g status-left-length 100
   tmux set -g status-left-style "none,fg=${thm_black4}"
-  tmux set -g status-left " #S ${separator}"
+  tmux set -g status-left "#(~/.config/tmux/git-info.sh #{pane_current_path} '▕') ${separator}"
 
-  # right panel
+  # right panel: なし
   tmux set -g status-right-style "none"
   tmux set -g status-right ""
 

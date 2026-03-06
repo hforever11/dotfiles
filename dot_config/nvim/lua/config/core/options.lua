@@ -27,6 +27,8 @@ opt.splitright = true
 opt.splitbelow = true
 
 opt.swapfile = false
+opt.cmdheight = 0
+opt.laststatus = 0
 
 opt.autoread = true
 opt.updatetime = 250

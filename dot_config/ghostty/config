@@ -24,7 +24,7 @@ adjust-cell-height = 6
 alpha-blending = linear
 
 # macOS
-macos-titlebar-style = tabs
+macos-titlebar-style = transparent
 macos-window-shadow = false
 
 # Window
