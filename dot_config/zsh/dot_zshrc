@@ -28,6 +28,8 @@ command -v starship >/dev/null && eval "$(starship init zsh)"
 command -v zoxide   >/dev/null && eval "$(zoxide init zsh)"
 
 # ===== Functions =====
+
+# Ctrl+g: ghq + fzf でリポジトリに cd
 function ghq-fzf() {
   local repo=$(ghq list | fzf --preview "eza --icons -T -L 2 $(ghq root)/{}")
   if [ -n "$repo" ]; then
@@ -37,6 +39,27 @@ function ghq-fzf() {
 }
 zle -N ghq-fzf
 bindkey '^g' ghq-fzf
+
+# Ctrl+t: ghq + fzf で tmux session を作成/アタッチ
+function tmux-ghq() {
+  local repo=$(ghq list | fzf --preview "eza --icons -T -L 2 $(ghq root)/{}")
+  [ -z "$repo" ] && { zle accept-line; return; }
+
+  local dir="$(ghq root)/$repo"
+  local session_name="${repo//\./_}"
+
+  if [ -z "$TMUX" ]; then
+    tmux new-session -A -s "$session_name" -c "$dir"
+  else
+    if ! tmux has-session -t "$session_name" 2>/dev/null; then
+      tmux new-session -d -s "$session_name" -c "$dir"
+    fi
+    tmux switch-client -t "$session_name"
+  fi
+  zle accept-line
+}
+zle -N tmux-ghq
+bindkey '^t' tmux-ghq
 
 # ===== Alias =====
 alias vim='nvim'
