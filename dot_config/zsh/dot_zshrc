@@ -64,6 +64,8 @@ bindkey '^t' tmux-ghq
 # ===== Alias =====
 alias vim='nvim'
 alias c='clear'
+alias cat='bat'
+alias diff='delta'
 alias gds='git diff --delta-features="+side-by-side"'
 
 # ===== Abbreviations =====
