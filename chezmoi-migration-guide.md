@@ -26,9 +26,18 @@ cp -r ~/.config ~/.config.bak
 brew install chezmoi
 ```
 
-## Step 3: chezmoi 設定ファイルの作成
+## Step 3: chezmoi 初期化
 
-`chezmoi init` 時にテンプレートで対話入力が求められるため、先に設定ファイルを作成しておく。
+```bash
+chezmoi init https://github.com/hforever11/dotfiles.git
+```
+
+`git config --global` に `user.name` / `user.email` が設定済みなら、自動でデフォルト値が入る。
+`gitdir` も `~/ghq/github.com/<name>/` が自動補完されるので、ほとんどの場合 Enter 連打で OK。
+
+### 完全に非対話で init する場合
+
+事前に設定ファイルを作成しておけば、プロンプトは一切出ない：
 
 ```bash
 mkdir -p ~/.config/chezmoi
@@ -36,21 +45,24 @@ cat > ~/.config/chezmoi/chezmoi.toml << 'EOF'
 [data]
     name = "your-git-username"
     email = "your-email@example.com"
+    gitdir = "~/ghq/github.com/your-git-username/"
+    machine_type = "personal"
 EOF
-```
 
-> `name` と `email` は `git/config` テンプレートで使われる値。自分の情報に書き換えること。
-
-## Step 4: chezmoi 初期化
-
-```bash
 chezmoi init https://github.com/hforever11/dotfiles.git
 ```
 
-- `~/.local/share/chezmoi` にリポジトリがクローンされる
-- Step 3 で設定済みのため、対話入力はスキップされる
+### CI / スクリプトからの自動セットアップ
 
-## Step 5: 差分確認（適用前）
+```bash
+chezmoi init --promptString name=myname \
+             --promptString email=me@example.com \
+             --promptString gitdir="~/ghq/github.com/myname/" \
+             --promptChoice machine_type=personal \
+             https://github.com/hforever11/dotfiles.git
+```
+
+## Step 4: 差分確認（適用前）
 
 ```bash
 # 全体の差分を確認
@@ -68,7 +80,7 @@ chezmoi diff | grep "^diff --git"
 - `zsh/.zshrc` — シェル設定の違い
 - `.zshenv` — ZDOTDIR と Homebrew の設定
 
-## Step 6: 適用
+## Step 5: 適用
 
 ```bash
 chezmoi apply -v
@@ -78,7 +90,22 @@ chezmoi apply -v
 - 初回は `run_once_install-packages.sh` が実行され、Brewfile のパッケージインストールが走る
 - temurin 等の cask は sudo が必要なため、手動で別途インストールが必要な場合がある
 
-## Step 7: dotfiles に無いファイルの対応
+### 別マシンで一発セットアップ
+
+```bash
+# init + apply を 1 コマンドで（対話プロンプトはデフォルト値付き）
+chezmoi init --apply https://github.com/hforever11/dotfiles.git
+
+# 完全非対話
+chezmoi init --apply \
+  --promptString name=myname \
+  --promptString email=me@example.com \
+  --promptString gitdir="~/ghq/github.com/myname/" \
+  --promptChoice machine_type=personal \
+  https://github.com/hforever11/dotfiles.git
+```
+
+## Step 6: dotfiles に無いファイルの対応
 
 chezmoi 管理に追加したいファイルがあれば：
 
@@ -89,7 +116,7 @@ chezmoi add ~/.config/lazygit/config.yml
 
 管理しないファイル（認証情報など）はそのまま放置で OK。
 
-## Step 8: 旧 git 管理の無効化
+## Step 7: 旧 git 管理の無効化
 
 ```bash
 rm -rf ~/.config/.git ~/.config/.gitignore
@@ -97,7 +124,7 @@ rm -rf ~/.config/.git ~/.config/.gitignore
 
 > chezmoi が `~/.local/share/chezmoi` でバージョン管理するため不要。
 
-## Step 9: 動作確認
+## Step 8: 動作確認
 
 ```bash
 # chezmoi の状態確認（空なら全て同期済み）
@@ -142,13 +169,6 @@ git commit -m "update config"
 git push
 ```
 
-### 別マシンでセットアップ
-
-```bash
-# 1コマンドで init + apply
-chezmoi init --apply https://github.com/hforever11/dotfiles.git
-```
-
 ### リモートの変更を取り込む
 
 ```bash
@@ -160,12 +180,12 @@ chezmoi update
 ## ディレクトリ構成
 
 ```
-~/.local/share/chezmoi/     ← ソース（git リポジトリ）
-├── .chezmoi.toml.tmpl      ← テンプレート設定（name, email を聞く）
-├── .chezmoiignore          ← chezmoi が無視するファイル
-├── .chezmoiscripts/        ← 初回実行スクリプト
-├── Brewfile                ← Homebrew パッケージ一覧
-├── dot_config/             ← ~/.config/ に展開される
+~/.local/share/chezmoi/     <- ソース（git リポジトリ）
+├── .chezmoi.toml.tmpl      <- テンプレート設定（name, email を聞く）
+├── .chezmoiignore          <- chezmoi が無視するファイル
+├── .chezmoiscripts/        <- 初回実行スクリプト
+├── Brewfile                <- Homebrew パッケージ一覧
+├── dot_config/             <- ~/.config/ に展開される
 │   ├── bat/
 │   ├── delta/
 │   ├── fzf/
@@ -179,13 +199,13 @@ chezmoi update
 │   ├── tmux/
 │   ├── zsh/
 │   └── zsh-abbr/
-├── dot_zprofile            ← ~/.zprofile に展開
-└── dot_zshenv              ← ~/.zshenv に展開
+├── dot_zprofile            <- ~/.zprofile に展開
+└── dot_zshenv              <- ~/.zshenv に展開
 
 ~/.config/chezmoi/
-└── chezmoi.toml            ← ローカル設定（テンプレート変数の値）
+└── chezmoi.toml            <- ローカル設定（テンプレート変数の値）
 
-~/.config/                  ← ターゲット（chezmoi が生成・管理）
+~/.config/                  <- ターゲット（chezmoi が生成・管理）
 ```
 
 ---

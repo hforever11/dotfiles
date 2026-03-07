@@ -2,5 +2,5 @@
 	email = {{ .work_email }}
 	name = {{ .work_name }}
 
-[url "git@github.com-work:"]
-	insteadOf = git@github.com:
+[core]
+	sshCommand = ssh -i ~/.ssh/id_ed25519_work -o IdentitiesOnly=yes

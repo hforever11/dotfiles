@@ -1,12 +1,26 @@
+{{- /* Auto-detect defaults from git config */ -}}
+{{- $defaultName := "" -}}
+{{- $defaultEmail := "" -}}
+{{- if lookPath "git" -}}
+{{-   $defaultName = output "git" "config" "--global" "--default" "" "user.name" | trim -}}
+{{-   $defaultEmail = output "git" "config" "--global" "--default" "" "user.email" | trim -}}
+{{- end -}}
+
+{{- $name := promptStringOnce . "name" "Git user name" $defaultName -}}
+{{- $email := promptStringOnce . "email" "Git email address" $defaultEmail -}}
+{{- $defaultGitdir := printf "~/ghq/github.com/%s/" $name -}}
+{{- $gitdir := promptStringOnce . "gitdir" "Personal Git directory" $defaultGitdir -}}
+{{- $machine_type := promptChoiceOnce . "machine_type" "Machine type" (list "personal" "work") -}}
+
 [edit]
     apply = true
 
 [data]
-    name = {{ promptStringOnce . "name" "Git user name" | quote }}
-    email = {{ promptStringOnce . "email" "Git email address" | quote }}
-    gitdir = {{ promptStringOnce . "gitdir" "Personal Git directory (e.g. ~/ghq/github.com/your-user/)" | quote }}
-    machine_type = {{ promptChoiceOnce . "machine_type" "Machine type" (list "personal" "work") | quote }}
-{{- if eq (promptChoiceOnce . "machine_type" "Machine type" (list "personal" "work")) "work" }}
+    name = {{ $name | quote }}
+    email = {{ $email | quote }}
+    gitdir = {{ $gitdir | quote }}
+    machine_type = {{ $machine_type | quote }}
+{{- if eq $machine_type "work" }}
     work_name = {{ promptStringOnce . "work_name" "Work Git user name" | quote }}
     work_email = {{ promptStringOnce . "work_email" "Work Git email address" | quote }}
     work_gitdir = {{ promptStringOnce . "work_gitdir" "Work Git directory (e.g. ~/ghq/github.com/your-org/)" | quote }}
