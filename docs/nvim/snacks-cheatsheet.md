@@ -47,24 +47,22 @@
 
 ### Top Pickers (Quick Access)
 
-| Key               | Description          |
-| ----------------- | -------------------- |
-| `<leader><space>` | Smart Find Files     |
-| `<leader>,`       | Buffers              |
-| `<leader>/`       | Grep                 |
-| `<leader>:`       | Command History      |
-| `<leader>n`       | Notification History |
+| Key               | Description                                          |
+| ----------------- | ---------------------------------------------------- |
+| `<leader><space>` | Smart Find Files (buffers + recent + files, frecency) |
+| `<leader>,`       | Buffers                                              |
+| `<leader>/`       | Grep                                                 |
+| `<leader>:`       | Command History                                      |
+| `<leader>n`       | Notification History                                 |
+
+`<leader><space>` はバッファ・最近のファイル・プロジェクトファイルを統合表示。frecency でよく使うファイルが上位に来る。
 
 ### Find
 
 | Key          | Description      |
 | ------------ | ---------------- |
-| `<leader>fb` | Buffers          |
 | `<leader>fc` | Find Config File |
-| `<leader>ff` | Find Files       |
-| `<leader>fg` | Find Git Files   |
 | `<leader>fp` | Projects         |
-| `<leader>fr` | Recent           |
 
 ### Git
 

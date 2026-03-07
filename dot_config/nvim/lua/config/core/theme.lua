@@ -1,7 +1,7 @@
 local M = {
   name = "catppuccin",
   variant = "frappe",
-  transparent_background = false,
+  transparent_background = true,
 }
 
 function M.palette()

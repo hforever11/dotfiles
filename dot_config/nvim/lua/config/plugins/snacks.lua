@@ -4,23 +4,35 @@ return {
   priority = 1000,
   -- stylua: ignore
   keys = {
-    -- Lazygit (custom)
+    -- Lazygit
     { "<leader>lg",      function() Snacks.lazygit() end,                                        desc = "Lazygit" },
     { "<leader>lf",      function() Snacks.lazygit.log_file() end,                               desc = "Lazygit file log" },
     -- Top Pickers & Explorer
-    { "<leader><space>", function() Snacks.picker.smart() end,                                   desc = "Smart Find Files" },
+    { "<leader><space>", function()
+        local picker = require("snacks").picker
+        local root = require("snacks.git").get_root()
+        local sources = require("snacks.picker.config.sources")
+        local files = root == nil and sources.files
+          or vim.tbl_deep_extend("force", sources.git_files, {
+            untracked = true,
+            cwd = vim.uv.cwd(),
+          })
+        picker({
+          multi = { "buffers", "recent", files },
+          format = "file",
+          matcher = { frecency = true, sort_empty = true },
+          filter = { cwd = true },
+          transform = "unique_file",
+        })
+      end,                                                                                       desc = "Smart Find Files (frecency)" },
     { "<leader>,",       function() Snacks.picker.buffers() end,                                 desc = "Buffers" },
     { "<leader>/",       function() Snacks.picker.grep() end,                                    desc = "Grep" },
     { "<leader>:",       function() Snacks.picker.command_history() end,                         desc = "Command History" },
     { "<leader>n",       function() Snacks.picker.notifications() end,                           desc = "Notification History" },
     { "<leader>e",       function() Snacks.explorer() end,                                       desc = "File Explorer" },
     -- find
-    { "<leader>fb",      function() Snacks.picker.buffers() end,                                 desc = "Buffers" },
     { "<leader>fc",      function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
-    { "<leader>ff",      function() Snacks.picker.files() end,                                   desc = "Find Files" },
-    { "<leader>fg",      function() Snacks.picker.git_files() end,                               desc = "Find Git Files" },
     { "<leader>fp",      function() Snacks.picker.projects() end,                                desc = "Projects" },
-    { "<leader>fr",      function() Snacks.picker.recent() end,                                  desc = "Recent" },
     -- git
     { "<leader>gb",      function() Snacks.picker.git_branches() end,                            desc = "Git Branches" },
     { "<leader>gl",      function() Snacks.picker.git_log() end,                                 desc = "Git Log" },
@@ -38,7 +50,6 @@ return {
     { '<leader>s"',      function() Snacks.picker.registers() end,                               desc = "Registers" },
     { '<leader>s/',      function() Snacks.picker.search_history() end,                          desc = "Search History" },
     { "<leader>sa",      function() Snacks.picker.autocmds() end,                                desc = "Autocmds" },
-    { "<leader>sc",      function() Snacks.picker.command_history() end,                         desc = "Command History" },
     { "<leader>sC",      function() Snacks.picker.commands() end,                                desc = "Commands" },
     { "<leader>sd",      function() Snacks.picker.diagnostics() end,                             desc = "Diagnostics" },
     { "<leader>sD",      function() Snacks.picker.diagnostics_buffer() end,                      desc = "Buffer Diagnostics" },
