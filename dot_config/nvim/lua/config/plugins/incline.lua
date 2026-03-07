@@ -3,7 +3,7 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   event = "VeryLazy",
   opts = function()
-    local palette = require("catppuccin.palettes").get_palette("frappe")
+    local palette = require("config.core.theme").palette()
     local devicons = require("nvim-web-devicons")
 
     local fg_active = palette.mauve

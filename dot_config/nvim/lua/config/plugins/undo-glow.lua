@@ -3,9 +3,7 @@ return {
   event = "BufReadPost",
   config = function()
     local undo_glow = require("undo-glow")
-
-    -- Catppuccin Frappe の色を使用
-    local colors = require("catppuccin.palettes").get_palette("frappe")
+    local colors = require("config.core.theme").palette()
 
     undo_glow.setup({
       highlights = {

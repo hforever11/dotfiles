@@ -5,11 +5,13 @@ return {
     priority = 1000,
     lazy = false,
     config = function()
+      local theme = require("config.core.theme")
+
       require("catppuccin").setup({
-        flavour = "frappe", -- latte / frappe / macchiato / mocha
-        transparent_background = true,
+        flavour = theme.variant,
+        transparent_background = theme.transparent_background,
       })
-      vim.cmd("colorscheme catppuccin")
+      vim.cmd.colorscheme(theme.name)
     end,
   },
 }

@@ -1,16 +1,2 @@
-# XDG Base Directory
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_STATE_HOME="$HOME/.local/state"
-export XDG_CACHE_HOME="$HOME/.cache"
-
-# Zsh config directory
-export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-
-# Tool-specific XDG paths
-export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/starship.toml"
-export FZF_DEFAULT_OPTS_FILE="$XDG_CONFIG_HOME/fzf/config"
-export EZA_CONFIG_DIR="$XDG_CONFIG_HOME/eza"
-
-# Homebrew (earliest entry point)
-[ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+# Zsh config directory (for machines where /etc/zshenv doesn't set ZDOTDIR)
+export ZDOTDIR="${ZDOTDIR:-$HOME/.config/zsh}"

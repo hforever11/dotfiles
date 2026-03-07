@@ -2,7 +2,7 @@ return {
   "mvllow/modes.nvim",
   event = "BufReadPost",
   opts = function()
-    local colors = require("catppuccin.palettes").get_palette("frappe")
+    local colors = require("config.core.theme").palette()
     return {
       colors = {
         copy = colors.yellow,
