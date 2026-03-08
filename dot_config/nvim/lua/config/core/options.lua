@@ -14,6 +14,7 @@ opt.ignorecase = true
 opt.smartcase = true
 
 opt.cursorline = true
+opt.scrolloff = 8
 
 opt.termguicolors = true
 opt.background = "dark"

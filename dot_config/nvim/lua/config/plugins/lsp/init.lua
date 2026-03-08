@@ -70,6 +70,8 @@ return {
       })
       -- 共通設定
       vim.lsp.config("*", { capabilities = capabilities })
+      -- Mason 等で入っていても、Lua 整形は stylua LSP を使わない
+      vim.lsp.enable("stylua", false)
       -- Lua
       vim.lsp.config("lua_ls", {
         settings = {
@@ -102,6 +104,10 @@ return {
             gofumpt = true,
           },
         },
+      })
+      -- Terraform
+      vim.lsp.config("terraformls", {
+        filetypes = { "tf", "terraform", "terraform-vars" },
       })
       -- Rust
       vim.lsp.config("rust_analyzer", {
@@ -152,9 +158,8 @@ return {
   -- Python venv選択
   {
     "linux-cultist/venv-selector.nvim",
-    branch = "regexp",
     dependencies = { "neovim/nvim-lspconfig", "nvim-telescope/telescope.nvim" },
-    ft = "python",
+    cmd = { "VenvSelect", "VenvSelectCached", "VenvSelectCurrent" },
     keys = {
       { "<leader>cv", "<cmd>VenvSelect<cr>", desc = "Select Venv" },
     },
