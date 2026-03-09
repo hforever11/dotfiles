@@ -1,0 +1,118 @@
+snippets:
+  # ===== Git =====
+  - name: git
+    keyword: g
+    snippet: git
+  - name: git add
+    keyword: ga
+    snippet: git add
+  - name: git commit
+    keyword: gc
+    snippet: git commit
+  - name: git checkout
+    keyword: gco
+    snippet: git checkout
+  - name: git diff
+    keyword: gd
+    snippet: git diff
+  - name: git push
+    keyword: gp
+    snippet: git push
+  - name: git pull
+    keyword: gl
+    snippet: git pull
+  - name: git status
+    keyword: gs
+    snippet: git status
+  - name: git log
+    keyword: glog
+    snippet: git log --oneline --graph
+
+  # ===== Docker =====
+  - name: docker
+    keyword: d
+    snippet: docker
+  - name: docker compose
+    keyword: dc
+    snippet: docker compose
+  - name: docker compose up
+    keyword: dcu
+    snippet: docker compose up -d
+  - name: docker compose down
+    keyword: dcd
+    snippet: docker compose down
+  - name: docker ps
+    keyword: dps
+    snippet: docker ps
+
+  # ===== Kubernetes =====
+  - name: kubectl
+    keyword: k
+    snippet: kubectl
+  - name: kubectl get pods
+    keyword: kgp
+    snippet: kubectl get pods
+  - name: kubectl get svc
+    keyword: kgs
+    snippet: kubectl get svc
+  - name: kubectl get deploy
+    keyword: kgd
+    snippet: kubectl get deploy
+  - name: kubectl describe
+    keyword: kd
+    snippet: kubectl describe
+  - name: kubectl logs
+    keyword: kl
+    snippet: kubectl logs
+  - name: kubectl exec
+    keyword: kex
+    snippet: kubectl exec -it
+
+  # ===== Navigation =====
+  - name: cd
+    keyword: cd
+    snippet: z
+
+  # ===== General =====
+  - name: ls
+    keyword: ls
+    snippet: eza --icons --git
+  - name: ll
+    keyword: ll
+    snippet: eza -l --icons --git
+
+completions:
+  - name: git branch
+    patterns:
+      - "^git (checkout|switch|merge|rebase|branch -[dD]) $"
+    sourceCommand: "git branch --all | sed 's/^[* ]*//' | sed 's|remotes/origin/||' | sort -u"
+    options:
+      --prompt: "'Branch> '"
+
+  - name: docker images
+    patterns:
+      - "^docker (run|rmi|tag|push|pull|save|inspect) $"
+    sourceCommand: "docker images --format '{{.Repository}}:{{.Tag}}'"
+    options:
+      --prompt: "'Image> '"
+
+  - name: docker containers
+    patterns:
+      - "^docker (stop|start|restart|rm|logs|exec|inspect|attach) $"
+    sourceCommand: "docker ps -a --format '{{.Names}}'"
+    options:
+      --prompt: "'Container> '"
+
+  - name: kubectl pods
+    patterns:
+      - "^kubectl (logs|describe pod|delete pod|exec) $"
+    sourceCommand: "kubectl get pods --no-headers -o custom-columns=':metadata.name'"
+    options:
+      --prompt: "'Pod> '"
+
+  - name: kubectl namespace
+    patterns:
+      - "^kubectl .+ (-n|--namespace) $"
+    sourceCommand: "kubectl get namespaces -o jsonpath='{.items[*].metadata.name}' | tr ' ' '\\n'"
+    options:
+      --prompt: "'Namespace> '"

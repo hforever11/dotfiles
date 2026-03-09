@@ -23,5 +23,5 @@ github = "catppuccin/zsh-syntax-highlighting"
 apply = ["defer"]
 use = ["themes/catppuccin_frappe-zsh-syntax-highlighting.zsh"]
 
-[plugins.zsh-abbr]
-github = "olets/zsh-abbr"
+[plugins.zeno]
+github = "yuki-yano/zeno.zsh"

@@ -69,30 +69,14 @@ alias cat='bat'
 alias diff='delta'
 alias gds='git diff --delta-features="+side-by-side"'
 
-# ===== Abbreviations =====
-abbr -S -q g=git
-abbr -S -q ga="git add"
-abbr -S -q gc="git commit"
-abbr -S -q gco="git checkout"
-abbr -S -q gd="git diff"
-abbr -S -q gp="git push"
-abbr -S -q gl="git pull"
-abbr -S -q gs="git status"
-abbr -S -q glog="git log --oneline --graph"
-
-abbr -S -q d=docker
-abbr -S -q dc="docker compose"
-abbr -S -q dcu="docker compose up -d"
-abbr -S -q dcd="docker compose down"
-abbr -S -q dps="docker ps"
-
-abbr -S -q k=kubectl
-abbr -S -q kgp="kubectl get pods"
-abbr -S -q kgs="kubectl get svc"
-abbr -S -q kgd="kubectl get deploy"
-abbr -S -q kd="kubectl describe"
-abbr -S -q kl="kubectl logs"
-abbr -S -q kex="kubectl exec -it"
-
-abbr -S -q ls='eza --icons --git'
-abbr -S -q ll='eza -l --icons --git'
+# ===== Zeno.zsh Keybindings =====
+if [[ -n $ZENO_LOADED ]]; then
+  bindkey ' '  zeno-auto-snippet
+  bindkey '^m' zeno-auto-snippet-and-accept-line
+  bindkey '^i' zeno-completion
+  bindkey '^xx' zeno-insert-snippet
+  bindkey '^x ' zeno-insert-space
+  bindkey '^x^m' accept-line
+  bindkey '^x^z' zeno-toggle-auto-snippet
+  bindkey '^r' zeno-history-selection
+fi

@@ -11,8 +11,8 @@ unbind C-b
 # キーストロークのディレイを減らす
 set -sg escape-time 1
 
-# キーテーブル切り替え後の待機時間（C-w → h などの入力猶予）
-# set -g repeat-time 1000
+# キーテーブル切り替え後の待機時間（リサイズ連打用）
+set -g repeat-time 1000
 
 # 設定ファイルをリロードする
 bind r source-file $HOME/.config/tmux/tmux.conf \; display "Reloaded!"
@@ -57,10 +57,10 @@ bind | split-window -h -c "#{pane_current_path}"
 bind - split-window -v -c "#{pane_current_path}"
 bind \\ split-window -fh -c "#{pane_current_path}"
 bind _ split-window -fv -c "#{pane_current_path}"
-bind H resize-pane -L 5
-bind J resize-pane -D 5
-bind K resize-pane -U 5
-bind L resize-pane -R 5
+bind -r H resize-pane -L 5
+bind -r J resize-pane -D 5
+bind -r K resize-pane -U 5
+bind -r L resize-pane -R 5
 
 # C-h/j/k/l で直接ペイン移動（Vim/Claude内ならアプリに転送）
 bind -n C-h if-shell "$is_vim" "send-keys C-h" "select-pane -L"
