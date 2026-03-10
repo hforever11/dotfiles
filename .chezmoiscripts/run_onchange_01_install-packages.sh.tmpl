@@ -20,4 +20,13 @@ if command -v bat &>/dev/null; then
     echo "Building bat theme cache..."
     bat cache --build
 fi
+
+# Install pokemon-colorscripts (no Homebrew formula available)
+if ! command -v pokemon-colorscripts &>/dev/null; then
+    echo "Installing pokemon-colorscripts..."
+    tmp="$(mktemp -d)"
+    git clone --depth=1 https://github.com/nuke-dash/pokemon-colorscripts-mac.git "$tmp"
+    cd "$tmp" && sudo ./install.sh
+    rm -rf "$tmp"
+fi
 {{ end -}}

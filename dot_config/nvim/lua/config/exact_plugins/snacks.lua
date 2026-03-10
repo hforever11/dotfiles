@@ -142,18 +142,15 @@ return {
         },
       },
       sections = {
+        { section = "header", padding = 1 },
         {
           section = "terminal",
-          cmd =
-          "/opt/homebrew/bin/chafa ~/.config/wall.png --format symbols --symbols vhalf --size 60x17 --stretch; sleep .1",
-          height = 17,
+          cmd = "pokemon-colorscripts --name venusaur --no-title $([ $((RANDOM % 2)) -eq 0 ] && echo '--shiny')",
+          random = 10,
+          height = 30,
           padding = 1,
         },
-        {
-          pane = 2,
-          { section = "keys",   gap = 1, padding = 1 },
-          { section = "startup" },
-        },
+        { section = "startup" },
       },
     },
   },

@@ -22,10 +22,10 @@ main() {
 
   tmux set -g message-command-style "align=right,fg=${thm_blue}"
   tmux set -g message-style "align=right,fg=${thm_blue},align=centre"
-  tmux set -g pane-active-border-style "fg=${thm_magenta}"
-  tmux set -g pane-border-style "fg=${thm_black}"
+  tmux set -g pane-active-border-style "fg=#babbf1"
+  tmux set -g pane-border-style "fg=${thm_surface0}"
   tmux set -g window-active-style "bg=default"
-  tmux set -g window-style "bg=${thm_black}"
+  tmux set -g window-style "bg=default"
   tmux set -u pane-border-status
   tmux set -u pane-border-format
 

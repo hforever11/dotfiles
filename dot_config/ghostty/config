@@ -33,6 +33,14 @@ window-padding-y = 10
 window-padding-balance = true
 scrollbar = never
 
+# Search highlight (Catppuccin Frappé)
+search-foreground = #303446
+search-background = #e5c890
+search-selected-foreground = #303446
+search-selected-background = #ef9f76
+
+palette-generate = false
+
 # Shell
 shell-integration-features = no-cursor
 

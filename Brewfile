@@ -19,7 +19,6 @@ brew "yq"
 brew "tree"
 brew "tree-sitter"
 brew "tree-sitter-cli"
-brew "chafa"
 brew "mise"
 
 # =============================================
