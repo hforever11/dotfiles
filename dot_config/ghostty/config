@@ -7,7 +7,7 @@ font-family = "HackGen Console NF"
 font-feature = -dlig
 font-feature = -liga
 font-feature = -calt
-font-size = 12
+font-size = 13
 
 font-style-bold = false
 font-style-italic = false
@@ -31,6 +31,7 @@ macos-window-shadow = false
 window-padding-x = 8
 window-padding-y = 10 
 window-padding-balance = true
+scrollbar = never
 
 # Shell
 shell-integration-features = no-cursor
