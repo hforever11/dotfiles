@@ -14,8 +14,7 @@ font-style-italic = false
 font-style-bold-italic = false
 
 font-thicken = true
-font-thicken-strength = 48
-# adjust-cell-width = -1
+adjust-cell-width = 1
 adjust-cell-height = 6 
 
 # background-opacity = 0.85
