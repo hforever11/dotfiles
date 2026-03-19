@@ -26,6 +26,7 @@ main() {
   tmux set -g pane-border-style "fg=${thm_surface0}"
   tmux set -g window-active-style "bg=default"
   tmux set -g window-style "bg=default"
+  tmux set -g mode-style "bg=${thm_blue},fg=${thm_black},bold"
   tmux set -u pane-border-status
   tmux set -u pane-border-format
 
