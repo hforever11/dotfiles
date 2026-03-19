@@ -1,0 +1,8 @@
+#!/bin/bash
+set -uo pipefail
+
+# nvim config hash: {{ joinPath .chezmoi.sourceDir "dot_config/nvim" | glob | join "\n" | sha256sum }}
+
+echo "Clearing lazy.nvim cache..."
+rm -f "${HOME}/.local/state/nvim/lazy/pkg-cache.lua"
+echo "Done. Restart nvim to apply changes."
