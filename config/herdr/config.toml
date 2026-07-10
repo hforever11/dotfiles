@@ -4,7 +4,7 @@
 onboarding = false
 
 [theme]
-# .chezmoidata/theme.toml と同じ Catppuccin Latte 相当のビルトイン
+# home/theme.nix と同じ Catppuccin Latte 相当のビルトイン
 name = "catppuccin-latte"
 
 # チュロームはペイン背景 (#dce0e8) より一段暗くする。文字/アクセントは herdr 公式サイト実測値

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Claude Code status line.
 # Reads a JSON event from stdin and prints a single colored line.
-# 色は .chezmoidata/theme.toml から chezmoi が埋め込む。編集はソース側で行うこと
+# 色は home/theme.nix から home-manager が生成する palette.sh を読む (58 行目)。編集は theme.nix 側で行うこと
 
 set -u
 

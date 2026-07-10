@@ -34,7 +34,7 @@
               {
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
-                # 既存ファイルと衝突したら退避して置き換える (chezmoi からの移行用)
+                # 既存ファイルと衝突したら .pre-nix に退避して置き換える (再インストール時の安全弁)
                 home-manager.backupFileExtension = "pre-nix";
                 home-manager.users.${config.my.username} = import ./home;
               }
@@ -47,5 +47,7 @@
         work = mkHost ./hosts/work.nix;
         personal = mkHost ./hosts/personal.nix;
       };
+
+      formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt;
     };
 }

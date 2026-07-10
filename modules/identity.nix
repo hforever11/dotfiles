@@ -24,11 +24,5 @@ in
     };
 
     git.personal = lib.mkOption { type = gitIdentity; };
-
-    # work マシンのみ設定 (旧 machine_type = "work" 相当)
-    git.work = lib.mkOption {
-      type = lib.types.nullOr gitIdentity;
-      default = null;
-    };
   };
 }

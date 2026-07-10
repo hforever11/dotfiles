@@ -2,4 +2,5 @@
 *.swp
 *~
 result
-config/tmux/plugins/
+config/zsh/.zcompdump
+hosts/*local.gitconfig
