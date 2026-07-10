@@ -4,6 +4,15 @@ LICENSE
 Brewfile
 docs/**
 chezmoi-migration-guide.md
+z-ai/**
+
+# Nix migration (chezmoi の管理対象外)
+flake.nix
+flake.lock
+darwin/**
+home/**
+hosts/**
+modules/**
 
 # Wallpapers
 .config/wall.png
