@@ -1,0 +1,13 @@
+# テーマ単一ソース (.chezmoidata/theme.toml) の Catppuccin Latte に揃える。
+# "auto" はライト背景だと github-light-default に解決されるため使わない。
+# custom でビルトイン catppuccin-latte を継承し、背景系だけ dotfiles の
+# 暗め Latte (Ghostty background / herdr panel_bg と同じ値) に上書きする
+theme = "custom"
+
+[custom_theme]
+base = "catppuccin-{{ .theme.variant }}"
+label = "Catppuccin {{ .theme.variant | title }} (dotfiles)"
+background = "{{ .theme.palette.base }}"
+panel = "{{ .theme.palette.mantle }}"
+panelAlt = "{{ .theme.palette.surface0 }}"
+text = "{{ .theme.palette.text }}"

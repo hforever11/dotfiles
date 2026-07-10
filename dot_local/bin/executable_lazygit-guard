@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#
+# lazygit-guard — stale な index.lock を自動掃除してから lazygit を起動する。
+#
+# lazygit を commit/stage 中に強制終了（tmux popup やターミナルを閉じる等）すると
+# stale index.lock が残り、次の git 操作を弾く。起動のたびに git-unlock で「保持
+# プロセスのない lock」だけを除去して詰まりを自己修復する（保持中の lock は git-unlock
+# 側が温存）。除去の記録は git-unlock が log に残す。
+# tmux popup / nvim(Snacks) の lazygit 起動はこのラッパー経由にする。
+
+# git-unlock は同じ bin に同居する前提でフルパス解決する（非対話シェルの PATH に依存しない）。
+"$(dirname "$0")/git-unlock" -f >/dev/null 2>&1 || true   # 掃除の成否は lazygit 起動を妨げない
+
+# auto-refresh の git status に index.lock を取らせない（commit 等の必須ロックは影響なし）
+export GIT_OPTIONAL_LOCKS=0
+
+exec lazygit "$@"

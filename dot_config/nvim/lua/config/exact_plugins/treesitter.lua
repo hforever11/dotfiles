@@ -33,6 +33,7 @@ return {
       "go",
       "rust",
       "toml",
+      "nix",
     })
 
     -- Highlight and indent are now Neovim builtins

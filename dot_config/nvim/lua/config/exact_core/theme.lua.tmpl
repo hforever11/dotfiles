@@ -1,0 +1,16 @@
+-- chezmoi が .chezmoidata/theme.toml から生成する。編集はソース側で行うこと
+local M = {
+  name = "{{ .theme.name }}",
+  variant = "{{ .theme.variant }}",
+  transparent_background = false,
+}
+
+function M.palette()
+  return {
+{{- range $name, $hex := .theme.palette }}
+    {{ $name }} = "{{ $hex }}",
+{{- end }}
+  }
+end
+
+return M

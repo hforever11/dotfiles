@@ -6,8 +6,19 @@ defer = "{{ hooks?.pre | nl }}{% for file in files %}zsh-defer source \"{{ file 
 [plugins.zsh-defer]
 github = "romkatv/zsh-defer"
 
+# fpath 追加のみ。補完関数は compinit がスキャンするため defer 不可 (zshrc の compinit より前に必要)
 [plugins.zsh-completions]
 github = "zsh-users/zsh-completions"
+apply = ["fpath"]
+
+# 以下は zsh-defer でプロンプト表示後に順番どおり読み込まれる。
+# fzf-tab は widget をラップする autosuggestions / syntax-highlighting より先に置くこと
+[plugins.fzf-tab]
+github = "Aloxaf/fzf-tab"
+apply = ["defer"]
+
+[plugins.zsh-abbr]
+github = "olets/zsh-abbr"
 apply = ["defer"]
 
 [plugins.zsh-autosuggestions]
@@ -17,11 +28,3 @@ apply = ["defer"]
 [plugins.zsh-syntax-highlighting]
 github = "zsh-users/zsh-syntax-highlighting"
 apply = ["defer"]
-
-[plugins.zsh-syntax-highlighting-catppuccin]
-github = "catppuccin/zsh-syntax-highlighting"
-apply = ["defer"]
-use = ["themes/catppuccin_frappe-zsh-syntax-highlighting.zsh"]
-
-[plugins.zeno]
-github = "yuki-yano/zeno.zsh"

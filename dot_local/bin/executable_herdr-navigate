@@ -1,0 +1,33 @@
+#!/bin/sh
+# herdr の C-h/j/k/l 直接ペイン移動。tmux の is_vim 分岐 (vim-tmux-navigator) を
+# socket API で再現する: vim ならキーを転送、それ以外は herdr のペインを移動。
+#
+# usage: herdr-navigate left|down|up|right   # vim 判定付きペイン移動
+#        herdr-navigate send <key>           # フォーカス中ペインへキーをそのまま転送
+
+set -eu
+
+mode=$1
+
+if [ "$mode" = "send" ]; then
+  pane_id=$(herdr pane current --current | grep -o '"pane_id":"[^"]*"' | head -1 | cut -d'"' -f4)
+  exec herdr pane send-keys "$pane_id" "$2"
+fi
+
+case "$mode" in
+  left)  key=ctrl+h ;;
+  down)  key=ctrl+j ;;
+  up)    key=ctrl+k ;;
+  right) key=ctrl+l ;;
+  *) echo "usage: herdr-navigate left|down|up|right | send <key>" >&2; exit 1 ;;
+esac
+
+info=$(herdr pane process-info --current)
+
+# tmux の vim_pat と同じ判定 (argv0 がパス付きでも一致)
+if printf '%s' "$info" | grep -qE '"argv0":"([^"]*/)?g?(view|n?vim?x?)(diff)?"'; then
+  pane_id=$(printf '%s' "$info" | grep -o '"pane_id":"[^"]*"' | head -1 | cut -d'"' -f4)
+  exec herdr pane send-keys "$pane_id" "$key"
+fi
+
+exec herdr pane focus --direction "$mode" --current

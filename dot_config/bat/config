@@ -1,0 +1,3 @@
+# デフォルトの Monokai Extended (ダーク用) を避け、ターミナルの ANSI 色に追従させる。
+# ライト/ダークどちらのテーマでも Ghostty のパレットに自動で合う
+--theme=ansi

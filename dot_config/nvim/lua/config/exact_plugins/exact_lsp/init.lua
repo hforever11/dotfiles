@@ -16,7 +16,7 @@ return {
     opts = {
       ensure_installed = {
         "lua_ls",
-        "pyright",
+        "basedpyright",
         "ruff",
         "vtsls",
         "tailwindcss",
@@ -28,6 +28,7 @@ return {
         "cssls",
         "gopls",
         "rust_analyzer",
+        "nixd",
         "copilot",
       },
     },
@@ -37,11 +38,11 @@ return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
+      "saghen/blink.cmp",
       "williamboman/mason-lspconfig.nvim",
     },
     config = function()
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local capabilities = require("blink.cmp").get_lsp_capabilities()
       -- Diagnostic設定
       vim.diagnostic.config({
         virtual_text = { prefix = "●", spacing = 2 },
@@ -61,11 +62,18 @@ return {
       -- gd, gD, gr, gI は Snacks picker で定義済み
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
-          local opts = { buffer = args.buf, silent = true }
+          local opts = { buf = args.buf, silent = true }
           vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
           vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
           vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
           vim.keymap.set("n", "gl", vim.diagnostic.open_float, opts)
+          -- Inlay Hints トグル
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          if client and client:supports_method("textDocument/inlayHint") then
+            vim.keymap.set("n", "<leader>uh", function()
+              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = args.buf }))
+            end, { buf = args.buf, desc = "Toggle Inlay Hints" })
+          end
         end,
       })
       -- 共通設定
@@ -78,19 +86,45 @@ return {
           Lua = {
             diagnostics = { globals = { "vim", "Snacks" } },
             workspace = { checkThirdParty = false },
+            hint = { enable = true },
           },
         },
       })
       -- Python
-      vim.lsp.config("pyright", {
+      vim.lsp.config("basedpyright", {
         settings = {
-          pyright = { disableOrganizeImports = true },
+          basedpyright = {
+            disableOrganizeImports = true,
+            analysis = {
+              inlayHints = {
+                variableTypes = true,
+                callArgumentNames = true,
+                functionReturnTypes = true,
+                genericTypes = false,
+              },
+            },
+          },
         },
       })
       vim.lsp.config("ruff", {
         on_attach = function(client)
           client.server_capabilities.hoverProvider = false
         end,
+      })
+      -- TypeScript / JavaScript
+      local ts_inlay_hints = {
+        parameterNames = { enabled = "all" },
+        parameterTypes = { enabled = true },
+        variableTypes = { enabled = true },
+        propertyDeclarationTypes = { enabled = true },
+        functionLikeReturnTypes = { enabled = true },
+        enumMemberValues = { enabled = true },
+      }
+      vim.lsp.config("vtsls", {
+        settings = {
+          typescript = { inlayHints = ts_inlay_hints },
+          javascript = { inlayHints = ts_inlay_hints },
+        },
       })
       -- Go
       vim.lsp.config("gopls", {
@@ -102,6 +136,15 @@ return {
             },
             staticcheck = true,
             gofumpt = true,
+            hints = {
+              assignVariableTypes = true,
+              compositeLiteralFields = true,
+              compositeLiteralTypes = true,
+              constantValues = true,
+              functionTypeParameters = true,
+              parameterNames = true,
+              rangeVariableTypes = true,
+            },
           },
         },
       })
@@ -113,11 +156,15 @@ return {
       vim.lsp.config("rust_analyzer", {
         settings = {
           ["rust-analyzer"] = {
-            checkOnSave = {
-              command = "clippy",
-            },
             cargo = {
-              allFeatures = true,
+              features = "all",
+              buildScripts = {
+                enable = true,
+              },
+            },
+            check = {
+              command = "clippy",
+              allTargets = true,
             },
             procMacro = {
               enable = true,
@@ -133,7 +180,7 @@ return {
       -- LSP有効化
       vim.lsp.enable({
         "lua_ls",
-        "pyright",
+        "basedpyright",
         "ruff",
         "vtsls",
         "tailwindcss",
@@ -145,6 +192,7 @@ return {
         "cssls",
         "gopls",
         "rust_analyzer",
+        "nixd",
         "copilot",
       })
     end,
@@ -164,33 +212,5 @@ return {
       { "<leader>cv", "<cmd>VenvSelect<cr>", desc = "Select Venv" },
     },
     opts = {},
-  },
-  -- 補完
-  {
-    "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-    },
-    config = function()
-      local cmp = require("cmp")
-      cmp.setup({
-        mapping = cmp.mapping.preset.insert({
-          ["<C-j>"] = cmp.mapping.select_next_item(),
-          ["<C-k>"] = cmp.mapping.select_prev_item(),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }),
-          ["<C-Space>"] = cmp.mapping.complete(),
-        }),
-        sources = cmp.config.sources({
-          { name = "lazydev", group_index = 0 },
-          { name = "nvim_lsp" },
-        }, {
-          { name = "buffer" },
-          { name = "path" },
-        }),
-      })
-    end,
   },
 }

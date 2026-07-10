@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+#
+# git-unlock — git の index.lock を安全に診断・除去する。
+#
+# lazygit を commit/stage 中に強制終了（tmux popup やターミナルを閉じる等）すると、
+# 子 git が index.lock を消す前に死に、stale lock が残って以後の git 操作を弾く。
+# 生存プロセスが保持中の lock を消すと進行中の操作を破壊するため、lsof で保持
+# プロセスの有無を確認し、誰も開いていない場合にのみ除去する。
+#
+# usage: git-unlock [-f] [repo-path]
+#   -f, --force   確認なしで stale lock を削除（保持プロセスがあれば削除しない＝安全は維持）
+#
+# exit: 0=lock なし／削除を中止, 1=エラー, 2=生存プロセスが保持中, 3=stale lock を除去した
+
+set -uo pipefail
+
+force=0
+case "${1:-}" in
+  -f|--force) force=1; shift ;;
+esac
+repo="${1:-.}"
+
+cd "$repo" 2>/dev/null \
+  || { printf 'git-unlock: ディレクトリへ移動できません: %s\n' "$repo" >&2; exit 1; }
+
+gitdir="$(git rev-parse --absolute-git-dir 2>/dev/null)" \
+  || { printf 'git-unlock: git リポジトリではありません: %s\n' "$PWD" >&2; exit 1; }
+
+lock="$gitdir/index.lock"
+
+if [ ! -e "$lock" ]; then
+  printf '✓ index.lock なし: %s\n' "$lock"
+  exit 0
+fi
+
+# 保持プロセスがいれば「進行中 or ハング」。stale ではないので触らない。
+holders="$(lsof -t -- "$lock" 2>/dev/null || true)"
+if [ -n "$holders" ]; then
+  printf '⚠ 保持プロセスあり。削除しません（進行中の git 操作を壊す恐れ）:\n'
+  lsof -- "$lock" 2>/dev/null
+  printf '→ 正常終了を待つか、ハングしていれば該当 PID を手動で対処してください。\n'
+  exit 2
+fi
+
+ago=$(( ( $(date +%s) - $(stat -f %m "$lock") ) / 60 ))
+printf '保持プロセスなし＝stale lock の可能性大（%d 分前に作成）:\n' "$ago"
+ls -l "$lock"
+
+if [ "$force" -eq 0 ]; then
+  printf '削除しますか? [y/N] '
+  read -r ans || ans=""
+  case "$ans" in y|Y|yes|YES) ;; *) printf '中止（削除していません）。\n'; exit 0 ;; esac
+fi
+
+rm -f "$lock" || { printf 'git-unlock: 削除に失敗: %s\n' "$lock" >&2; exit 1; }
+printf '✓ stale lock を削除しました: %s\n' "$lock"
+
+# 自己修復の発生を記録する（どの repo で何分残っていたか＝原因分析の材料）。
+logfile="${XDG_STATE_HOME:-$HOME/.local/state}/git-unlock.log"
+mkdir -p "$(dirname "$logfile")" 2>/dev/null
+printf '%s\t%s\t%d分前\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$gitdir" "$ago" >> "$logfile" 2>/dev/null || true
+exit 3

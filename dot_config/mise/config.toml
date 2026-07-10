@@ -1,4 +1,13 @@
+[settings]
+# lockfile を有効化すると mise.lock に解決済みバージョンが記録され、
+# `latest` / `lts` 指定でも別マシンで同じバージョンが再現される。
+lockfile = true
+
 [tools]
 go = "1.25"
 node = "lts"
-deno = "latest"
+python = "3.14"
+deno = "2"
+rust = { version = "stable", profile = "default", components = "rust-src" }
+uv = "0"
+opentofu = "latest"

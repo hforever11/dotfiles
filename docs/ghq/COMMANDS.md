@@ -204,8 +204,12 @@ git config --global ghq.completeUser false
 
 ## zsh 連携 (カスタム設定)
 
-| キー | 説明 |
-| --- | --- |
-| `Ctrl + g` | ghq + fzf でリポジトリを選択して cd |
+| キー       | 説明                                                   |
+| ---------- | ------------------------------------------------------ |
+| `Ctrl + g` | ghq + fzf でリポジトリを選択して cd                    |
+| `Ctrl + t` | ghq + fzf でリポジトリの tmux セッションを作成/アタッチ |
 
 fzf のプレビューには eza のツリー表示 (2階層) が表示される。
+
+`Ctrl + t` は tmux 内なら `switch-client`、tmux 外なら `new-session` で開く。
+セッション名はリポジトリパスから自動生成される（`.` は `_` に変換）。

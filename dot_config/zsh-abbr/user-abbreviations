@@ -1,0 +1,36 @@
+# zsh-abbr の略語定義 (Space / Enter で展開)。zeno.zsh の snippets から移行
+# `abbr add` で対話的に足すとこのファイルに追記される
+
+# ===== Git =====
+abbr "g"="git"
+abbr "ga"="git add"
+abbr "gc"="git commit"
+abbr "gco"="git checkout"
+abbr "gd"="git diff"
+abbr "gp"="git push"
+abbr "gl"="git pull"
+abbr "gs"="git status"
+abbr "glog"="git log --oneline --graph"
+
+# ===== Docker =====
+abbr "d"="docker"
+abbr "dc"="docker compose"
+abbr "dcu"="docker compose up -d"
+abbr "dcd"="docker compose down"
+abbr "dps"="docker ps"
+
+# ===== Kubernetes =====
+abbr "k"="kubectl"
+abbr "kgp"="kubectl get pods"
+abbr "kgs"="kubectl get svc"
+abbr "kgd"="kubectl get deploy"
+abbr "kd"="kubectl describe"
+abbr "kl"="kubectl logs"
+abbr "kex"="kubectl exec -it"
+
+# ===== Navigation =====
+abbr "cd"="z"
+
+# ===== General =====
+abbr "ls"="eza --icons --git"
+abbr "ll"="eza -l --icons --git"

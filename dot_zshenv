@@ -1,2 +1,5 @@
-# Zsh config directory (for machines where /etc/zshenv doesn't set ZDOTDIR)
+# Zsh config directory
+# ZDOTDIR をここで設定しても zsh は $ZDOTDIR/.zshenv に戻らないため、明示的に source する。
+# (ZDOTDIR が事前に設定済みの環境では zsh が直接 $ZDOTDIR/.zshenv を読み、このファイルは読まれない)
 export ZDOTDIR="${ZDOTDIR:-$HOME/.config/zsh}"
+[ -f "$ZDOTDIR/.zshenv" ] && source "$ZDOTDIR/.zshenv"

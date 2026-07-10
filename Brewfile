@@ -5,14 +5,18 @@ brew "chezmoi"
 brew "git"
 brew "gh"
 brew "neovim"
-brew "tmux"
+brew "tmux" # fallback (メインは herdr に移行済み)
+brew "herdr"
 brew "starship"
 brew "sheldon"
 brew "fzf"
 brew "ripgrep"
+brew "fd"
+brew "bat"
 brew "eza"
 brew "zoxide"
 brew "lazygit"
+brew "hunk" # レビュー特化 diff ビューア (herdr Prefix+Shift+H で起動)
 brew "ghq"
 brew "jq"
 brew "yq"
@@ -24,34 +28,31 @@ brew "mise"
 # =============================================
 # Development
 # =============================================
-brew "uv"
-brew "rustup"
+# Runtimes are managed by mise via ~/.config/mise/config.toml
 brew "protobuf"
 brew "grpcurl"
 brew "mkcert"
-brew "yamllint"
+brew "nixfmt"
 
 # =============================================
 # Kubernetes / Infrastructure
 # =============================================
-tap "derailed/k9s"
+# core の flux は InfluxData 製の別物なので FluxCD は tap が必須。
+# vault もライセンス変更で core から削除済みのため tap が必須。
 tap "fluxcd/tap"
 tap "hashicorp/tap"
-tap "siderolabs/tap"
 
 brew "tenv"
-brew "derailed/k9s/k9s"
+brew "k9s"
 brew "fluxcd/tap/flux"
 brew "hashicorp/tap/vault"
-brew "siderolabs/tap/talosctl"
+brew "talosctl"
 brew "argocd"
 brew "kind"
 brew "kustomize"
 brew "cosign"
 brew "cloudflared"
 brew "dnsmasq"
-brew "ansible"
-brew "ansible-lint"
 
 # =============================================
 # AI
@@ -62,4 +63,5 @@ cask "codex"
 # GUI Apps
 # =============================================
 cask "font-hackgen-nerd"
+cask "font-maple-mono-nf"
 cask "ghostty"

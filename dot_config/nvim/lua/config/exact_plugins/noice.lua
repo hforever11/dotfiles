@@ -5,9 +5,11 @@ return {
     "MunifTanjim/nui.nvim",
     {
       "rcarriga/nvim-notify",
-      opts = {
-        background_colour = "#000000",
-      },
+      opts = function()
+        return {
+          background_colour = require("config.core.theme").palette().base,
+        }
+      end,
     },
   },
   opts = {

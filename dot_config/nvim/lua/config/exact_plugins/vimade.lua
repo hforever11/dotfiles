@@ -3,6 +3,10 @@ return {
   event = "VeryLazy",
   opts = function()
     local palette = require("config.core.theme").palette()
+    local sidebar_filetypes = {
+      snacks_picker_input = true,
+      snacks_picker_list = true,
+    }
 
     return {
       recipe = { "default", { animate = false } },
@@ -26,6 +30,10 @@ return {
             relative = true,
           },
         },
+        sidebar_focus = function(_, current)
+          local filetype = current and current.buf_opts and current.buf_opts.filetype
+          return filetype ~= nil and sidebar_filetypes[filetype] or false
+        end,
       },
       enablefocusfading = false,
       usecursorhold = false,

@@ -10,22 +10,65 @@
 	quotepath = false
 	pager = delta
 
-[interactive]
-	diffFilter = delta --color-only
+[init]
+	defaultBranch = main
 
-[delta]
-	features = catppuccin-frappe
-	navigate = true
-	line-numbers = true
-	side-by-side = false
-	hyperlinks = true
-	tabs = 4
+[push]
+	autoSetupRemote = true
+	default = current
+	followTags = true
+
+[pull]
+	ff = only
+
+[fetch]
+	prune = true
+	pruneTags = true
+	fsckObjects = true
+
+[rebase]
+	autoStash = true
+	autoSquash = true
+	updateRefs = true
+
+[rerere]
+	enabled = true
+	autoUpdate = true
 
 [merge]
 	conflictStyle = zdiff3
 
-[ghq]
-	root = ~/ghq
+[diff]
+	algorithm = histogram
+	colorMoved = default
+	mnemonicPrefix = true
+	renames = copies
+
+[commit]
+	verbose = true
+
+[help]
+	autocorrect = prompt
+
+[transfer]
+	fsckObjects = true
+
+[receive]
+	fsckObjects = true
+
+[interactive]
+	diffFilter = delta --color-only
+
+[delta]
+	features = catppuccin-latte
+	navigate = true
+	line-numbers = true
+	side-by-side = true
+	hyperlinks = true
+	tabs = 4
 
 [include]
-	path = ~/.config/delta/themes/catppuccin.gitconfig
+	path = ~/.config/delta/themes/catppuccin-latte.gitconfig
+
+[ghq]
+	root = ~/ghq

@@ -1,8 +1,16 @@
+disableStartupPopups: true
+
+gui:
+  sidePanelWidth: 0.22
+
 os:
-  edit: 'nvim --server "$NVIM" --remote-send "<C-\\><C-n>:close<CR>:e {{filename}}<CR>"'
-  editAtLine: 'nvim --server "$NVIM" --remote-send "<C-\\><C-n>:close<CR>:e {{filename}}<CR>{{line}}G"'
+  # nvim 内 (snacks lazygit) では親 nvim で開き、tmux popup 等の単体起動では通常起動する
+  edit: 'if [ -n "$NVIM" ]; then nvim --server "$NVIM" --remote-send "<C-\\><C-n>:close<CR>:e {{filename}}<CR>"; else nvim {{filename}}; fi'
+  editAtLine: 'if [ -n "$NVIM" ]; then nvim --server "$NVIM" --remote-send "<C-\\><C-n>:close<CR>:e {{filename}}<CR>{{line}}G"; else nvim +{{line}} {{filename}}; fi'
 
 git:
+  disableForcePushing: true
   pagers:
-    - pager: delta --dark --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
+    # --light/--dark はテーマの明暗と合わせる (docs/theme.md 参照)
+    - pager: delta --light --paging=never --side-by-side --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
       colorArg: always

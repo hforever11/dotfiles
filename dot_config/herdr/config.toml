@@ -1,0 +1,102 @@
+# herdr 設定 (tmux からの移行。dot_config/tmux/ はフォールバックとして残置)
+# スキーマ全体: herdr --default-config
+
+onboarding = false
+
+[theme]
+# .chezmoidata/theme.toml と同じ Catppuccin Latte 相当のビルトイン
+name = "catppuccin-latte"
+
+# チュロームはペイン背景 (#dce0e8) より一段暗くする。文字/アクセントは herdr 公式サイト実測値
+[theme.custom]
+panel_bg = "#d3d8e2"
+text = "#44455d"
+accent = "#3357ed"
+
+[keys]
+# tmux と同じ prefix (C-s)
+prefix = "ctrl+s"
+
+# goto (navigate モード) はデフォルトの prefix+g を lazygit に譲り、prefix+f で開く
+goto = "prefix+f"
+
+# デフォルトの open_notification_target (prefix+o) は in-app トースト表示中しか効かず、
+# delivery = "terminal" では常に no-op。代わりにエージェント巡回を割り当てる。
+# agent_panel_sort = "priority" なので、最初の一押しで blocked (入力待ち) の
+# エージェントへ飛び、連打で次のエージェントへ巡回する
+next_agent = "prefix+o"
+previous_agent = "prefix+shift+o"
+
+# navigate モード中は j/k で workspace を上下移動 (picker はフィルタ入力があるため
+# j/k を使えない。vim ライクな workspace 切替はこちらで行う)
+navigate_workspace_up = "k"
+navigate_workspace_down = "j"
+navigate_pane_up = "up"
+navigate_pane_down = "down"
+
+# lazygit をテンポラリペインで開く (tmux の prefix+g popup 相当)
+[[keys.command]]
+key = "prefix+g"
+type = "pane"
+command = "lazygit"
+description = "lazygit"
+
+# C-h/j/k/l で prefix なしペイン移動 (tmux の is_vim 分岐を herdr-navigate で再現。
+# vim ならキーを転送し vim 内のウィンドウ移動を優先、それ以外はペイン移動)
+[[keys.command]]
+key = "ctrl+h"
+type = "shell"
+command = "herdr-navigate left"
+description = "pane left (vim-aware)"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "shell"
+command = "herdr-navigate down"
+description = "pane down (vim-aware)"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "shell"
+command = "herdr-navigate up"
+description = "pane up (vim-aware)"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "shell"
+command = "herdr-navigate right"
+description = "pane right (vim-aware)"
+
+# 変更セットレビュー (hunk)。--watch で Claude の編集に追従
+[[keys.command]]
+key = "prefix+shift+h"
+type = "pane"
+command = "hunk diff --watch"
+description = "hunk diff"
+
+# C-l を移動に奪った代わりのクリアスクリーン (tmux の prefix+C-l と同じ)
+[[keys.command]]
+key = "prefix+ctrl+l"
+type = "shell"
+command = "herdr-navigate send ctrl+l"
+description = "clear screen"
+
+[ui]
+# blocked (入力待ち) のエージェントを一番上に出す
+agent_panel_sort = "priority"
+hide_tab_bar_when_single_tab = true
+# 境界線を隣接ペインで共有して仕切りを薄くする (デフォルト true は隙間が太い)
+pane_gaps = false
+
+# エージェント状態変化は Ghostty のデスクトップ通知へ (tmux allow-passthrough と同じ役割)
+[ui.toast]
+delivery = "terminal"
+
+# 音は OS ミュート前提で無効 (tmux visual-bell off と同じ思想)
+[ui.sound]
+enabled = false
+
+[experimental]
+# 日本語 IME 有効のまま prefix を押してもコマンドが効くよう、
+# prefix モード中だけ ASCII 入力ソースへ一時切替 (macOS, best-effort)
+switch_ascii_input_source_in_prefix = true

@@ -1,64 +1,136 @@
 # Theme Notes
 
-現在のテーマは `Catppuccin Frappe` ベース。
+現在のテーマは `Catppuccin Latte` ベース（ライトテーマ）。
 
-完全に 1 箇所で共通管理しているわけではなく、ツールごとに変更が必要。
-ただし、どこを変えるべきかは以下の場所に整理されている。
+パレット（色コード）は `.chezmoidata/theme.toml` が単一ソースで、
+chezmoi が Neovim と tmux の設定に展開する。Ghostty / herdr / delta はテーマ名で参照する。
 
 ## 変更ポイント
 
+### パレット (Neovim + tmux 共通)
+
+- 単一ソース: [`.chezmoidata/theme.toml`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/.chezmoidata/theme.toml)
+
+`theme.palette` の色コードを書き換えて `chezmoi apply` すれば、
+Neovim の `theme.lua` と tmux の `appearance.tmux` の両方に反映される。
+パレットのキー名（`base` / `surface0` / `text` など）は Catppuccin のロール名を
+そのまま使い、別テーマに移る場合は対応色をマッピングする。
+
 ### Neovim
 
-- 現在のテーマ定義: [`dot_config/nvim/lua/config/core/theme.lua`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/dot_config/nvim/lua/config/core/theme.lua)
-- colorscheme 適用: [`dot_config/nvim/lua/config/plugins/colorschema.lua`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/dot_config/nvim/lua/config/plugins/colorschema.lua)
+- テーマ定義（生成元）: [`dot_config/nvim/lua/config/exact_core/theme.lua.tmpl`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/dot_config/nvim/lua/config/exact_core/theme.lua.tmpl)
+- colorscheme 適用: [`dot_config/nvim/lua/config/exact_plugins/colorschema.lua`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/dot_config/nvim/lua/config/exact_plugins/colorschema.lua)
 
-基本的には `theme.lua` の `name` / `variant` / `transparent_background` を変える。
+`name` / `variant` は `.chezmoidata/theme.toml` から注入され、`transparent_background` のみ `theme.lua.tmpl` で持つ。
 
 注意:
-`incline` / `modes` / `undo-glow` は `theme.lua` の `palette()` を通して色を参照している。
-別テーマを使う場合、必要なら `palette()` の実装も追加する。
+`incline` / `modes` / `undo-glow` / `scrollbar` / `vimade` / `noice` は `theme.lua` の `palette()` を通して色を参照している。
+別テーマのプラグイン（例: `folke/tokyonight.nvim`）に移る場合は `colorschema.lua` の差し替えが必要。
 
 ### Ghostty
 
 - テーマ指定: [`dot_config/ghostty/config`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/dot_config/ghostty/config)
 
 ```conf
-theme = "Catppuccin Frappe"
+theme = Catppuccin Latte
+background = #e6e9ef
+foreground = #44455d
 ```
 
-Ghostty はここを書き換えるだけ。
+Ghostty はここを書き換えるだけ（候補は `ghostty +list-themes`）。
+`background` は眩しさを抑えるため Latte mantle 相当に一段落としたオーバーライド。
+`foreground` は herdr 公式サイトのライトテーマ実測値。
+
+### herdr
+
+- テーマ指定: [`dot_config/herdr/config.toml`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/dot_config/herdr/config.toml)
+
+```toml
+[theme]
+name = "catppuccin-latte"
+
+[theme.custom]
+panel_bg = "#dce0e8"
+text = "#44455d"
+accent = "#3357ed"
+```
+
+ビルトインテーマ名を指定するだけ。`[theme.custom]` はトークン上書き（省略可）。
+`panel_bg` はペイン背景（Ghostty の `#e6e9ef`）より一段暗い Latte crust 相当にして
+「グレーのチュロームが明るいペインを囲む」構成を作る。設定リファレンスは
+<https://herdr.dev/docs/configuration/> を参照。`catppuccin-latte` / `tokyo-night-day` /
+`gruvbox-light` などのライト variant もある（候補は `herdr --default-config` のコメント参照）。
 
 ### tmux
 
-- テーマ色定義: [`dot_config/tmux/executable_style.tmux`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/dot_config/tmux/executable_style.tmux)
+- スタイル定義（生成元）: [`dot_config/tmux/conf.d/appearance.tmux.tmpl`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/dot_config/tmux/conf.d/appearance.tmux.tmpl)
 
-`tmux` はテーマ名ではなく、色コードを直接持っている。
-そのため、別テーマに切り替えるときはこのファイルの色変数を書き換える必要がある。
+色コードは `.chezmoidata/theme.toml` から注入されるため、tmux 側で個別に書き換える必要はない。
 
-### git / delta
+### git (delta)
 
-- delta の使用テーマ: [`dot_config/git/config.tmpl`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/dot_config/git/config.tmpl)
-- テーマ定義: [`dot_config/delta/themes/catppuccin.gitconfig`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/dot_config/delta/themes/catppuccin.gitconfig)
+- 機能定義: [`dot_config/git/config.tmpl`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/dot_config/git/config.tmpl) の `[delta] features` と `[include] path`
+- テーマ本体: [`dot_config/delta/themes/catppuccin-latte.gitconfig`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/dot_config/delta/themes/catppuccin-latte.gitconfig)（[catppuccin/delta](https://github.com/catppuccin/delta) 公式。`syntax-theme` のみ bat テーマ非依存の `none` に変更）
 
-現在は:
+別テーマに切り替えるときは、新しい delta テーマファイルを `dot_config/delta/themes/` に置き、`config.tmpl` の参照を差し替える。
 
-```gitconfig
-[delta]
-    features = catppuccin-frappe
-```
+### Claude Code (statusline)
 
-`Catppuccin` 系の別 flavour に変えるだけなら `features` の切り替えでよい。
-別テーマにするなら、delta 用テーマ定義も別途必要。
+- 生成元: [`dot_config/claude/executable_statusline.sh.tmpl`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/dot_config/claude/executable_statusline.sh.tmpl)
 
-### bat
+色は `.chezmoidata/theme.toml` から chezmoi が注入するため、テーマ変更に自動追従する。
 
-- テーマファイル: [`dot_config/bat/themes/Catppuccin Frappe.tmTheme`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/dot_config/bat/themes/Catppuccin%20Frappe.tmTheme)
+### lazygit
 
-`delta` の `syntax-theme` は bat 側のテーマ名に依存している。
-そのため、bat テーマを変える場合は delta 側も合わせて確認する。
+差分表示は delta に委譲しており、[`dot_config/lazygit/config.yml`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/dot_config/lazygit/config.yml) の
+pager 引数 `--light` / `--dark` をテーマの明暗と手動で合わせる必要がある（lazygit 独自の
+`{{filename}}` テンプレート構文と衝突するため chezmoi テンプレート化していない）。
+
+### fzf / eza / bat / zsh syntax highlighting
+
+Ghostty のターミナル ANSI カラーに委ねている。bat のみデフォルトがダーク用の
+Monokai Extended のため、[`dot_config/bat/config`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/dot_config/bat/config) で `--theme=ansi` を明示している。
+
+## 明るさ・チュロームの調整手順
+
+画面は「チュローム（herdr のサイドバー・タブバー）」が「ペイン（ターミナル領域）」を
+囲む 2 レイヤー構成。チュロームは常にペインより一段（RGB で 8〜10 程度）暗く保つ。
+
+| レイヤー | 設定箇所 | 現在値 |
+| --- | --- | --- |
+| ペイン背景 | `dot_config/ghostty/config` の `background` と `.chezmoidata/theme.toml` の `base`（Neovim はここから参照） | `#dce0e8` (Latte crust 相当) |
+| チュローム | `dot_config/herdr/config.toml` の `[theme.custom] panel_bg` と `.chezmoidata/theme.toml` の `mantle` | `#d3d8e2` |
+
+Neovim の背景は `colorschema.lua` の `color_overrides` が `theme.palette()` の
+`base` / `mantle` を注入するため、theme.toml を変えれば追従する。
+**Ghostty の `background` と theme.toml の `base` は必ず同じ値にする**
+（ズレると Neovim だけ明るさが変わる）。
+
+段階の目安（明 → 暗）。ペインを 1 段下げたらチュロームも 1 段下げる:
+
+| 段階 | ペイン背景 | チュローム |
+| --- | --- | --- |
+| Latte 標準 | `#eff1f5` (base) | `#e6e9ef` (mantle) |
+| 一段暗く | `#e6e9ef` (mantle) | `#dce0e8` (crust) |
+| 現在 | `#dce0e8` (crust) | `#d3d8e2` |
+| もう一段暗く | `#d3d8e2` | `#c9cfdb` |
+
+手順:
+
+1. 上記 3 ファイル（ghostty / herdr / theme.toml）の色コードを書き換える
+2. `chezmoi apply`
+3. herdr: `herdr server reload-config`（起動中のまま即反映）
+4. Ghostty: `Cmd + Shift + ,` で設定リロード
+5. 起動中の Neovim は再起動
+
+文字が細く見える場合はフォント側で調整する（ライト背景はダーク背景と違い
+グロー効果がないため構造的に細く見える）:
+
+- `font-thicken = true`（macOS。ステムを太らせる。強さは `font-thicken-strength` 0-255）
+- それでも細ければ `font-style = "Medium"`（Maple Mono は Medium あり。
+  ただし HackGen Console NF に Medium はないため和文は Regular のままになる）
 
 ## 現実的な運用
 
-- 同じ `Catppuccin` 内で flavour だけ変えるなら、比較的変更は少ない
-- `Everforest` のような別テーマへ移るなら、`Neovim` / `Ghostty` / `tmux` / `delta` を個別に調整する必要がある
-- これはある程度仕方ない。無理に完全共通化するより、「変更箇所が分かる」状態を保つ方が実用的
+- 同じテーマ内で variant だけ変えるなら、`.chezmoidata/theme.toml` のパレットと Ghostty / herdr の `theme` を変えれば大半が揃う
+- 別テーマへ移る場合は、上記に加えて git(delta) のテーマファイル差し替えと `colorschema.lua` のプラグイン差し替えが必要

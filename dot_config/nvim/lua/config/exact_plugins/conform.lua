@@ -27,6 +27,7 @@ return {
         bash = { "shfmt" },
         go = { "goimports", "gofumpt" },
         rust = { "rustfmt" },
+        nix = { "nixfmt" },
       },
       formatters = {
         biome_check = {

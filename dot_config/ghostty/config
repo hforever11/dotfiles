@@ -1,21 +1,31 @@
 # Theme
-theme = "Catppuccin Frappe"
+# ghostty +list-themes
+theme = Catppuccin Latte
+# 眩しさを抑えるため背景を Latte crust 相当まで落とす。文字色は herdr 公式サイト実測値
+background = #dce0e8
+foreground = #44455d
 
 # Font
 # ghostty +list-themes
+font-family = "Maple Mono NF"
 font-family = "HackGen Console NF"
 font-feature = -dlig
 font-feature = -liga
 font-feature = -calt
-font-size = 14
+font-size = 13
 
 font-style-bold = false
 font-style-italic = false
 font-style-bold-italic = false
 
-font-thicken = false
-adjust-cell-width = 1
-adjust-cell-height = 6 
+# ライト背景は黒文字が細く見える (ダーク背景のグロー効果がない) ため、ステムを太らせる
+# 太すぎる場合は font-thicken-strength = 0-255 で弱める (デフォルト 255)
+font-thicken = true
+# adjust-cell-width = 1
+adjust-cell-height = 1
+
+# herdr のペイン枠線など罫線文字 (box-drawing) を太くする
+adjust-box-thickness = 115%
 
 # background-opacity = 0.85
 # background-blur-radius = 20
@@ -27,16 +37,10 @@ macos-titlebar-style = transparent
 macos-window-shadow = false
 
 # Window
-window-padding-x = 8
-window-padding-y = 10 
+window-padding-x = 4
+window-padding-y = 4
 window-padding-balance = true
 scrollbar = never
-
-# Search highlight (Catppuccin Frappé)
-search-foreground = #303446
-search-background = #e5c890
-search-selected-foreground = #303446
-search-selected-background = #ef9f76
 
 palette-generate = false
 
