@@ -12,13 +12,6 @@
 
   nixpkgs.hostPlatform = "aarch64-darwin";
 
-  # vault は BSL ライセンスのため個別許可
-  nixpkgs.config.allowUnfreePredicate =
-    pkg:
-    builtins.elem (lib.getName pkg) [
-      "vault"
-    ];
-
   system.stateVersion = 6;
   system.primaryUser = config.my.username;
 

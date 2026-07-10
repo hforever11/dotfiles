@@ -12,8 +12,13 @@
       cleanup = "none";
     };
 
+    taps = [ "hashicorp/tap" ];
+
     brews = [
       "hunk" # nixpkgs 未収録 (レビュー特化 diff ビューア)
+      # vault は unfree のため nix バイナリキャッシュ対象外で、nixpkgs 更新のたびに
+      # 巨大な Go ソースビルドが走る。brew のバイナリ配布を使う
+      "hashicorp/tap/vault"
     ];
 
     casks = [

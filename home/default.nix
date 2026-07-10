@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   imports = [
     ./links.nix
@@ -52,7 +52,6 @@
     tenv
     k9s
     fluxcd
-    vault
     talosctl
     argocd
     kind
@@ -60,8 +59,10 @@
     cosign
     cloudflared
     dnsmasq
-
-    # ===== 移行期間のみ =====
-    chezmoi # Phase 2 (dotfiles 移行) 完了後に削除
   ];
+
+  # mise のランタイムを switch 時に同期 (旧 run_onchange の mise install 相当)
+  home.activation.miseInstall = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    run ${pkgs.mise}/bin/mise install -y || verboseEcho "Warning: some mise runtimes failed to install"
+  '';
 }
