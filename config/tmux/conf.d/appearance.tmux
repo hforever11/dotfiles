@@ -1,14 +1,15 @@
 # ================================================
 # appearance
 # ================================================
-# 色は .chezmoidata/theme.toml (Catppuccin Latte) から chezmoi が埋め込む
+# Catppuccin Latte (home/theme.nix と同じ値を焼き込み)。
+# tmux は herdr 移行後の fallback のためテーマ自動連動はしない
 
-%hidden thm_fg="{{ .theme.palette.text }}"
-%hidden thm_mantle="{{ .theme.palette.mantle }}"
-%hidden thm_surface0="{{ .theme.palette.surface0 }}"
-%hidden thm_overlay0="{{ .theme.palette.overlay0 }}"
-%hidden thm_blue="{{ .theme.palette.blue }}"
-%hidden thm_mauve="{{ .theme.palette.mauve }}"
+%hidden thm_fg="#4c4f69"
+%hidden thm_mantle="#d3d8e2"
+%hidden thm_surface0="#ccd0da"
+%hidden thm_overlay0="#9ca0b0"
+%hidden thm_blue="#1e66f5"
+%hidden thm_mauve="#8839ef"
 
 %hidden separator="#[fg=${thm_surface0},bg=default,none]▕#[default]"
 

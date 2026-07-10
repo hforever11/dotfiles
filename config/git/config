@@ -1,10 +1,6 @@
-[includeIf "gitdir:{{ .gitdir }}"]
-	path = ~/.config/git/users/personal.gitconfig
-
-{{ if eq .machine_type "work" -}}
-[includeIf "gitdir:{{ .work_gitdir }}"]
-	path = ~/.config/git/users/work.gitconfig
-{{ end -}}
+# ユーザー識別 (ホスト依存の includeIf) は home-manager (home/git.nix) が生成する
+[include]
+	path = identity.gitconfig
 
 [core]
 	quotepath = false

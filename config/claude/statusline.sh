@@ -54,12 +54,14 @@ fg_seq() {
   local h=${1#\#}
   printf -v REPLY '\033[38;2;%d;%d;%dm' "0x${h:0:2}" "0x${h:2:2}" "0x${h:4:2}"
 }
-fg_seq "{{ .theme.palette.mauve }}"    && c_mauve=$REPLY
-fg_seq "{{ .theme.palette.blue }}"     && c_blue=$REPLY
-fg_seq "{{ .theme.palette.green }}"    && c_green=$REPLY
-fg_seq "{{ .theme.palette.yellow }}"   && c_yellow=$REPLY
-fg_seq "{{ .theme.palette.red }}"      && c_red=$REPLY
-fg_seq "{{ .theme.palette.overlay0 }}" && c_overlay=$REPLY
+# home-manager が home/theme.nix から生成する palette を読む
+source "$HOME/.config/theme/palette.sh"
+fg_seq "$THEME_MAUVE"    && c_mauve=$REPLY
+fg_seq "$THEME_BLUE"     && c_blue=$REPLY
+fg_seq "$THEME_GREEN"    && c_green=$REPLY
+fg_seq "$THEME_YELLOW"   && c_yellow=$REPLY
+fg_seq "$THEME_RED"      && c_red=$REPLY
+fg_seq "$THEME_OVERLAY0" && c_overlay=$REPLY
 reset=$'\033[0m'
 
 sep="${c_overlay} │ ${reset}"

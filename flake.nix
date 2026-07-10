@@ -34,6 +34,8 @@
               {
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
+                # 既存ファイルと衝突したら退避して置き換える (chezmoi からの移行用)
+                home-manager.backupFileExtension = "pre-nix";
                 home-manager.users.${config.my.username} = import ./home;
               }
             )
