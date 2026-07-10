@@ -2,7 +2,7 @@
 
 ターミナル UI の Git クライアント [lazygit](https://github.com/jesseduffield/lazygit) のよく使う操作まとめ。
 
-設定ファイル: `dot_config/lazygit/config.yml`
+設定ファイル: `config/lazygit/config.yml`
 
 ## 起動
 

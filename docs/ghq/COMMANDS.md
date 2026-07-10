@@ -207,9 +207,8 @@ git config --global ghq.completeUser false
 | キー       | 説明                                                   |
 | ---------- | ------------------------------------------------------ |
 | `Ctrl + g` | ghq + fzf でリポジトリを選択して cd                    |
-| `Ctrl + t` | ghq + fzf でリポジトリの tmux セッションを作成/アタッチ |
+| `Ctrl + t` | ghq + fzf でリポジトリの herdr workspace を作成/フォーカス |
 
 fzf のプレビューには eza のツリー表示 (2階層) が表示される。
 
-`Ctrl + t` は tmux 内なら `switch-client`、tmux 外なら `new-session` で開く。
-セッション名はリポジトリパスから自動生成される（`.` は `_` に変換）。
+`Ctrl + t` は既存 workspace があれば focus、無ければ作成する。詳細は [herdr Commands](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/docs/herdr/COMMANDS.md) 参照。

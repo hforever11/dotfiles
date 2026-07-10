@@ -10,7 +10,6 @@ bindkey -e
 typeset -U path
 path=(
   /opt/homebrew/opt/libpq/bin(N-/)
-  $HOME/.rd/bin(N-/)
   $HOME/.local/bin(N-/)
   $path
 )
@@ -28,7 +27,7 @@ setopt HIST_REDUCE_BLANKS HIST_VERIFY HIST_FIND_NO_DUPS
 command -v sheldon >/dev/null && eval "$(sheldon source)"
 
 # ===== Completions =====
-# Rancher Desktop の kubectl は brew site-functions に補完が無いので生成してキャッシュ
+# nix の kubectl は補完ファイルを同梱しないので生成してキャッシュ
 {
   local comp_cache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/completions"
   [[ -d $comp_cache ]] || mkdir -p -- "$comp_cache"
@@ -75,27 +74,7 @@ function ghq-fzf() {
 zle -N ghq-fzf
 bindkey '^g' ghq-fzf
 
-# ghq + fzf で tmux session を作成/アタッチ (herdr 移行前のフォールバック、バインドなし)
-function tmux-ghq() {
-  local repo=$(_ghq-select)
-  [ -z "$repo" ] && { zle accept-line; return; }
-
-  local dir="$(ghq root)/$repo"
-  local session_name="${repo//\./_}"
-
-  if [ -z "$TMUX" ]; then
-    tmux new-session -A -s "$session_name" -c "$dir"
-  else
-    if ! tmux has-session -t "$session_name" 2>/dev/null; then
-      tmux new-session -d -s "$session_name" -c "$dir"
-    fi
-    tmux switch-client -t "$session_name"
-  fi
-  zle accept-line
-}
-zle -N tmux-ghq
-
-# Ctrl+t: ghq + fzf で herdr workspace を作成/フォーカス (tmux-ghq の herdr 版)
+# Ctrl+t: ghq + fzf で herdr workspace を作成/フォーカス
 function herdr-ghq() {
   local repo=$(_ghq-select)
   [ -z "$repo" ] && { zle accept-line; return; }
@@ -178,3 +157,4 @@ alias c='clear'
 alias cat='bat'
 alias diff='delta'
 alias gds='git diff --delta-features="+side-by-side"'
+alias rebuild='sudo darwin-rebuild switch --flake ~/ghq/github.com/hforever11/dotfiles#work'

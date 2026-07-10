@@ -4,14 +4,22 @@ nix-darwin + home-manager で管理する macOS 環境。
 
 ## Setup (新マシン)
 
+前提: ログインユーザー名が `sfukunaga`、リポジトリを `~/ghq/github.com/hforever11/dotfiles` に clone すること
+(`modules/identity.nix` の `username`/`dotfilesDir` のデフォルト値と一致させる。異なる場合は
+`hosts/{work,personal}.nix` で `my.username` / `my.dotfilesDir` を上書きする)。
+
 ```sh
 # 1. Determinate Nix をインストール
 curl -fsSL https://install.determinate.systems/nix | sh -s -- install --determinate --no-confirm
 
-# 2. リポジトリを取得
+# 2. Homebrew をインストール (nix-darwin は Homebrew 自体は入れてくれない。
+#    無いまま switch すると hunk/vault/ghostty/codex だけ警告付きでスキップされる)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# 3. リポジトリを取得
 git clone https://github.com/hforever11/dotfiles.git ~/ghq/github.com/hforever11/dotfiles
 
-# 3. 適用 (ホストは work / personal)
+# 4. 適用 (ホストは work / personal)
 sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/ghq/github.com/hforever11/dotfiles#work
 ```
 
@@ -41,6 +49,7 @@ nvim config/nvim/init.lua
 
 # パッケージ追加・テーマ変更・ホスト設定の変更 → rebuild
 sudo darwin-rebuild switch --flake ~/ghq/github.com/hforever11/dotfiles#work
+# zsh を読み込み済みなら alias rebuild でも同じ
 
 # nixpkgs を更新
 nix flake update && sudo darwin-rebuild switch --flake .#work

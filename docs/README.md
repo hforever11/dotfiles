@@ -4,7 +4,7 @@
 
 ## Setup / Operations
 
-- [chezmoi Tips](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/docs/chezmoi/tips.md)
+- [Nix 運用メモ](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/docs/nix.md)
 - [Git User Switching](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/docs/git/user-switching.md)
 - [ghq Commands](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/docs/ghq/COMMANDS.md)
 - [mise](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/docs/mise.md)
@@ -26,10 +26,6 @@
 ## hunk (diff レビュー)
 
 - [hunk Commands](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/docs/hunk/COMMANDS.md)
-
-## tmux (フォールバック。メインは herdr に移行済み)
-
-- [tmux Commands](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/docs/tmux/COMMANDS.md)
 
 ## Neovim
 

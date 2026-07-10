@@ -1,4 +1,3 @@
-# テーマの単一ソース (旧 .chezmoidata/theme.toml)。
 # fzf / nvim palette.lua / hunk / statusline palette.sh に generated.nix が展開する
 {
   name = "catppuccin";

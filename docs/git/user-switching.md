@@ -1,117 +1,63 @@
-# Git ユーザー・SSH 鍵の自動切り替え
+# Git ユーザーの自動切り替え
 
-仕事用と個人用の Git ユーザー・SSH 鍵を、リポジトリのディレクトリに応じて自動で切り替える仕組み。
+仕事用と個人用の Git ユーザー（name / email）を、リポジトリのディレクトリに応じて
+nix-darwin + home-manager が自動で切り替える仕組み。
 
-仕事用の具体的な情報（名前・メールアドレス・組織ディレクトリ）はリポジトリには含まれず、`chezmoi init` 時にローカルにのみ保存される。
+仕事用の具体的な情報（名前・メールアドレス・組織ディレクトリ）はリポジトリに直接書く
+（`hosts/work.nix` はこのリポジトリ専用の設定であり、汎用テンプレートではないため）。
 
 ## 仕組み
 
+- オプション定義: [`modules/identity.nix`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/modules/identity.nix)
+  が `my.git.personal` / `my.git.work` (name/email/dir) を宣言する
+- ホスト別の値: [`hosts/work.nix`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/hosts/work.nix) /
+  [`hosts/personal.nix`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/hosts/personal.nix) が実際の name/email/dir を持つ
+  (`work.nix` は personal + work の両方、`personal.nix` は personal のみ)
+- 生成: [`home/git.nix`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/home/git.nix) が
+  `~/.config/git/identity.gitconfig` に `includeIf` ブロックを書き出す
+
 ```
-~/.config/git/config
-├── [includeIf "gitdir:~/ghq/github.com/<personal>/"]
-│   └── path = ~/.config/git/users/personal.gitconfig
-├── [includeIf "gitdir:~/ghq/github.com/<work-org>/"]  ← work マシンのみ
-│   └── path = ~/.config/git/users/work.gitconfig
-└── ...
-
-~/.config/git/users/personal.gitconfig
-├── [user]   name, email
-└── [core]   sshCommand = ssh -i ~/.ssh/id_rsa
-
-~/.config/git/users/work.gitconfig  ← work マシンのみ生成
-├── [user]   name, email
-└── [core]   sshCommand = ssh -i ~/.ssh/id_ed25519_work
+~/.config/git/identity.gitconfig
+├── [includeIf "gitdir:<personal.dir>"]
+│   └── path = ~/.config/git/users/personal.gitconfig  ([user] name, email)
+└── [includeIf "gitdir:<work.dir>"]      ← work.nix で git.work を設定した場合のみ
+    └── path = ~/.config/git/users/work.gitconfig       ([user] name, email)
 ```
 
-Git の `includeIf` により、ディレクトリに応じて **ユーザー情報と SSH 鍵が同時に切り替わる**。
-`core.sshCommand` で鍵を直接指定するため、SSH config に偽ホスト名や `insteadOf` は不要。
+Git の `includeIf` により、ディレクトリに応じて **ユーザー名・メールアドレスが自動で切り替わる**。
+
+**SSH 鍵の切り替えはこの仕組みの対象外**（旧 chezmoi 版にあった `core.sshCommand` の
+ディレクトリ連動は現行の nix 構成には引き継いでいない）。SSH 鍵は `~/.ssh/config` の
+ホストエイリアス（`github.com` / `github.com-ktd` など、`IdentitiesOnly yes` +
+`IdentityFile` で個別指定）で、リモート URL 側 (`git@github.com-ktd:org/repo.git`) を
+使い分けて選択する。この `~/.ssh/config` はこのリポジトリの管理外（マシンごとに手動管理）。
 
 ## セットアップ
 
-### 初回セットアップ
+### 新しいマシンで identity を設定する
 
-```sh
-chezmoi init --apply hforever11/dotfiles
-```
+1. `modules/identity.nix` の `username` / `dotfilesDir` がそのマシンと一致するか確認する
+   （違う場合は `hosts/*.nix` で `my.username` / `my.dotfilesDir` を上書き）
+2. `hosts/work.nix` または `hosts/personal.nix` に `my.git.personal` / `my.git.work` の
+   name/email/dir を書く
+3. `flake.nix` の `darwinConfigurations.<name>` がどの `hosts/*.nix` を import するか確認する
+   (現状 `work` → `hosts/work.nix`, `personal` → `hosts/personal.nix`)
+4. rebuild (`sudo darwin-rebuild switch --flake ~/ghq/github.com/hforever11/dotfiles#work` など)
 
-`git config --global` に `user.name` / `user.email` が設定済みなら自動でデフォルト値が入る。
-ほとんどの場合 Enter 連打で OK。
+### personal だけの構成から work を追加する
 
-| プロンプト | 説明 | デフォルト値 |
-|---|---|---|
-| Git user name | 個人用の名前 | `git config --global user.name` |
-| Git email address | 個人用のメールアドレス | `git config --global user.email` |
-| Personal Git directory | 個人リポジトリの親ディレクトリ | `~/ghq/github.com/<name>/` |
-| Machine type | `personal` または `work` を選択 | — |
-
-`work` を選んだ場合、追加で以下を聞かれる：
-
-| プロンプト | 説明 | 例 |
-|---|---|---|
-| Work Git user name | 仕事用の名前 | `taro-company` |
-| Work Git email address | 仕事用のメールアドレス | `taro@company.com` |
-| Work Git directory | 仕事用リポジトリの親ディレクトリ | `~/ghq/github.com/your-org/` |
-
-### 完全に非対話で init する場合
-
-```sh
-chezmoi init --apply \
-  --promptString name=myname \
-  --promptString email=me@example.com \
-  --promptString gitdir="~/ghq/github.com/myname/" \
-  --promptChoice machine_type=personal \
-  hforever11/dotfiles
-```
-
-### SSH 鍵の準備
-
-chezmoi は SSH 鍵自体は管理しない。各マシンで鍵を用意すること。
-
-| 用途 | 鍵ファイル |
-|---|---|
-| 個人用 GitHub | `~/.ssh/id_rsa` |
-| 仕事用 GitHub | `~/.ssh/id_ed25519_work` |
-
-### 設定の変更
-
-```sh
-# chezmoi の設定ファイルを直接編集
-chezmoi edit-config
-```
-
-`~/.config/chezmoi/chezmoi.toml` の `[data]` セクションを編集する：
-
-```toml
-[data]
-    name = "your-name"
-    email = "your-email@example.com"
-    gitdir = "~/ghq/github.com/your-name/"
-    machine_type = "work"
-    work_name = "your-work-name"
-    work_email = "your-work-email@company.com"
-    work_gitdir = "~/ghq/github.com/your-org/"
-```
-
-編集後に適用：
-
-```sh
-chezmoi apply
-```
-
-### personal から work への切り替え
-
-`chezmoi edit-config` で `machine_type` を `"work"` に変更し、`work_name`・`work_email`・`work_gitdir` を追加してから `chezmoi apply` を実行する。
+`hosts/personal.nix` の `my.git.work` に name/email/dir を追記して rebuild すれば、
+`~/.config/git/users/work.gitconfig` と `includeIf` が追加生成される
+（`home/git.nix` は `git.work != null` の場合のみ work 用ブロックを生成する）。
 
 ## 動作確認
 
 ```sh
 # 個人リポジトリで確認
-cd ~/ghq/github.com/your-name/some-repo
+cd ~/ghq/github.com/hforever11/some-repo
 git config user.email   # → 個人用メールアドレス
-git config core.sshCommand  # → ssh -i ~/.ssh/id_rsa -o IdentitiesOnly=yes
 
-# 仕事リポジトリで確認（work マシンのみ）
-cd ~/ghq/github.com/your-org/some-repo
+# 仕事リポジトリで確認 (my.git.work を設定したホストのみ)
+cd ~/ghq/github.com/<work-org>/some-repo
 git config user.email   # → 仕事用メールアドレス
-git config core.sshCommand  # → ssh -i ~/.ssh/id_ed25519_work -o IdentitiesOnly=yes
 ```

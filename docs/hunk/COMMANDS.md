@@ -5,7 +5,7 @@ Diffview.nvim の後継として採用（見るだけのツール。ステージ
 
 ## 基本情報
 
-- **設定ファイル**: `~/.config/hunk/config.toml`（chezmoi template。`.chezmoidata/theme.toml` の暗め Latte に追従）
+- **設定ファイル**: `~/.config/hunk/config.toml`（home-manager が `home/theme.nix` → `home/generated.nix` 経由で生成。暗め Latte に追従）
 - **テーマ**: `theme = "custom"` でビルトイン `catppuccin-latte` を継承し、背景系のみ Ghostty/herdr と同じ値に上書き
   （`theme = "auto"` はライト背景だと github-light-default に解決されるため不使用）
 - **バージョン確認**: `hunk --version`

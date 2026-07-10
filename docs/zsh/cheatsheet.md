@@ -7,12 +7,11 @@
 | キー     | 説明                                         |
 | -------- | -------------------------------------------- |
 | `Ctrl+g` | ghq + fzf でリポジトリを選択して cd          |
-| `Ctrl+t` | ghq + fzf でリポジトリの tmux セッションを作成/アタッチ |
+| `Ctrl+t` | ghq + fzf でリポジトリの herdr workspace を作成/フォーカス |
 | `Ctrl+r` | fzf: コマンド履歴を fuzzy 検索               |
 | `Ctrl+o` | fzf でファイルを選んでコマンドラインに挿入（`fzf-file-widget`） |
 
-`Ctrl+t` は tmux 内なら `switch-client`、tmux 外なら `new-session` で開く。
-セッション名はリポジトリパスから自動生成される（`.` は `_` に変換）。
+`Ctrl+t` は既存 workspace があれば focus、無ければ作成する。詳細は [herdr Commands](../herdr/COMMANDS.md) 参照。
 
 `Ctrl+o` は fzf 標準のファイル挿入ウィジェット。`Ctrl+t` を ghq に割り当てているため
 `Ctrl+o` へ退避している。プレビューは bat（ディレクトリは eza ツリー）。
@@ -103,7 +102,7 @@ Tab を押すと zsh 標準の補完候補が **fzf で絞り込める**。zeno 
 zsh の補完関数が文脈を理解するので `git switch <Tab>` のブランチ一覧、
 `docker stop <Tab>` のコンテナ一覧、`kubectl logs <Tab>` の Pod 一覧などが定義なしで出る。
 
-- kubectl の補完は Rancher Desktop 由来で site-functions に無いため、
+- kubectl の補完は nix パッケージに site-functions が同梱されないため、
   zshrc が `kubectl completion zsh` を `~/.cache/zsh/completions/_kubectl` に生成してキャッシュする
 - 補完が古い/おかしいときは `rm ~/.cache/zsh/zcompdump*` して開き直す
 

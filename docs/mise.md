@@ -14,7 +14,7 @@
 
 ## グローバル設定
 
-[`dot_config/mise/config.toml`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/dot_config/mise/config.toml) では次を管理する。
+[`config/mise/config.toml`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/config/mise/config.toml) では次を管理する。
 
 - `node = "lts"`: npm を含む Node.js は LTS を使う
 - `python = "3.14"`: Python は minor を固定しつつ patch を追従する
@@ -24,19 +24,16 @@
 
 ## 初期化フロー
 
-- [`dot_config/zsh/dot_zshenv`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/dot_config/zsh/dot_zshenv) で Homebrew の PATH を読み込んだあとに `mise` shim を先頭に置く
-- [`dot_config/zsh/dot_zshrc`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/dot_config/zsh/dot_zshrc) で `mise activate zsh` を読み込む
+- [`config/zsh/.zshenv`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/config/zsh/.zshenv) で Homebrew の PATH を読み込んだあとに `mise` shim を先頭に置く
+- [`config/zsh/.zshrc`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/config/zsh/.zshrc) で `mise activate zsh` を読み込む
 - この順番で、interactive shell だけでなく Neovim / LSP / non-interactive shell でも `mise` 管理ランタイムを優先できる
 
 ## Bootstrap
 
-[`run_onchange_01_install-packages.sh.tmpl`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/.chezmoiscripts/run_onchange_01_install-packages.sh.tmpl) では:
+`home/default.nix` の `home.activation.miseInstall` が switch のたびに `mise install -y` を実行する。
+Homebrew 側は `darwin/homebrew.nix` の宣言を `darwin-rebuild switch` 時に同期する。
 
-1. Homebrew を導入する
-2. `brew bundle` で Brewfile のツールを入れる
-3. `mise install -y` で `config.toml` のランタイムを入れる
-
-そのため、`chezmoi apply` 後に `dot_config/mise/config.toml` の内容がまとめて反映される。
+そのため、rebuild 後に `config/mise/config.toml` の内容がまとめて反映される。
 
 ## 推奨コマンド
 

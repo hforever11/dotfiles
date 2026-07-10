@@ -26,7 +26,6 @@ in
     "nvim".source = link "config/nvim";
     "sheldon".source = link "config/sheldon";
     "starship".source = link "config/starship";
-    "tmux".source = link "config/tmux";
     "zsh".source = link "config/zsh";
     "zsh-abbr".source = link "config/zsh-abbr";
     "claude/statusline.sh".source = link "config/claude/statusline.sh";

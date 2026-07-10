@@ -25,4 +25,31 @@
     pkgs.hackgen-nf-font
     pkgs.maple-mono.NF
   ];
+
+  security.pam.services.sudo_local.touchIdAuth = true;
+
+  system.defaults = {
+    dock = {
+      autohide = true;
+      show-recents = false;
+      tilesize = 48;
+    };
+
+    finder = {
+      AppleShowAllExtensions = true;
+      AppleShowAllFiles = true;
+      ShowPathbar = true;
+      FXPreferredViewStyle = "Nlsv"; # リスト表示
+    };
+
+    NSGlobalDomain = {
+      KeyRepeat = 2;
+      InitialKeyRepeat = 15;
+    };
+
+    trackpad = {
+      Clicking = true; # tap-to-click
+      TrackpadThreeFingerDrag = true;
+    };
+  };
 }

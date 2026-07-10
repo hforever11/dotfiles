@@ -1,0 +1,14 @@
+#!/bin/sh
+# ステージ済み .nix ファイルを nixfmt --check する。core.hooksPath 経由で自動有効化 (home/git.nix)
+
+command -v nixfmt >/dev/null 2>&1 || exit 0
+
+files=$(git diff --cached --name-only --diff-filter=ACM -- '*.nix')
+[ -z "$files" ] && exit 0
+
+unformatted=$(printf '%s\n' "$files" | xargs nixfmt --check 2>&1)
+if [ -n "$unformatted" ]; then
+  echo "nixfmt: フォーマットが崩れています。\`nixfmt <file>\` を実行してください:" >&2
+  echo "$unformatted" >&2
+  exit 1
+fi
