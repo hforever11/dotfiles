@@ -25,6 +25,7 @@
       "docker"
       "docker-completion" # docker の zsh 補完 (upstream 非推奨だが代替が出るまで維持)
       "docker-compose"
+      "docker-buildx"
       "docker-credential-helper"
       "podman"
       "lazydocker"

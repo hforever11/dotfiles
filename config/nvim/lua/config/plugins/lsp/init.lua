@@ -14,6 +14,9 @@ return {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim" },
     opts = {
+      -- Mason に入っているだけで自動 enable させない。有効化は下の vim.lsp.enable() の明示リストのみで行う
+      -- (basedpyright 導入後も pyright が残っていて二重アタッチしていた事故の再発防止)
+      automatic_enable = false,
       ensure_installed = {
         "lua_ls",
         "basedpyright",
@@ -28,8 +31,8 @@ return {
         "cssls",
         "gopls",
         "rust_analyzer",
-        "nixd",
         "copilot",
+        -- nixd は mason-lspconfig のレジストリに存在しないため対象外 (home/default.nix で nix 管理)
       },
     },
   },
@@ -78,8 +81,6 @@ return {
       })
       -- 共通設定
       vim.lsp.config("*", { capabilities = capabilities })
-      -- Mason 等で入っていても、Lua 整形は stylua LSP を使わない
-      vim.lsp.enable("stylua", false)
       -- Lua
       vim.lsp.config("lua_ls", {
         settings = {
