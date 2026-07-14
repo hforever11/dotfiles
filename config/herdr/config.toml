@@ -8,6 +8,7 @@ onboarding = false
 name = "catppuccin-latte"
 
 # チュロームはペイン背景 (#dce0e8) より一段暗くする。文字/アクセントは herdr 公式サイト実測値
+auto_switch = false
 [theme.custom]
 panel_bg = "#d3d8e2"
 text = "#44455d"
