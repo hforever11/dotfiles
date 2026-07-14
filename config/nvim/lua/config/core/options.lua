@@ -15,6 +15,8 @@ opt.smartcase = true
 
 opt.cursorline = true
 opt.scrolloff = 8
+opt.sidescrolloff = 8
+opt.sidescroll = 1
 
 opt.background = "dark"
 opt.signcolumn = "yes"

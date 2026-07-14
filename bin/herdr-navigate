@@ -1,25 +1,23 @@
 #!/bin/sh
-# herdr の C-h/j/k/l 直接ペイン移動。tmux の is_vim 分岐 (vim-tmux-navigator) を
-# socket API で再現する: vim ならキーを転送、それ以外は herdr のペインを移動。
+# Ghostty フロント時に Karabiner-Elements が C-h/j/k/l を横取りして呼ぶペイン移動。
+# tmux の is_vim 分岐 (vim-tmux-navigator) を socket API で再現する:
+# vim ならキーを転送、それ以外は herdr のペインを移動。
+# herdr の type = "shell" バインドはゾンビリークのため使えない (z-ai/herdr-zombie-leak.md)。
+# herdr が動いていなければ set -e で黙って no-op になる。
 #
-# usage: herdr-navigate left|down|up|right   # vim 判定付きペイン移動
-#        herdr-navigate send <key>           # フォーカス中ペインへキーをそのまま転送
+# usage: herdr-navigate left|down|up|right
 
 set -eu
 
-mode=$1
+# Karabiner の shell_command は最小 PATH で走るため nix profile を追加
+PATH="/etc/profiles/per-user/$(id -un)/bin:/run/current-system/sw/bin:$PATH"
 
-if [ "$mode" = "send" ]; then
-  pane_id=$(herdr pane current --current | grep -o '"pane_id":"[^"]*"' | head -1 | cut -d'"' -f4)
-  exec herdr pane send-keys "$pane_id" "$2"
-fi
-
-case "$mode" in
+case "$1" in
   left)  key=ctrl+h ;;
   down)  key=ctrl+j ;;
   up)    key=ctrl+k ;;
   right) key=ctrl+l ;;
-  *) echo "usage: herdr-navigate left|down|up|right | send <key>" >&2; exit 1 ;;
+  *) echo "usage: herdr-navigate left|down|up|right" >&2; exit 1 ;;
 esac
 
 info=$(herdr pane process-info --current)
@@ -30,4 +28,4 @@ if printf '%s' "$info" | grep -qE '"argv0":"([^"]*/)?g?(view|n?vim?x?)(diff)?"';
   exec herdr pane send-keys "$pane_id" "$key"
 fi
 
-exec herdr pane focus --direction "$mode" --current
+exec herdr pane focus --direction "$1" --current

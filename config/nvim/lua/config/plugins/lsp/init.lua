@@ -70,6 +70,8 @@ return {
           vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
           vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
           vim.keymap.set("n", "gl", vim.diagnostic.open_float, opts)
+          -- tsserver 等の診断キャッシュが古くなったときの復旧手段
+          vim.keymap.set("n", "<leader>lR", "<cmd>LspRestart<cr>", { buf = args.buf, desc = "Restart LSP" })
           -- Inlay Hints トグル
           local client = vim.lsp.get_client_by_id(args.data.client_id)
           if client and client:supports_method("textDocument/inlayHint") then

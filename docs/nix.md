@@ -7,7 +7,7 @@
 | やりたいこと | 操作 |
 |---|---|
 | nvim / zsh / ghostty 等の設定変更 | `config/` のファイルを直接編集。保存で即反映 (直リンク) |
-| CLI パッケージ追加 | `home/default.nix` に追記 → rebuild |
+| CLI パッケージ追加 | `home/packages.nix` に追記 → rebuild |
 | GUI アプリ / nixpkgs に無いツール | `darwin/homebrew.nix` に追記 → rebuild |
 | テーマ変更 | `home/theme.nix` を編集 → rebuild |
 | git identity / ホスト固有値 | `hosts/*.nix` を編集 → rebuild |
@@ -17,6 +17,25 @@
 
 rebuild = `sudo darwin-rebuild switch --flake ~/ghq/github.com/hforever11/dotfiles#work`
 (zsh alias `rebuild` として `config/zsh/.zshrc` に登録済み)
+
+## ツール導入・削除の判断フロー
+
+### 導入する時
+
+1. `nix search nixpkgs <name>` で収録有無を確認
+2. 収録されている場合 → 原則 `home/packages.nix` の `home.packages` に追記
+   - ただし unfree でバイナリキャッシュ対象外 (毎回ソースビルドになる) など nix 側が実用的でない事情があれば brew を検討 (例: vault)
+3. 収録されていない場合、または GUI アプリ/cask でしか提供されない場合 → `darwin/homebrew.nix` の `brews`/`casks` に追記
+4. いずれも追記後は rebuild して反映
+
+### 削除する時
+
+| 追加先 | 削除方法 | 備考 |
+|---|---|---|
+| `home/packages.nix` (nix) | 該当行を削除して rebuild | 実体は nix store に残り続ける。ディスクを解放したい場合は別途 `nix-collect-garbage --delete-older-than 14d` |
+| `darwin/homebrew.nix` (brew) | 該当行を削除して rebuild | `cleanup = "zap"` 設定済みのため、宣言外の formula/cask は rebuild 時に自動アンインストールされる (手動 `brew uninstall` 不要) |
+
+個別の例外事情 (vault, libpq, ripgrep など) は下記「設計メモ」「brew 棚卸し完了」を参照。
 
 ## 設計メモ
 
@@ -32,7 +51,8 @@ rebuild = `sudo darwin-rebuild switch --flake ~/ghq/github.com/hforever11/dotfil
 - **vault**: unfree のため nix バイナリキャッシュ対象外 (毎回ソースビルドになる)。brew 管理
 - **lazy-lock.json / mise.lock**: 直リンクにより リポジトリ内で自動追跡される
 - **tenv**: terraform / tofu / atmos のシムを `/etc/profiles/per-user/*/bin` に同梱する
-- **コンテナランタイム**: Rancher Desktop から colima (nix 宣言, `home/default.nix`) へ移行済み (2026-07-10)。
+- **コンテナランタイム**: Rancher Desktop から colima (nix 宣言, `home/colima.nix`) へ移行済み (2026-07-10)。
+  launchd agent がログイン時に `colima start --cpu 4 --memory 8` で自動起動する。
   `colima start` で Docker ランタイムのみ起動 (Kubernetes は使わない方針)。kubectl / helm も nix 宣言に移した。
   brew の `docker` / `docker-compose` / `docker-credential-helper` / `podman` / `lazydocker` は
   CLI / TUI として引き続き利用するため維持

@@ -112,6 +112,29 @@ bindkey '^t' herdr-ghq
 # Ctrl+o: fzf 標準のファイル挿入ウィジェット（^t は ghq に割り当て済みのため退避）
 bindkey '^o' fzf-file-widget
 
+# C-h/j/k/l: herdr のペイン移動 (nvim 側は keymaps.lua が同じ socket API を呼ぶ)。
+# herdr の type = "shell" バインドは子プロセスを回収せずゾンビが溜まるため、
+# ペイン移動は各アプリ側から herdr CLI を呼ぶ方式にしている (2026-07-13)
+if [[ -n $HERDR_PANE_ID ]]; then
+  function _herdr-focus() {
+    herdr pane focus --direction "$1" --pane "$HERDR_PANE_ID" >/dev/null 2>&1
+  }
+  function herdr-focus-left()  { _herdr-focus left }
+  function herdr-focus-down()  { _herdr-focus down }
+  function herdr-focus-up()    { _herdr-focus up }
+  function herdr-focus-right() { _herdr-focus right }
+  zle -N herdr-focus-left
+  zle -N herdr-focus-down
+  zle -N herdr-focus-up
+  zle -N herdr-focus-right
+  bindkey '^h' herdr-focus-left
+  bindkey '^j' herdr-focus-down
+  bindkey '^k' herdr-focus-up
+  bindkey '^l' herdr-focus-right
+  # C-l を移動に奪った代わりのクリアスクリーン
+  bindkey '^x^l' clear-screen
+fi
+
 # 中身検索 (ripgrep) → 選択行を nvim で開く。入力のたびに rg を再実行する live grep
 function rg-fzf() {
   local rg_cmd="rg --column --line-number --no-heading --color=always --smart-case"

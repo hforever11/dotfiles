@@ -246,7 +246,7 @@ return {
         {
           pane = 2,
           section = "terminal",
-          cmd = "pokemon-colorscripts --name venusaur --no-title $([ $((RANDOM % 2)) -eq 0 ] && echo '--shiny'); cat",
+          cmd = "pokemon-colorscripts --name venusaur --no-title; cat",
           random = 10,
           indent = 4,
           height = 30,

@@ -21,6 +21,10 @@ in
     "ghostty".source = link "config/ghostty";
     # herdr は同ディレクトリに session.json / ログ / ソケットを書くため、ファイル単位でリンクする
     "herdr/config.toml".source = link "config/herdr/config.toml";
+    # Karabiner は GUI 操作時に karabiner.json を書き換えて symlink を壊すため、
+    # 設定変更は GUI でなくリポジトリの JSON を編集する。backups/assets の
+    # 書き込み先を repo に向けないようファイル単位でリンクする
+    "karabiner/karabiner.json".source = link "config/karabiner/karabiner.json";
     "lazygit".source = link "config/lazygit";
     "mise".source = link "config/mise";
     "nvim".source = link "config/nvim";
