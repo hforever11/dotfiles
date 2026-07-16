@@ -9,72 +9,7 @@
           "from": { "key_code": "caps_lock" },
           "to": [{ "key_code": "right_control" }]
         }
-      ],
-      "complex_modifications": {
-        "rules": [
-          {
-            "description": "Ghostty: Ctrl+h/j/k/l → herdr pane navigation (vim-aware)",
-            "manipulators": [
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "h",
-                  "modifiers": { "mandatory": ["control"], "optional": ["caps_lock"] }
-                },
-                "to": [{ "shell_command": "~/.local/bin/herdr-navigate left" }],
-                "conditions": [
-                  {
-                    "type": "frontmost_application_if",
-                    "bundle_identifiers": ["^com\\.mitchellh\\.ghostty$"]
-                  }
-                ]
-              },
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "j",
-                  "modifiers": { "mandatory": ["control"], "optional": ["caps_lock"] }
-                },
-                "to": [{ "shell_command": "~/.local/bin/herdr-navigate down" }],
-                "conditions": [
-                  {
-                    "type": "frontmost_application_if",
-                    "bundle_identifiers": ["^com\\.mitchellh\\.ghostty$"]
-                  }
-                ]
-              },
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "k",
-                  "modifiers": { "mandatory": ["control"], "optional": ["caps_lock"] }
-                },
-                "to": [{ "shell_command": "~/.local/bin/herdr-navigate up" }],
-                "conditions": [
-                  {
-                    "type": "frontmost_application_if",
-                    "bundle_identifiers": ["^com\\.mitchellh\\.ghostty$"]
-                  }
-                ]
-              },
-              {
-                "type": "basic",
-                "from": {
-                  "key_code": "l",
-                  "modifiers": { "mandatory": ["control"], "optional": ["caps_lock"] }
-                },
-                "to": [{ "shell_command": "~/.local/bin/herdr-navigate right" }],
-                "conditions": [
-                  {
-                    "type": "frontmost_application_if",
-                    "bundle_identifiers": ["^com\\.mitchellh\\.ghostty$"]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      ]
     }
   ]
 }

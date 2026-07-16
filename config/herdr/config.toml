@@ -42,12 +42,35 @@ type = "pane"
 command = "lazygit"
 description = "lazygit"
 
-# C-h/j/k/l の prefix なしペイン移動は herdr 側では行わない:
-# herdr 0.7.1 の type = "shell" は子プロセスを wait() せずゾンビが蓄積し、
-# プロセス上限到達で fork が EAGAIN (os error 35) になるため (2026-07-13)。
-# 代わりに Karabiner-Elements が Ghostty フロント時のみ横取りして
-# herdr-navigate (socket API) を呼ぶ。Ghostty 外・SSH 先用のフォールバックとして
-# nvim (keymaps.lua) と zsh (.zshrc の herdr-focus ウィジェット) にも同じ実装がある
+# C-h/j/k/l で prefix なしペイン移動 (tmux の is_vim 分岐を herdr-navigate で再現。
+# vim ならキーを転送し vim 内のウィンドウ移動を優先、それ以外はペイン移動)。
+# type = "shell" のゾンビリークは 0.7.4 で修正済みのため herdr 0.7.4 以上が必須
+# (0.7.1〜0.7.3 ではゾンビ蓄積 → fork EAGAIN が再発する。pkgs/herdr.nix の overlay 参照)。
+# SSH 先など herdr 外用のフォールバックとして nvim (keymaps.lua) と
+# zsh (.zshrc の herdr-focus ウィジェット) にも同じ移動が実装してある
+[[keys.command]]
+key = "ctrl+h"
+type = "shell"
+command = "herdr-navigate left"
+description = "pane left (vim-aware)"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "shell"
+command = "herdr-navigate down"
+description = "pane down (vim-aware)"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "shell"
+command = "herdr-navigate up"
+description = "pane up (vim-aware)"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "shell"
+command = "herdr-navigate right"
+description = "pane right (vim-aware)"
 
 # 変更セットレビュー (hunk)。--watch で Claude の編集に追従
 [[keys.command]]

@@ -12,6 +12,12 @@
 
   nixpkgs.hostPlatform = "aarch64-darwin";
 
+  # herdr 0.7.4 先取り (type = "shell" のゾンビリーク修正 #1360 が必要)。
+  # nixpkgs の herdr が 0.7.4 以上になったら overlay と pkgs/herdr.nix を削除する
+  nixpkgs.overlays = [
+    (final: prev: { herdr = final.callPackage ../pkgs/herdr.nix { }; })
+  ];
+
   system.stateVersion = 6;
   system.primaryUser = config.my.username;
 

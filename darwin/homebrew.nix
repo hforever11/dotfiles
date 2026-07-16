@@ -33,8 +33,7 @@
 
     casks = [
       "ghostty"
-      "karabiner-elements" # Ghostty フロント時のみ C-h/j/k/l を横取りし herdr ペイン移動
-
+      "karabiner-elements" # caps_lock → right_control のリマップのみ
       "codex"
       "arto-app/tap/arto"
       "copilot-cli"

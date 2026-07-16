@@ -1,15 +1,15 @@
 #!/bin/sh
-# Ghostty フロント時に Karabiner-Elements が C-h/j/k/l を横取りして呼ぶペイン移動。
+# herdr の C-h/j/k/l 直接ペイン移動 (config.toml の type = "shell" バインドから呼ばれる)。
 # tmux の is_vim 分岐 (vim-tmux-navigator) を socket API で再現する:
 # vim ならキーを転送、それ以外は herdr のペインを移動。
-# herdr の type = "shell" バインドはゾンビリークのため使えない (z-ai/herdr-zombie-leak.md)。
+# type = "shell" のゾンビリークは herdr 0.7.4 で修正済み (z-ai/herdr-zombie-leak.md)。
 # herdr が動いていなければ set -e で黙って no-op になる。
 #
 # usage: herdr-navigate left|down|up|right
 
 set -eu
 
-# Karabiner の shell_command は最小 PATH で走るため nix profile を追加
+# /bin/sh 経由の最小 PATH でも herdr を見つけられるよう nix profile を追加
 PATH="/etc/profiles/per-user/$(id -un)/bin:/run/current-system/sw/bin:$PATH"
 
 case "$1" in
