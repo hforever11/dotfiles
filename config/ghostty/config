@@ -42,6 +42,8 @@ window-padding-y = 4
 window-padding-balance = true
 scrollbar = never
 
+scrollback-limit = 5000000
+
 palette-generate = false
 
 # Shell
