@@ -175,6 +175,28 @@ return {
           },
         },
       })
+      -- Nix (nix-darwin / home-manager のオプション名・型・doc を補完させる。
+      -- フォーマットは conform.lua の nixfmt が担うため nixd 側では設定しない)
+      local dotfiles_flake = vim.fn.expand("~/ghq/github.com/hforever11/dotfiles")
+      vim.lsp.config("nixd", {
+        settings = {
+          nixd = {
+            nixpkgs = {
+              expr = ('import (builtins.getFlake "%s").inputs.nixpkgs { }'):format(dotfiles_flake),
+            },
+            options = {
+              ["nix-darwin"] = {
+                expr = ('(builtins.getFlake "%s").darwinConfigurations.work.options'):format(dotfiles_flake),
+              },
+              ["home-manager"] = {
+                expr = ('(builtins.getFlake "%s").darwinConfigurations.work.options.home-manager.users.type.getSubOptions []'):format(
+                  dotfiles_flake
+                ),
+              },
+            },
+          },
+        },
+      })
       -- Copilot LSP (sidekick.nvim NES 用)
       vim.lsp.config("copilot", {
         cmd = { "copilot-language-server", "--stdio" },
