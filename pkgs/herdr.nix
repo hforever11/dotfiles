@@ -11,7 +11,6 @@
   xcbuild,
   versionCheckHook,
   nix-update-script,
-  applyPatches,
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "herdr";
@@ -19,23 +18,14 @@ rustPlatform.buildRustPackage (finalAttrs: {
 
   __structuredAttrs = true;
 
-  # deps.files.ghostty.org の wuffs tarball が再パッケージされ、vendor が宣言する
-  # zig ハッシュと不一致でフェッチできない (2026-07-16、ghostty 本家も未追従)。
-  # 新 tarball は google/wuffs v0.4.0-alpha.9 の公式タグと diff -r で完全一致を確認済みのため、
-  # 宣言ハッシュを実物に合わせて書き換える
-  src = applyPatches {
-    name = "herdr-${finalAttrs.version}-src";
-    src = fetchFromGitHub {
-      owner = "ogulcancelik";
-      repo = "herdr";
-      tag = "v${finalAttrs.version}";
-      hash = "sha256-dBOQYLFitJ+E3XNz44Ag3CIrBxFj16CmVPp7qil0ssg=";
-    };
-    postPatch = ''
-      substituteInPlace vendor/libghostty-vt/pkg/wuffs/build.zig.zon \
-        --replace-fail "N-V-__8AAAzZywE3s51XfsLbP9eyEw57ae9swYB9aGB6fCMs" \
-                       "N-V-__8AAEXUywEb8JCSytwiCVUsFb2CwHjOB59jhyRhOhsj"
-    '';
+  # 以前は deps.files.ghostty.org の wuffs tarball 再パッケージに伴う zig ハッシュ不一致を
+  # postPatch で回避していたが、vendor 側が実物のハッシュ
+  # (N-V-__8AAAzZywE3s51XfsLbP9eyEw57ae9swYB9aGB6fCMs) を宣言するよう修正されたため不要になった。
+  src = fetchFromGitHub {
+    owner = "ogulcancelik";
+    repo = "herdr";
+    tag = "v${finalAttrs.version}";
+    hash = "sha256-dBOQYLFitJ+E3XNz44Ag3CIrBxFj16CmVPp7qil0ssg=";
   };
 
   cargoHash = "sha256-XHzZy2tKLbMQy4POmXowUcGf77ZPunG/oQ3P2wOoVls=";
@@ -44,7 +34,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
     inherit (finalAttrs) pname version;
     src = "${finalAttrs.src}/vendor/libghostty-vt";
     fetchAll = true;
-    hash = "sha256-Fw6+P80pHjh7qa8lHuVTOlszU4rQOEx5BEs6G3nCpsQ=";
+    hash = "sha256-pgGu8+NwvFcj6SrN4VaTHLeHdA7QY731ctyrHZwgFAc=";
   };
 
   nativeBuildInputs = [
