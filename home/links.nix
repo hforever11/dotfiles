@@ -44,5 +44,6 @@ in
     ".local/bin/git-unlock".source = link "bin/git-unlock";
     ".local/bin/herdr-navigate".source = link "bin/herdr-navigate";
     ".local/bin/lazygit-guard".source = link "bin/lazygit-guard";
+    ".local/bin/pokemon-colorscripts-dashboard".source = link "bin/pokemon-colorscripts-dashboard";
   };
 }

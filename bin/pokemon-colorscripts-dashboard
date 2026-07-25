@@ -1,0 +1,104 @@
+#!/bin/sh
+# snacks.nvim ダッシュボード用に Pokémon アートを整形して表示する。
+#
+# pokemon-colorscripts の生出力には
+#   - 行末で SGR リセットされない行があり、再描画や折り返しで色が滲む
+#   - 末尾にリセットだけの行が残り、余計な空行に見える
+#   - ポケモンによっては幅がペインに収まらず、折り返して崩れる
+# という癖があるため、後処理で整えてから出力する。
+#
+# 使い方: pokemon-colorscripts-dashboard [name|random]
+#   POKEMON_DASHBOARD_SHINY_RATE : 1/N の確率で色違い (default: 2, 0 で無効)
+#   POKEMON_DASHBOARD_MAX_WIDTH  : アートの最大許容幅 (default: 端末幅)
+
+set -eu
+
+name="${1:-venusaur}"
+shiny_rate="${POKEMON_DASHBOARD_SHINY_RATE:-2}"
+
+command -v pokemon-colorscripts >/dev/null 2>&1 || exit 0
+
+# ▀ などのマルチバイト文字を ${#var} で文字数として数えるため
+export LC_ALL="${LC_ALL:-en_US.UTF-8}"
+
+max_width="${POKEMON_DASHBOARD_MAX_WIDTH:-$(tput cols 2>/dev/null || echo 80)}"
+
+esc="$(printf '\033')"
+dim="${esc}[2m"
+gold="${esc}[38;5;214m"
+reset="${esc}[0m"
+nl='
+'
+
+roll_shiny() {
+  [ "$shiny_rate" -gt 0 ] || return 1
+  [ "$(od -An -N1 -tu1 /dev/urandom | tr -d ' ')" -lt "$((256 / shiny_rate))" ]
+}
+
+# 幅がペインを超えるアートは折り返して崩れるので、random のときは引き直す
+try=0
+while :; do
+  try=$((try + 1))
+
+  shiny=""
+  if roll_shiny; then
+    shiny="--shiny"
+  fi
+
+  # 1 行目がポケモン名、2 行目以降がアート
+  if [ "$name" = "random" ]; then
+    out="$(pokemon-colorscripts -r $shiny 2>/dev/null)" || exit 0
+  else
+    out="$(pokemon-colorscripts --name "$name" $shiny 2>/dev/null)" || exit 0
+  fi
+  title="${out%%"$nl"*}"
+  title="${title% (shiny)}" # 色違いはキャプション側で ✦ を付ける
+  art="${out#*"$nl"}"
+
+  # 色コードを除いた実表示幅と、末尾の空行を除いた実質の高さを測る
+  width=0
+  art_height=0
+  i=0
+  while IFS= read -r line; do
+    i=$((i + 1))
+    line="${line%"${line##*[! ]}"}" # 行末の空白を落とす
+    if [ -n "$line" ]; then
+      art_height=$i
+      if [ "${#line}" -gt "$width" ]; then
+        width="${#line}"
+      fi
+    fi
+  done <<EOF
+$(printf '%s\n' "$art" | sed "s/${esc}\[[0-9;]*m//g")
+EOF
+
+  if [ "$width" -le "$max_width" ] || [ "$name" != "random" ] || [ "$try" -ge 8 ]; then
+    break
+  fi
+done
+
+# 本体: 末尾のゴミ行を捨て、各行を明示的にリセットして色滲みを防ぐ
+i=0
+printf '%s\n' "$art" | while IFS= read -r line; do
+  i=$((i + 1))
+  if [ "$i" -gt "$art_height" ]; then
+    break
+  fi
+  printf '%s%s\n' "$line" "$reset"
+done
+
+# キャプション: アートの中央に「── Venusaur ✦ ──」
+label="$(printf '%s' "$title" | awk '{ print toupper(substr($0, 1, 1)) substr($0, 2) }')"
+if [ -n "$shiny" ]; then
+  caption_plain="── ${label} ✦ ──"
+  caption="${dim}── ${label} ${reset}${gold}✦${reset} ${dim}──${reset}"
+else
+  caption_plain="── ${label} ──"
+  caption="${dim}── ${label} ──${reset}"
+fi
+
+pad=$(((width - ${#caption_plain}) / 2))
+if [ "$pad" -lt 0 ]; then
+  pad=0
+fi
+printf '\n%*s%s\n' "$pad" '' "$caption"

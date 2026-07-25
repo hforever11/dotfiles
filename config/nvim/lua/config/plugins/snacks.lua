@@ -246,10 +246,11 @@ return {
         {
           pane = 2,
           section = "terminal",
-          cmd = "pokemon-colorscripts --name venusaur --no-title; cat",
+          -- 色違いの抽選・色滲み対策・キャプション付与はスクリプト側で行う
+          cmd = "pokemon-colorscripts-dashboard venusaur; cat",
           random = 10,
           indent = 4,
-          height = 30,
+          height = 24,
           ttl = 5 * 60,
           enabled = vim.o.columns > 100,
         },
