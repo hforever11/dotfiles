@@ -33,7 +33,6 @@
 
     casks = [
       "ghostty"
-      "karabiner-elements" # caps_lock → right_control のリマップのみ
       "codex"
       "arto-app/tap/arto"
       "copilot-cli"

@@ -34,6 +34,19 @@
 
   security.pam.services.sudo_local.touchIdAuth = true;
 
+  # caps_lock → right_control (旧 Karabiner の simple_modification を macOS 標準の
+  # hidutil に移行)。nix-darwin の remapCapsLockToControl は left_control 固定のため
+  # userKeyMapping で直接指定する。値は HID usage: 0x700000039 → 0x7000000E4
+  system.keyboard = {
+    enableKeyMapping = true;
+    userKeyMapping = [
+      {
+        HIDKeyboardModifierMappingSrc = 30064771129;
+        HIDKeyboardModifierMappingDst = 30064771300;
+      }
+    ];
+  };
+
   system.defaults = {
     dock = {
       autohide = true;
