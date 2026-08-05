@@ -27,6 +27,11 @@
 
 - [hunk Commands](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/docs/hunk/COMMANDS.md)
 
+## Raycast
+
+- [Raycast 基本ガイド](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/docs/raycast/basics.md)
+- [Raycast Notes 運用ガイド](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/docs/raycast/notes.md)
+
 ## Neovim
 
 - [Neovim Docs Index](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/docs/nvim/README.md)
