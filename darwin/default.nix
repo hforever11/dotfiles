@@ -12,12 +12,6 @@
 
   nixpkgs.hostPlatform = "aarch64-darwin";
 
-  # herdr 0.7.4 先取り (type = "shell" のゾンビリーク修正 #1360 が必要)。
-  # nixpkgs の herdr が 0.7.4 以上になったら overlay と pkgs/herdr.nix を削除する
-  nixpkgs.overlays = [
-    (final: prev: { herdr = final.callPackage ../pkgs/herdr.nix { }; })
-  ];
-
   system.stateVersion = 6;
   system.primaryUser = config.my.username;
 
@@ -46,6 +40,23 @@
       }
     ];
   };
+
+  # Spotlight の ⌘Space (symbolic hotkey ID 64) を無効化して Raycast に譲る。
+  # CustomUserPreferences だと AppleSymbolicHotKeys 辞書全体を置き換えて
+  # 他のホットキー設定を消すため、-dict-add で該当 ID のみ書き換える
+  system.activationScripts.postActivation.text = ''
+    sudo -u ${config.my.username} defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 '
+      <dict>
+        <key>enabled</key><false/>
+        <key>value</key>
+        <dict>
+          <key>parameters</key>
+          <array><integer>65535</integer><integer>49</integer><integer>1048576</integer></array>
+          <key>type</key><string>standard</string>
+        </dict>
+      </dict>'
+    sudo -u ${config.my.username} /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u
+  '';
 
   system.defaults = {
     dock = {
