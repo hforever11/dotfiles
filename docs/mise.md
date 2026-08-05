@@ -79,7 +79,7 @@ mise use rust@beta
 
 ## Neovim / LSP との関係
 
-`yaml-language-server`, `tailwindcss-language-server`, `copilot-language-server` などは `node` 依存。
+`yaml-language-server`, `tailwindcss-language-server` などは `node` 依存。
 そのため、`node` が PATH に見えていないと `exit code 127` で落ちる。
 
 この dotfiles では `pyright`, `vtsls`, `yamlls` などの editor-only LSP は Mason 管理を前提にしているので、Homebrew で同じサーバーを持つ必要はない。

@@ -31,7 +31,6 @@ return {
         "cssls",
         "gopls",
         "rust_analyzer",
-        "copilot",
         -- nixd は mason-lspconfig のレジストリに存在しないため対象外 (home/default.nix で nix 管理)
       },
     },
@@ -197,11 +196,6 @@ return {
           },
         },
       })
-      -- Copilot LSP (sidekick.nvim NES 用)
-      vim.lsp.config("copilot", {
-        cmd = { "copilot-language-server", "--stdio" },
-        root_markers = { ".git" },
-      })
       -- LSP有効化
       vim.lsp.enable({
         "lua_ls",
@@ -218,7 +212,6 @@ return {
         "gopls",
         "rust_analyzer",
         "nixd",
-        "copilot",
       })
     end,
   },

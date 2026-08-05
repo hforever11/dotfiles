@@ -491,29 +491,3 @@ Diffview は廃止 (複雑すぎた)。変更セット全体のレビューは n
 | `p`       | pull                           |
 | `f`       | fetch                          |
 
-## Sidekick.nvim
-
-### NES
-
-| キー         | モード | 動作                                   |
-| ------------ | ------ | -------------------------------------- |
-| `<Tab>`      | n      | NES にジャンプ / 適用                  |
-| `<leader>uN` | n      | NES の有効 / 無効をトグル              |
-
-### CLI
-
-| キー         | モード     | 動作                      |
-| ------------ | ---------- | ------------------------- |
-| `<leader>aa` | n          | CLI ターミナルをトグル    |
-| `<leader>as` | n          | CLI ツールを選択          |
-| `<leader>ad` | n          | CLI セッションを切断      |
-| `<leader>af` | n          | 現在ファイルを CLI に送信 |
-| `<leader>av` | x          | 選択範囲を CLI に送信     |
-| `<leader>ap` | n, x       | プロンプトを選択して送信  |
-
-### セットアップ
-
-```vim
-:LspCopilotSignIn
-:checkhealth sidekick
-```
