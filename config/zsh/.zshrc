@@ -9,6 +9,9 @@ bindkey -e
 # ===== PATH =====
 typeset -U path
 path=(
+  # mise の shims は .zshenv が先頭に置くが、下の 2 つに押し下げられると
+  # ~/.local/bin の野良インストールが mise 管理のランタイムに勝ってしまう
+  "${XDG_DATA_HOME:-$HOME/.local/share}/mise/shims"(N-/)
   /opt/homebrew/opt/libpq/bin(N-/)
   $HOME/.local/bin(N-/)
   $path
@@ -23,8 +26,42 @@ setopt SHARE_HISTORY INC_APPEND_HISTORY EXTENDED_HISTORY
 setopt HIST_IGNORE_DUPS HIST_IGNORE_ALL_DUPS HIST_IGNORE_SPACE
 setopt HIST_REDUCE_BLANKS HIST_VERIFY HIST_FIND_NO_DUPS
 
+# ===== init スクリプトのキャッシュ =====
+# `eval "$(tool init)"` は起動ごとにサブシェルを fork する。生成結果をファイルへ焼いて
+# source に置き換えると fork が消える。キャッシュ名に実体パス (nix store のハッシュ) を
+# 含めるので、ツール更新時は別名になり自動で作り直される
+typeset -g ZSH_INIT_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/init"
+
+# init-cache <コマンド名> [依存ファイル...] -- <生成コマンド...>
+# 依存ファイルがキャッシュより新しければ再生成する
+function init-cache() {
+  local cmd=$1; shift
+  local bin=${commands[$cmd]}
+  [[ -n $bin ]] || return 0
+
+  local -a deps
+  while (( $# )) && [[ $1 != -- ]]; do
+    deps+=("$1"); shift
+  done
+  shift
+
+  local cache="$ZSH_INIT_CACHE/${cmd}-${bin:A:h:h:t}.zsh" dep
+  local stale=0
+  [[ -s $cache ]] || stale=1
+  for dep in $deps; do
+    [[ $dep -nt $cache ]] && stale=1
+  done
+
+  if (( stale )); then
+    mkdir -p -- "$ZSH_INIT_CACHE"
+    rm -f -- "$ZSH_INIT_CACHE/${cmd}-"*.zsh(N)
+    "$@" > "$cache"
+  fi
+  source "$cache"
+}
+
 # ===== Plugin Manager =====
-command -v sheldon >/dev/null && eval "$(sheldon source)"
+init-cache sheldon "${XDG_CONFIG_HOME:-$HOME/.config}/sheldon/plugins.toml" -- sheldon source
 
 # ===== Completions =====
 # nix の kubectl は補完ファイルを同梱しないので生成してキャッシュ
@@ -37,24 +74,33 @@ command -v sheldon >/dev/null && eval "$(sheldon source)"
   fi
 }
 
-# 日次でフル compinit、それ以外はキャッシュを信頼（-u は使わない）
+# フル compinit は 570ms かかる (compdump 219ms + compdef 882 回 134ms) ため初回のみ。
+# 以降は -C でキャッシュを信頼し、再生成は rebuild に相乗りさせる。
+# よって新しい補完関数は自動では拾われない → ツールを入れたら compdump-refresh を呼ぶ
 autoload -Uz compinit
 {
   local zcompdump="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
   [[ -d ${zcompdump:h} ]] || mkdir -p -- "${zcompdump:h}"
-  if [[ -n ${zcompdump}(#qN.mh+24) ]]; then
-    compinit -d "$zcompdump"
-  else
+  if [[ -s $zcompdump ]]; then
     compinit -C -d "$zcompdump"
+  else
+    compinit -d "$zcompdump"
   fi
 }
 
 # ===== Tools =====
-command -v direnv   >/dev/null && eval "$(direnv hook zsh)"
-command -v mise     >/dev/null && eval "$(mise activate zsh)"
-command -v fzf      >/dev/null && source <(fzf --zsh)
-command -v starship >/dev/null && eval "$(starship init zsh)"
-command -v zoxide   >/dev/null && eval "$(zoxide init zsh)"
+# mise は activate (55ms + precmd フック 10ms) ではなく shims 方式を使う。
+# shims の PATH 追加は .zshenv が済ませているので、ここで要るのは env だけ。
+# env の PATH 行は絶対パスを固定してしまうので捨てる。
+# プロジェクト単位の mise.toml を持たない運用のため、この env は静的に焼いてよい
+function _mise-env() { mise env -s zsh | grep -v '^export PATH=' }
+
+init-cache direnv   -- direnv hook zsh
+init-cache mise     "${XDG_CONFIG_HOME:-$HOME/.config}/mise/config.toml" \
+                    "${XDG_DATA_HOME:-$HOME/.local/share}/mise/installs" -- _mise-env
+init-cache fzf      -- fzf --zsh
+init-cache starship -- starship init zsh --print-full-init
+init-cache zoxide   -- zoxide init zsh
 
 # ===== Functions =====
 
@@ -180,4 +226,19 @@ alias c='clear'
 alias cat='bat'
 alias diff='delta'
 alias gds='git diff --delta-features="+side-by-side"'
-alias rebuild='sudo darwin-rebuild switch --flake ~/ghq/github.com/hforever11/dotfiles#work'
+
+# ===== Maintenance =====
+
+# 補完 dump と init キャッシュを作り直す。起動時は compinit -C なので新しい補完関数を
+# 拾わない。ツールを入れ替えたらこれを呼ぶ (rebuild からも自動で呼ばれる)
+function compdump-refresh() {
+  local zcompdump="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
+  rm -f -- "$zcompdump" "$ZSH_INIT_CACHE"/*.zsh(N) \
+           "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/completions/_kubectl"
+  compinit -d "$zcompdump"
+}
+
+function rebuild() {
+  sudo darwin-rebuild switch --flake ~/ghq/github.com/hforever11/dotfiles#work || return
+  compdump-refresh
+}
