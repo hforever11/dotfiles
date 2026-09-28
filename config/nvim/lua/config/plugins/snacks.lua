@@ -2,6 +2,25 @@
 -- 取り続けるため、任意ロックを無効化して他の git 操作との衝突を防ぐ(必須ロックは影響なし)
 local lazygit_env = { GIT_OPTIONAL_LOCKS = "0" }
 
+-- lazygit の stage/commit は index.lock を必要とするため、その間だけ gitsigns の
+-- .git ウォッチャーを外して追従を止める。閉じた時に再アタッチしてまとめて反映する
+local function gitsigns_detach()
+  pcall(function()
+    require("gitsigns").detach_all()
+  end)
+end
+
+local function gitsigns_reattach()
+  pcall(function()
+    local gs = require("gitsigns")
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+      if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buflisted then
+        gs.attach({ bufnr = buf })
+      end
+    end
+  end)
+end
+
 -- gitignore 込み検索(<leader>fa / <leader>sG)で中身を見る価値の無いノイズを除外
 local search_exclude = {
   -- 依存・成果物
@@ -43,7 +62,8 @@ return {
         local dir = vim.fn.expand("%:p:h")
         if dir == "" then dir = vim.fn.getcwd() end
         vim.fn.system({ vim.fn.expand("~/.local/bin/git-unlock"), "-f", dir })
-        Snacks.lazygit({ env = lazygit_env })
+        gitsigns_detach()
+        Snacks.lazygit({ env = lazygit_env, win = { on_close = gitsigns_reattach } })
       end, desc = "Lazygit" },
     { "<leader>lf", function() Snacks.lazygit.log_file({ env = lazygit_env }) end, desc = "Lazygit file log" },
     -- Top Pickers & Explorer

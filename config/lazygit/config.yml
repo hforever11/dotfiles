@@ -3,6 +3,11 @@ disableStartupPopups: true
 gui:
   sidePanelWidth: 0.22
 
+# 背景で起動する git プロセスを減らして index.lock の衝突窓を狭める
+refresher:
+  refreshInterval: 30
+  fetchInterval: 300
+
 os:
   # nvim 内 (snacks lazygit) では親 nvim で開き、tmux popup 等の単体起動では通常起動する
   edit: 'if [ -n "$NVIM" ]; then nvim --server "$NVIM" --remote-send "<C-\\><C-n>:close<CR>:e {{filename}}<CR>"; else nvim {{filename}}; fi'

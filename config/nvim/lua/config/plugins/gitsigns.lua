@@ -2,6 +2,9 @@ return {
   "lewis6991/gitsigns.nvim",
   event = { "BufReadPre", "BufNewFile" },
   opts = {
+    -- lazygit の stage/commit で .git が書き換わると全 nvim インスタンスの
+    -- ウォッチャーが一斉に発火する。既定 100ms では束ねきれないため延ばす
+    update_debounce = 500,
     signs = {
       add = { text = "▎" },
       change = { text = "▎" },
