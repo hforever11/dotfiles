@@ -1,5 +1,5 @@
 # CLI パッケージ一覧 (nixpkgs)。
-# activation や launchd を伴うツールは専用モジュール側 (colima.nix / mise.nix)
+# launchd や activation を伴うツールだけは専用モジュール側 (colima.nix / mise.nix)
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
@@ -23,6 +23,7 @@
     tree
     tree-sitter
     delta
+    hunk # レビュー特化 diff ビューア
     direnv
     pokemon-colorscripts
 
@@ -41,6 +42,12 @@
     # markdown / yaml の整形。CJK を 2 桁幅で計算するためテーブルが端末上で揃う
     # (nodePackages は 2026-03-03 に nixpkgs から削除済み。トップレベルを使う)
     prettier
+
+    # ===== Containers =====
+    # ランタイムは colima (colima.nix)。docker は buildx / compose プラグインと zsh 補完を同梱する
+    docker
+    docker-credential-helpers # credsStore = osxkeychain
+    lazydocker
 
     # ===== Kubernetes / Infrastructure =====
     tenv

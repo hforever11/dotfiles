@@ -1,4 +1,4 @@
-# nixpkgs に無いものだけ Homebrew に残す (旧 Brewfile)
+# nixpkgs に無い / nix だと実用的でないものだけ Homebrew に置く (GUI アプリは cask)
 {
   homebrew = {
     enable = true;
@@ -6,7 +6,7 @@
     onActivation = {
       autoUpdate = false;
       upgrade = false;
-      # 棚卸し完了 (2026-07-10)。宣言外の formula/cask は rebuild 時に自動削除される
+      # 宣言外の formula/cask は rebuild 時に自動削除される
       cleanup = "zap";
     };
 
@@ -16,19 +16,11 @@
     ];
 
     brews = [
-      "hunk" # nixpkgs 未収録 (レビュー特化 diff ビューア)
       # vault は unfree のため nix バイナリキャッシュ対象外で、nixpkgs 更新のたびに
       # 巨大な Go ソースビルドが走る。brew のバイナリ配布を使う
       "hashicorp/tap/vault"
       "libpq" # zshrc が PATH 参照 (psql/pg_config)
       "ripgrep" # nix 宣言と重複するが cask codex の brew 版依存のため維持
-      "docker"
-      "docker-completion" # docker の zsh 補完 (upstream 非推奨だが代替が出るまで維持)
-      "docker-compose"
-      "docker-buildx"
-      "docker-credential-helper"
-      "podman"
-      "lazydocker"
     ];
 
     casks = [
