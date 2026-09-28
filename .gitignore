@@ -4,3 +4,5 @@
 result
 config/zsh/.zcompdump
 hosts/*local.gitconfig
+# ~/.claude/skills をディレクトリごとリンクしているため、Claude Code が同期する組織スキルがここに書かれる
+claude/skills/synced/
