@@ -38,6 +38,9 @@
     stylua
     ruff
     luarocks
+    # markdown / yaml の整形。CJK を 2 桁幅で計算するためテーブルが端末上で揃う
+    # (nodePackages は 2026-03-03 に nixpkgs から削除済み。トップレベルを使う)
+    prettier
 
     # ===== Kubernetes / Infrastructure =====
     tenv
