@@ -15,7 +15,9 @@
     blue = "#1e66f5";
     red = "#d20f39";
     yellow = "#df8e1d";
-    green = "#40a02b";
+    # 公式 Latte の #40a02b は OKLCH 色相 140° でライト背景だとオリーブに濁る。
+    # herdr の accent (Claude Code ライトテーマの diffAddedWord) と同じ 146° に揃える
+    green = "#2f9d44";
     sky = "#04a5e5";
     mauve = "#8839ef";
     peach = "#fe640b";

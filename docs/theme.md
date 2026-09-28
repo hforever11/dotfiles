@@ -20,6 +20,18 @@ home-manager (`home/generated.nix`) が fzf / hunk / Neovim / Claude statusline 
 パレットのキー名（`base` / `surface0` / `text` など）は Catppuccin のロール名を
 そのまま使い、別テーマに移る場合は対応色をマッピングする。
 
+公式 Latte から意図的に外している値:
+
+| キー            | 値        | 理由                                             |
+| --------------- | --------- | ------------------------------------------------ |
+| `base` / `mantle` | 二段暗い | 眩しさ抑制。Ghostty `background` と揃える        |
+| `green`         | `#2f9d44` | 公式 `#40a02b` は OKLCH 色相 140° でライト背景だとオリーブに濁る。herdr の `accent` に揃えた 146° |
+
+なお `green` は `palette.lua` を読む先（statusline / undo-glow）にしか届かない。
+Neovim 本体の緑は Catppuccin 側のパレットなので、`colorschema.lua` の
+`color_overrides` に明示的に渡さないと gitsigns add / diff / 文字列だけ
+公式の緑に取り残される。
+
 ### Neovim
 
 - テーマ本体: [`config/nvim/lua/config/core/theme.lua`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/config/nvim/lua/config/core/theme.lua)
@@ -55,14 +67,35 @@ Ghostty はここを書き換えるだけ（候補は `ghostty +list-themes`）�
 name = "catppuccin-latte"
 
 [theme.custom]
-panel_bg = "#dce0e8"
+panel_bg = "#d3d8e2"
 text = "#44455d"
-accent = "#3357ed"
+accent = "#2f9d44"
 ```
 
 ビルトインテーマ名を指定するだけ。`[theme.custom]` はトークン上書き（省略可）。
 `panel_bg` はペイン背景（Ghostty の `#e6e9ef`）より一段暗い Latte crust 相当にして
-「グレーのチュロームが明るいペインを囲む」構成を作る。設定リファレンスは
+「グレーのチュロームが明るいペインを囲む」構成を作る。
+
+ペイン枠線の色は 2 トークンに分かれる（枠線専用トークンは無い）。
+
+| 対象               | トークン                | 現在値                       |
+| ------------------ | ----------------------- | ---------------------------- |
+| フォーカス中の枠線 | `accent`                | `#2f9d44`（Claude Code ライトテーマの `diffAddedWord` と同色） |
+| 非フォーカスの枠線 | `overlay0`              | Latte 既定 `#9ca0b0` |
+
+`[ui] accent` も同じ用途だが `[theme.custom] accent` が優先されるため使っていない。
+`overlay0` は枠線専用ではなく **サイドバー見出し（`spaces` / `agents` など）と区切り記号**
+にも使われるため、枠線のコントラストを稼ぐ目的で薄くしてはいけない。
+
+緑を選ぶときの基準:
+
+- WCAG コントラストより **OKLCH 色相**が効く。147° 前後の青緑寄りは澄んで見え、
+  141° 以下の黄緑寄りはオリーブに濁る（Latte 公式 green `#40a02b` は 140°）
+- Ghostty 側の `alpha-blending = linear` と `adjust-box-thickness = 115%` で
+  罫線は指定値より暗く・太く描かれる。ライトテーマでは一段明るい値を選ぶ
+- フォーカス/非フォーカスの判別性は輝度比ではなく OKLab ΔE で見る（現在 0.200）
+
+設定リファレンスは
 <https://herdr.dev/docs/configuration/> を参照。`catppuccin-latte` / `tokyo-night-day` /
 `gruvbox-light` などのライト variant もある（候補は `herdr --default-config` のコメント参照）。
 

@@ -11,11 +11,14 @@ return {
       require("catppuccin").setup({
         flavour = theme.variant,
         transparent_background = theme.transparent_background,
-        -- 背景はターミナル (Ghostty) と揃える。単一ソースは theme.toml
+        -- 背景はターミナル (Ghostty) と揃える。単一ソースは home/theme.nix
+        -- green は herdr の accent と揃えた非公式値のため、ここで上書きしないと
+        -- gitsigns add / diff / 文字列だけ公式 Latte の緑に取り残される
         color_overrides = {
           [theme.variant] = {
             base = palette.base,
             mantle = palette.mantle,
+            green = palette.green,
           },
         },
         custom_highlights = function(colors)

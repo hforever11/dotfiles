@@ -7,12 +7,18 @@ onboarding = false
 # home/theme.nix と同じ Catppuccin Latte 相当のビルトイン
 name = "catppuccin-latte"
 
-# チュロームはペイン背景 (#dce0e8) より一段暗くする。文字/アクセントは herdr 公式サイト実測値
+# チュロームはペイン背景 (#dce0e8) より一段暗くする。text は herdr 公式サイト実測値
 auto_switch = false
 [theme.custom]
 panel_bg = "#d3d8e2"
 text = "#44455d"
-accent = "#3357ed"
+# accent はフォーカス中ペインの枠線とタブバー/navigate の文字色。Claude Code
+# ライトテーマの diffAddedWord と同色。Ghostty の alpha-blending = linear と
+# adjust-box-thickness = 115% で罫線が実際の値より暗く沈むため、success #2c7a39
+# ではなく一段明るいこちらを使う
+# (非フォーカス枠の overlay0 #9ca0b0 との OKLab ΔE は 0.200。overlay0 は
+#  サイドバー見出しにも使われるため薄くして差を稼ぐことはしない)
+accent = "#2f9d44"
 
 [keys]
 # tmux と同じ prefix (C-s)
