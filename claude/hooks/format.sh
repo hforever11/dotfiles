@@ -52,9 +52,11 @@ py)
     fi
   fi
   ;;
-sh | bash)
-  # shfmt は .editorconfig をネイティブに読む → それを設定の存在条件とする
-  find_up "$dir" .editorconfig >/dev/null && run shfmt -w "$file"
+nix)
+  # flake に formatter が宣言されているプロジェクトだけ、その formatter に任せる (nix fmt は flake のあるディレクトリで実行する)
+  if cfg="$(find_up "$dir" flake.nix)" && grep -q 'formatter' "$cfg"; then
+    (cd "$(dirname "$cfg")" && run nix fmt -- "$file")
+  fi
   ;;
 js | jsx | ts | tsx | json | jsonc | css | scss | md | yaml | yml | html | vue | svelte)
   if cfg="$(find_up "$dir" biome.json biome.jsonc)"; then
