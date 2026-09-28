@@ -48,7 +48,7 @@ brew に残している個別の理由 (vault, libpq, ripgrep) は `darwin/homeb
   nvim は `config/nvim/lua/config/core/theme.lua` が palette.lua を dofile、
   statusline は palette.sh を source、Ghostty は `config-file` で ghostty を読む
 - **herdr**: `~/.config/herdr` に session.json / ソケットを書くため config.toml のみファイル単位リンク
-- **~/.claude**: ランタイム状態を含むため `agents` / `hooks` / `skills` だけリンクする。
+- **~/.claude**: ランタイム状態を含むため、`claude/` にある設定 (settings.json, CLAUDE.md, hooks, skills など) だけをリンクする ([設定メモ](claude/recommended-settings.md))。
   Claude Code が同期する組織スキルは `claude/skills/synced/` に書かれるので gitignore している
 - **lazy-lock.json**: 直リンクのため、Neovim が書き戻した内容がそのままリポジトリで追跡される
 - **コンテナ**: ランタイムは colima (`home/colima.nix`)。launchd agent がログイン時に

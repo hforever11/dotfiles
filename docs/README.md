@@ -39,3 +39,8 @@
 ## Theme
 
 - [Theme Notes](theme.md)
+
+## Claude Code
+
+- [Claude Code 設定メモ](claude/recommended-settings.md)
+- [開発スタイル](claude/dev-style.md)

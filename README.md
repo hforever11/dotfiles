@@ -11,7 +11,7 @@ Nix の役割は「パッケージの導入」「`config/` へのシンボリッ
 |---|---|
 | `config/` | 各ツールの設定。`~/.config/*` へ直リンクされ、**編集は即反映** (rebuild 不要) |
 | `bin/` | `~/.local/bin` へリンクされるスクリプト |
-| `claude/` | `~/.claude/{agents,hooks,skills}` へリンク |
+| `claude/` | Claude Code のグローバル設定。`~/.claude/` へリンク ([設定メモ](docs/claude/recommended-settings.md)) |
 | `flake.nix` | エントリポイント。構成は `mac` の 1 つ (仕事用・個人用で共通) |
 | `modules/identity.nix` | ユーザー名とリポジトリの場所 |
 | `darwin/default.nix` | macOS 本体の設定 (キーリピート, Dock, Touch ID sudo など) |

@@ -10,7 +10,6 @@
 > ④ subagent は 5 段までネスト可能に（v2.1.172）。frontmatter `memory: persistent` で永続メモリも持てる
 > ⑤ skill frontmatter に `paths`（glob でパス連動の自動有効化）と `context: fork` が追加（§B 補足参照）
 > ⑥ クラウドプランニング **ultraplan** 登場（§A 参照）
-> モデル情勢（Sonnet 5 デフォルト化・Fable 5）は [recommended-settings.md](./recommended-settings.md) を参照。
 
 ## 1. いきなり実装させない（Plan Mode 起点）
 
@@ -62,12 +61,12 @@
 
 ## 自分用の次の一手
 
-土台（TDD・CLAUDE.md・厳格 permissions）は既に上級者寄り。差分として効くもの:
+土台（CLAUDE.md・厳格 permissions）は既に上級者寄り。差分として効くもの:
 
 1. **Plan Mode を習慣化** — 着手前に spec 化 → 別 Claude でレビュー
 2. **CLAUDE.md の“その場追記”運用** — ミスを見たら即追記
 3. **worktree 並列** — 独立タスクを別 worktree で並走
-4. **TDD を subagent 分離で** — テスト作成と実装を別 context に
+4. **TDD を subagent 分離で** — テスト作成と実装を別 context に（2026-07 に agents / skill を用意したが使わなかったため削除済み。再導入するなら §B を参照）
 
 ---
 
@@ -329,5 +328,4 @@ plan mode を抜けて依頼するだけ:
 
 ## 関連ドキュメント
 
-- [`recommended-settings.md`](./recommended-settings.md) — グローバル設定推奨事項（モデル情勢・permissions・statusline）
-- [`gap-analysis.md`](./gap-analysis.md) — 現運用とのギャップ分析・推奨アクション
+- [`recommended-settings.md`](./recommended-settings.md) — 現在のグローバル設定と設計意図（permissions・hook・statusline）
