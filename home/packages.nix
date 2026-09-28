@@ -50,7 +50,7 @@
     lazydocker
 
     # ===== Kubernetes / Infrastructure =====
-    tenv
+    # tofu は mise 管理 (config/mise/config.toml)
     k9s
     fluxcd
     talosctl
