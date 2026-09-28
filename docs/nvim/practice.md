@@ -1,6 +1,6 @@
 # Neovim Editing 練習帳
 
-[editing-cheatsheet](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/docs/nvim/editing-cheatsheet.md) の内容を手で動かして覚えるための課題集。
+[editing-cheatsheet](editing-cheatsheet.md) の内容を手で動かして覚えるための課題集。
 
 ## 使い方
 

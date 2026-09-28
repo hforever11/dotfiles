@@ -211,4 +211,4 @@ git config --global ghq.completeUser false
 
 fzf のプレビューには eza のツリー表示 (2階層) が表示される。
 
-`Ctrl + t` は既存 workspace があれば focus、無ければ作成する。詳細は [herdr Commands](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/docs/herdr/COMMANDS.md) 参照。
+`Ctrl + t` は既存 workspace があれば focus、無ければ作成する。詳細は [herdr Commands](../herdr/COMMANDS.md) 参照。

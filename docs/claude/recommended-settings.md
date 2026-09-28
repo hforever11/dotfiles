@@ -352,7 +352,7 @@ Fable 5 │ ◐ 89% │ dotfiles │ ⎇ main *↑2 │ +120 -15
 
 ### 構成
 
-- スクリプト本体: [`dot_config/claude/executable_statusline.sh`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/dot_config/claude/executable_statusline.sh)
+- スクリプト本体: [`config/claude/statusline.sh`](../../config/claude/statusline.sh)
   - chezmoi 経由で `~/.config/claude/statusline.sh` に展開（実行ビット付き）
 - 依存: `jq` / `git`（ともに既にインストール済み）
 - `~/.claude/settings.json`:

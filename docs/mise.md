@@ -6,7 +6,7 @@
 ## 方針
 
 - ランタイム本体は `mise` で入れる
-- Homebrew は `mise` 自体とユーティリティ配布に寄せ、ランタイム本体の二重管理は避ける
+- `mise` 自体は nix (`home/mise.nix`) で入れる。ランタイム本体を nix / Homebrew と二重管理しない
 - `npm` は `node` に同梱されるものを使う
 - 特定プロジェクトだけ別 version が必要なら、その repo に `.mise.toml` を置く
 - Rust は `mise` 経由で管理し、内部的な `rustup` は `mise` backend に任せる
@@ -14,23 +14,24 @@
 
 ## グローバル設定
 
-[`config/mise/config.toml`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/config/mise/config.toml) では次を管理する。
+[`config/mise/config.toml`](../config/mise/config.toml) では次を管理する。
 
 - `node = "lts"`: npm を含む Node.js は LTS を使う
 - `python = "3.14"`: Python は minor を固定しつつ patch を追従する
 - `go = "1.25"`: Go は minor を固定する
-- `deno = "latest"` / `uv = "latest"`: 更新追従を優先する
+- `deno = "2"` / `uv = "0"`: major だけ固定して更新に追従する
+- `opentofu = "latest"`: `tofu` はここで管理する (nix 側に tenv は置かない)
 - `rust = { version = "stable", profile = "default", components = "rust-src" }`: stable toolchain と主要 component を揃える
 
 ## 初期化フロー
 
-- [`config/zsh/.zshenv`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/config/zsh/.zshenv) で Homebrew の PATH を読み込んだあとに `mise` shim を先頭に置く
-- [`config/zsh/.zshrc`](/Users/sfukunaga/ghq/github.com/hforever11/dotfiles/config/zsh/.zshrc) で `mise activate zsh` を読み込む
-- この順番で、interactive shell だけでなく Neovim / LSP / non-interactive shell でも `mise` 管理ランタイムを優先できる
+- [`config/zsh/.zshenv`](../config/zsh/.zshenv) で Homebrew の PATH を読み込んだあとに `mise` shim を先頭に置く
+- [`config/zsh/.zshrc`](../config/zsh/.zshrc) は `mise activate` を使わず shims 方式。`mise env` の結果 (PATH 以外) だけをキャッシュして読む
+- shims 方式なので、interactive shell だけでなく Neovim / LSP / non-interactive shell でも `mise` 管理ランタイムを優先できる
 
 ## Bootstrap
 
-`home/default.nix` の `home.activation.miseInstall` が switch のたびに `mise install -y` を実行する。
+`home/mise.nix` の `home.activation.miseInstall` が switch のたびに `mise install -y` を実行する。
 Homebrew 側は `darwin/homebrew.nix` の宣言を `darwin-rebuild switch` 時に同期する。
 
 そのため、rebuild 後に `config/mise/config.toml` の内容がまとめて反映される。
