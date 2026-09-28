@@ -109,7 +109,7 @@ accent = "#2f9d44"
 
 ### Claude Code (statusline)
 
-- 本体: [`config/claude/statusline.sh`](../config/claude/statusline.sh)
+- 本体: [`claude/statusline.sh`](../claude/statusline.sh)
   が生成済みの `~/.config/theme/palette.sh` を実行時に `source` する
 
 色は `home/theme.nix` から home-manager が注入するため、テーマ変更に自動追従する。

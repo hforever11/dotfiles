@@ -29,11 +29,16 @@ in
     "starship".source = link "config/starship";
     "zsh".source = link "config/zsh";
     "zsh-abbr".source = link "config/zsh-abbr";
-    "claude/statusline.sh".source = link "config/claude/statusline.sh";
   };
 
   home.file = {
-    # ~/.claude はランタイム状態を含むため、管理対象のサブディレクトリだけリンクする
+    # ~/.claude はランタイム状態 (セッション履歴など) を含むため、管理対象だけリンクする。
+    # settings.json は Claude Code が書き戻す (権限の許可, /effort 等) が、リンクを保ったまま
+    # リンク先を更新するので、変更はリポジトリの差分として現れる
+    ".claude/settings.json".source = link "claude/settings.json";
+    ".claude/CLAUDE.md".source = link "claude/CLAUDE.md";
+    ".claude/keybindings.json".source = link "claude/keybindings.json";
+    ".claude/statusline.sh".source = link "claude/statusline.sh";
     ".claude/hooks".source = link "claude/hooks";
     ".claude/skills".source = link "claude/skills";
 

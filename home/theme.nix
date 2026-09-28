@@ -80,7 +80,7 @@ in
     return M
   '';
 
-  # claude statusline (config/claude/statusline.sh) が source で読む
+  # claude statusline (claude/statusline.sh) が source で読む
   xdg.configFile."theme/palette.sh".text = ''
     # home/theme.nix から home-manager が生成する。編集は theme.nix 側で行うこと
     ${lib.concatStringsSep "\n" (lib.mapAttrsToList (n: v: "THEME_${lib.toUpper n}=\"${v}\"") p)}
