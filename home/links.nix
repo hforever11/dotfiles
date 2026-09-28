@@ -34,7 +34,6 @@ in
 
   home.file = {
     # ~/.claude はランタイム状態を含むため、管理対象のサブディレクトリだけリンクする
-    ".claude/agents".source = link "claude/agents";
     ".claude/hooks".source = link "claude/hooks";
     ".claude/skills".source = link "claude/skills";
 
