@@ -4,7 +4,7 @@
   imports = [
     ./packages.nix
     ./links.nix
-    ./generated.nix
+    ./theme.nix
     ./git.nix
     ./colima.nix
     ./mise.nix

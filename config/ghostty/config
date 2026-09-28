@@ -1,8 +1,10 @@
 # Theme
 # ghostty +list-themes
 theme = Catppuccin Latte
-# 眩しさを抑えるため背景を Latte crust 相当まで落とす。文字色は herdr 公式サイト実測値
-background = #dce0e8
+# 背景色は home/theme.nix の base から生成したファイルを読む (Neovim 等と同じ値にするため)。
+# 読み込みはこのファイルの後なので、ここに background を書いても上書きされる
+config-file = ?~/.config/theme/ghostty
+# 文字色は herdr 公式サイト実測値
 foreground = #44455d
 
 # Font
