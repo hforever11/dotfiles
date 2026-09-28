@@ -26,7 +26,13 @@
     pkgs.maple-mono.NF
   ];
 
-  security.pam.services.sudo_local.touchIdAuth = true;
+  security.pam.services.sudo_local = {
+    touchIdAuth = true;
+    # herdr server は tmux server と同じくデタッチして生き延びるため、ペイン内の
+    # sudo は起動時の bootstrap session から切り離され Touch ID が出せなくなる。
+    # pam_reattach でセッションに再接続する (pam_tid より前に読ませる必要がある)
+    reattach = true;
+  };
 
   # caps_lock → right_control (旧 Karabiner の simple_modification を macOS 標準の
   # hidutil に移行)。nix-darwin の remapCapsLockToControl は left_control 固定のため
