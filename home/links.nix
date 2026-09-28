@@ -1,5 +1,5 @@
 # リポジトリへの直リンク (編集が即反映される。rebuild 不要)。
-# テーマ・ホスト依存の生成物は generated.nix / git.nix 側
+# テーマ色から生成するファイルは theme.nix 側
 { config, osConfig, ... }:
 let
   inherit (osConfig.my) dotfilesDir;
@@ -19,6 +19,7 @@ in
     "bat".source = link "config/bat";
     "delta".source = link "config/delta";
     "ghostty".source = link "config/ghostty";
+    "git".source = link "config/git";
     # herdr は同ディレクトリに session.json / ログ / ソケットを書くため、ファイル単位でリンクする
     "herdr/config.toml".source = link "config/herdr/config.toml";
     "lazygit".source = link "config/lazygit";

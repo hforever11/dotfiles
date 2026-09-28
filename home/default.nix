@@ -1,11 +1,14 @@
-# home-manager のエントリポイント。設定の実体は関心ごとの各モジュール側
+# home-manager のエントリポイント。
+#   packages.nix : CLI パッケージ
+#   links.nix    : config/ 等へのシンボリックリンク
+#   theme.nix    : テーマ色から生成する設定ファイル
+#   colima.nix / mise.nix : launchd や activation を伴うツール
 { ... }:
 {
   imports = [
     ./packages.nix
     ./links.nix
     ./theme.nix
-    ./git.nix
     ./colima.nix
     ./mise.nix
   ];

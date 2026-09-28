@@ -1,0 +1,4 @@
+# dotfiles リポジトリ限定で pre-commit フック (nixfmt --check) を有効化する。
+# 相対パスは作業ツリーのルート基準
+[core]
+	hooksPath = .githooks

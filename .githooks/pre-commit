@@ -1,5 +1,5 @@
 #!/bin/sh
-# ステージ済み .nix ファイルを nixfmt --check する。core.hooksPath 経由で自動有効化 (home/git.nix)
+# ステージ済み .nix ファイルを nixfmt --check する。core.hooksPath 経由で自動有効化 (config/git/dotfiles-repo.gitconfig)
 
 command -v nixfmt >/dev/null 2>&1 || exit 0
 

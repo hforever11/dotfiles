@@ -1,6 +1,12 @@
-# ユーザー識別 (ホスト依存の includeIf) は home-manager (home/git.nix) が生成する
+# ===== ユーザー識別 =====
+# 相対パスはこのファイル (~/.config/git/) 基準
+[includeIf "gitdir:~/ghq/github.com/hforever11/"]
+	path = personal.gitconfig
+[includeIf "gitdir:~/ghq/github.com/hforever11/dotfiles/"]
+	path = dotfiles-repo.gitconfig
+# マシン固有 (仕事用 identity の includeIf など)。gitignore 対象で、無ければ無視される
 [include]
-	path = identity.gitconfig
+	path = local.gitconfig
 
 [core]
 	quotepath = false

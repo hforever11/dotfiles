@@ -20,32 +20,24 @@
       nix-darwin,
       home-manager,
     }:
-    let
-      mkHost =
-        hostModule:
-        nix-darwin.lib.darwinSystem {
-          modules = [
-            ./darwin
-            ./modules/identity.nix
-            hostModule
-            home-manager.darwinModules.home-manager
-            (
-              { config, ... }:
-              {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-                # 既存ファイルと衝突したら .pre-nix に退避して置き換える (再インストール時の安全弁)
-                home-manager.backupFileExtension = "pre-nix";
-                home-manager.users.${config.my.username} = import ./home;
-              }
-            )
-          ];
-        };
-    in
     {
-      darwinConfigurations = {
-        work = mkHost ./hosts/work.nix;
-        personal = mkHost ./hosts/personal.nix;
+      # 仕事用・個人用の Mac で共通。マシン固有の git identity は config/git/local.gitconfig (gitignore)
+      darwinConfigurations.mac = nix-darwin.lib.darwinSystem {
+        modules = [
+          ./darwin
+          ./modules/identity.nix
+          home-manager.darwinModules.home-manager
+          (
+            { config, ... }:
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              # 既存ファイルと衝突したら .pre-nix に退避して置き換える (再インストール時の安全弁)
+              home-manager.backupFileExtension = "pre-nix";
+              home-manager.users.${config.my.username} = import ./home;
+            }
+          )
+        ];
       };
 
       formatter.aarch64-darwin = nixpkgs.legacyPackages.aarch64-darwin.nixfmt;

@@ -3,6 +3,7 @@
 *~
 result
 config/zsh/.zcompdump
-hosts/*local.gitconfig
+# マシン固有の git 設定 (仕事用 identity など)。config/git/config が include する
+config/git/*local.gitconfig
 # ~/.claude/skills をディレクトリごとリンクしているため、Claude Code が同期する組織スキルがここに書かれる
 claude/skills/synced/

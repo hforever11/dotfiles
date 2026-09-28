@@ -1,15 +1,5 @@
-# ホストごとの可変値 (旧 chezmoi の promptStringOnce / machine_type に相当)
+# darwin / home-manager の両方から参照する定数
 { lib, ... }:
-let
-  gitIdentity = lib.types.submodule {
-    options = {
-      name = lib.mkOption { type = lib.types.str; };
-      email = lib.mkOption { type = lib.types.str; };
-      # includeIf "gitdir:..." に使うため末尾スラッシュ必須
-      dir = lib.mkOption { type = lib.types.str; };
-    };
-  };
-in
 {
   options.my = {
     username = lib.mkOption {
@@ -22,7 +12,5 @@ in
       type = lib.types.str;
       default = "/Users/sfukunaga/ghq/github.com/hforever11/dotfiles";
     };
-
-    git.personal = lib.mkOption { type = gitIdentity; };
   };
 }

@@ -239,6 +239,6 @@ function compdump-refresh() {
 }
 
 function rebuild() {
-  sudo darwin-rebuild switch --flake ~/ghq/github.com/hforever11/dotfiles#work || return
+  sudo darwin-rebuild switch --flake ~/ghq/github.com/hforever11/dotfiles#mac || return
   compdump-refresh
 }
