@@ -24,8 +24,9 @@ Claude Code が同期する組織スキルは `claude/skills/synced/` に書か�
 ## `settings.json` の中身
 
 - `modelSettings`: Opus 5.5 は `effortLevel: xhigh`。全体の既定は `effortLevel: high`
-- `enabledPlugins`: pyright / lua / typescript / rust-analyzer の LSP, context7, skill-creator
-- `extraKnownMarketplaces`: karpathy-skills
+- `enabledPlugins`: pyright / lua / typescript / rust-analyzer の LSP, context7, skill-creator,
+  yomiyasu (日本語の推敲。[yomiyasu.md](yomiyasu.md))
+- `extraKnownMarketplaces`: karpathy-skills, yomiyasu
 - `env`: `BASH_DEFAULT_TIMEOUT_MS=180000` (3 分), `BASH_MAX_OUTPUT_LENGTH=30000` (context 消費抑制)
 - `attribution`: commit / PR とも空 (Co-Authored-By を付けない)
 - `hooks.PostToolUse`: Edit/Write 後に `~/.claude/hooks/format.sh` (下記)

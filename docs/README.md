@@ -44,3 +44,4 @@
 
 - [Claude Code 設定メモ](claude/recommended-settings.md)
 - [開発スタイル](claude/dev-style.md)
+- [yomiyasu (日本語の推敲スキル)](claude/yomiyasu.md)
