@@ -34,7 +34,7 @@
 
 ## Neovim
 
-- [Neovim Docs Index](nvim/README.md)
+- [Neovim 普段使い](nvim/README.md)
 
 ## Theme
 
