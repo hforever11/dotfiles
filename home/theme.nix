@@ -1,6 +1,7 @@
 # テーマの単一ソース。palette から各ツール向けの設定ファイルを ~/.config に生成する。
 # 生成しない (直リンクの設定に色を手書きしている) ため手動で合わせる箇所:
-#   config/herdr/config.toml [theme.custom] panel_bg = mantle / accent = green
+#   config/herdr/config.toml [theme.custom] panel_bg = mantle / accent = green / text = text
+#   config/delta/themes/catppuccin-latte.gitconfig file-style = text / plus 系 = green
 { lib, ... }:
 let
   name = "catppuccin";
@@ -13,7 +14,8 @@ let
     surface0 = "#ccd0da";
     surface1 = "#bcc0cc";
     overlay0 = "#9ca0b0";
-    text = "#4c4f69";
+    # 公式 #4c4f69 より少し濃い herdr 公式サイトの実測値 (Ghostty の文字色もここから生成)
+    text = "#44455d";
     rosewater = "#dc8a78";
     blue = "#1e66f5";
     red = "#d20f39";
@@ -33,6 +35,7 @@ in
   xdg.configFile."theme/ghostty".text = ''
     # home/theme.nix から home-manager が生成する。編集は theme.nix 側で行うこと
     background = ${p.base}
+    foreground = ${p.text}
   '';
 
   xdg.configFile."fzf/config".text = ''

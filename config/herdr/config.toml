@@ -7,7 +7,8 @@ onboarding = false
 # home/theme.nix と同じ Catppuccin Latte 相当のビルトイン
 name = "catppuccin-latte"
 
-# チュロームはペイン背景 (#dce0e8) より一段暗くする。text は herdr 公式サイト実測値
+# 生成できないため home/theme.nix と手動で揃える: panel_bg = mantle / text = text / accent = green。
+# チュロームはペイン背景 (base #dce0e8) より一段暗くする
 auto_switch = false
 [theme.custom]
 panel_bg = "#d3d8e2"

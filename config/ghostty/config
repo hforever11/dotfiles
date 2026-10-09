@@ -1,11 +1,9 @@
 # Theme
 # ghostty +list-themes
 theme = Catppuccin Latte
-# 背景色は home/theme.nix の base から生成したファイルを読む (Neovim 等と同じ値にするため)。
-# 読み込みはこのファイルの後なので、ここに background を書いても上書きされる
+# 背景色・文字色は home/theme.nix の base / text から生成したファイルを読む (Neovim 等と同じ値にするため)。
+# 読み込みはこのファイルの後なので、ここに background / foreground を書いても上書きされる
 config-file = ?~/.config/theme/ghostty
-# 文字色は herdr 公式サイト実測値
-foreground = #44455d
 
 # Font
 # ghostty +list-themes

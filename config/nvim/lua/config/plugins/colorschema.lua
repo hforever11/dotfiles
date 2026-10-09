@@ -6,20 +6,14 @@ return {
     lazy = false,
     config = function()
       local theme = require("config.core.theme")
-      local palette = theme.palette()
 
       require("catppuccin").setup({
         flavour = theme.variant,
         transparent_background = theme.transparent_background,
-        -- 背景はターミナル (Ghostty) と揃える。単一ソースは home/theme.nix
-        -- green は herdr の accent と揃えた非公式値のため、ここで上書きしないと
-        -- gitsigns add / diff / 文字列だけ公式 Latte の緑に取り残される
+        -- home/theme.nix のパレットを丸ごと渡し、公式から外した値 (base / mantle / text / green)
+        -- も含めて Ghostty / herdr / fzf 等と同じ色にする
         color_overrides = {
-          [theme.variant] = {
-            base = palette.base,
-            mantle = palette.mantle,
-            green = palette.green,
-          },
+          [theme.variant] = theme.palette(),
         },
         custom_highlights = function(colors)
           return {
