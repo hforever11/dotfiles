@@ -11,7 +11,9 @@ export XDG_CACHE_HOME="$HOME/.cache"
 
 # Tool-specific XDG paths
 export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/starship.toml"
+# 色は home/theme.nix が生成する FZF_DEFAULT_OPTS_FILE、それ以外はここ (fzf は両方を読む)
 export FZF_DEFAULT_OPTS_FILE="$XDG_CONFIG_HOME/fzf/config"
+export FZF_DEFAULT_OPTS="--height 40% --layout=reverse --border"
 # fd で .gitignore 準拠かつ隠しファイル込みの高速検索にする
 export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git"
 export FZF_ALT_C_COMMAND="fd --type d --hidden --follow --exclude .git"

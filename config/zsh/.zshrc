@@ -62,6 +62,9 @@ function init-cache() {
 
 # ===== Plugin Manager =====
 init-cache sheldon "${XDG_CONFIG_HOME:-$HOME/.config}/sheldon/plugins.toml" -- sheldon source
+# fzf-tab は既定で FZF_DEFAULT_OPTS を空にして fzf を呼ぶため、--border を効かせるには明示する
+# (--height / --layout は fzf-tab が自前で渡すので、効くのは --border だけ)
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
 
 # ===== Completions =====
 # nix の kubectl は補完ファイルを同梱しないので生成してキャッシュ

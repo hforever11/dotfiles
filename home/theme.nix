@@ -38,12 +38,9 @@ in
     foreground = ${p.text}
   '';
 
+  # 色だけを置く。レイアウト等の色以外の指定は config/zsh/.zshenv の FZF_DEFAULT_OPTS
   xdg.configFile."fzf/config".text = ''
-    # 色は home/theme.nix から home-manager が生成する。編集は theme.nix 側で行うこと
-    --height 40%
-    --layout=reverse
-    --border
-
+    # home/theme.nix から home-manager が生成する。編集は theme.nix 側で行うこと
     --color=bg+:${p.surface0},spinner:${p.rosewater},hl:${p.red}
     --color=fg:${p.text},header:${p.red},info:${p.mauve},pointer:${p.rosewater}
     --color=marker:${p.rosewater},fg+:${p.text},prompt:${p.mauve},hl+:${p.red}
