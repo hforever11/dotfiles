@@ -26,21 +26,19 @@ return {
       local function map(mode, l, r, desc)
         vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc, silent = true })
       end
+
+      -- ; と , で繰り返せるよう treesitter-textobjects の仕組みに載せる
+      local nav_hunk = require("nvim-treesitter-textobjects.repeatable_move").make_repeatable_move(function(opts)
+        if vim.wo.diff then
+          vim.cmd.normal({ opts.forward and "]c" or "[c", bang = true })
+        else
+          gs.nav_hunk(opts.forward and "next" or "prev")
+        end
+      end)
+
       -- stylua: ignore start
-      map("n", "]h", function()
-        if vim.wo.diff then
-          vim.cmd.normal({ "]c", bang = true })
-        else
-          gs.nav_hunk("next")
-        end
-      end, "Next Hunk")
-      map("n", "[h", function()
-        if vim.wo.diff then
-          vim.cmd.normal({ "[c", bang = true })
-        else
-          gs.nav_hunk("prev")
-        end
-      end, "Prev Hunk")
+      map("n", "]h", function() nav_hunk({ forward = true }) end, "Next Hunk")
+      map("n", "[h", function() nav_hunk({ forward = false }) end, "Prev Hunk")
       map("n", "]H", function() gs.nav_hunk("last") end, "Last Hunk")
       map("n", "[H", function() gs.nav_hunk("first") end, "First Hunk")
       map({ "n", "x" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
