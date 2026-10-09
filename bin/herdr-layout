@@ -1,0 +1,24 @@
+#!/bin/sh
+# 今いる herdr のペインを「左: nvim / 右: Claude Code を上下 2 段」に分割する。
+# 左右は半々 (1080p・font-size 14 で左 118 桁、右 117 桁 × 26 行)。
+# 右の 2 つはシェルに claude を入力して起動するので、claude を終了してもペインはシェルとして残る。
+#
+# usage: herdr-layout [nvim の引数...]
+
+set -eu
+
+if [ -z "${HERDR_PANE_ID:-}" ]; then
+  echo "herdr-layout: herdr のペインの中で実行してください" >&2
+  exit 1
+fi
+
+# herdr の JSON 出力から最初の pane_id を取り出す (herdr-navigate と同じ方法)
+pane_id() { grep -o '"pane_id":"[^"]*"' | head -1 | cut -d'"' -f4; }
+
+top=$(herdr pane split --current --direction right --ratio 0.5 --cwd "$PWD" --no-focus | pane_id)
+bottom=$(herdr pane split "$top" --direction down --ratio 0.5 --cwd "$PWD" --no-focus | pane_id)
+
+herdr pane run "$top" claude
+herdr pane run "$bottom" claude
+
+exec nvim "$@"
