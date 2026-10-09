@@ -7,3 +7,5 @@ config/zsh/.zcompdump
 config/git/*local.gitconfig
 # ~/.claude/skills をディレクトリごとリンクしているため、Claude Code が同期する組織スキルがここに書かれる
 claude/skills/synced/
+# 同じ理由で、Claude Code が消したスキルの退避先もここに作られる
+claude/skills/.trash/
