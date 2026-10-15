@@ -2,17 +2,17 @@
 
 ## 日常操作
 
-| やりたいこと | 操作 |
-|---|---|
-| nvim / zsh / ghostty / git 等の設定変更 | `config/` のファイルを直接編集。保存で即反映 (直リンク) |
-| CLI パッケージ追加 | `home/packages.nix` に追記 → rebuild |
-| GUI アプリ / nixpkgs に無いツール | `darwin/homebrew.nix` に追記 → rebuild |
-| ランタイム (node, python, go, tofu …) | `config/mise/config.toml` に追記 → `mise install` ([mise](mise.md)) |
-| テーマ変更 | `home/theme.nix` を編集 → rebuild ([Theme Notes](theme.md)) |
-| マシン固有の git identity | `config/git/local.gitconfig` (gitignore) を編集 ([Git User Switching](git/user-switching.md)) |
-| nixpkgs 更新 | `nix flake update` → rebuild |
-| 前世代に戻す | `sudo darwin-rebuild --rollback` |
-| 古い世代の掃除 | `nix-collect-garbage --delete-older-than 14d` |
+| やりたいこと                            | 操作                                                                                          |
+| --------------------------------------- | --------------------------------------------------------------------------------------------- |
+| nvim / zsh / ghostty / git 等の設定変更 | `config/` のファイルを直接編集。保存で即反映 (直リンク)                                       |
+| CLI パッケージ追加                      | `home/packages.nix` に追記 → rebuild                                                          |
+| GUI アプリ / nixpkgs に無いツール       | `darwin/homebrew.nix` に追記 → rebuild                                                        |
+| ランタイム (node, python, go, tofu …)   | `config/mise/config.toml` に追記 → `mise install` ([mise](mise.md))                           |
+| テーマ変更                              | `home/theme.nix` を編集 → rebuild ([Theme Notes](theme.md))                                   |
+| マシン固有の git identity               | `config/git/local.gitconfig` (gitignore) を編集 ([Git User Switching](git/user-switching.md)) |
+| nixpkgs 更新                            | `nix flake update` → rebuild                                                                  |
+| 前世代に戻す                            | `sudo darwin-rebuild --rollback`                                                              |
+| 古い世代の掃除                          | `nix-collect-garbage --delete-older-than 14d`                                                 |
 
 rebuild = `sudo darwin-rebuild switch --flake ~/ghq/github.com/hforever11/dotfiles#mac`
 (zsh 関数 `rebuild` として `config/zsh/.zshrc` に登録済み。補完キャッシュの作り直しも行う)
@@ -29,9 +29,9 @@ rebuild = `sudo darwin-rebuild switch --flake ~/ghq/github.com/hforever11/dotfil
 
 ### 削除する時
 
-| 追加先 | 削除方法 | 備考 |
-|---|---|---|
-| `home/packages.nix` (nix) | 該当行を削除して rebuild | 実体は nix store に残り続ける。ディスクを解放したい場合は別途 `nix-collect-garbage --delete-older-than 14d` |
+| 追加先                       | 削除方法                 | 備考                                                                                                                                                                 |
+| ---------------------------- | ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `home/packages.nix` (nix)    | 該当行を削除して rebuild | 実体は nix store に残り続ける。ディスクを解放したい場合は別途 `nix-collect-garbage --delete-older-than 14d`                                                          |
 | `darwin/homebrew.nix` (brew) | 該当行を削除して rebuild | `cleanup = "zap"` のため、宣言外の formula/cask は rebuild 時に自動アンインストールされる (手動 `brew uninstall` 不要。逆に brew で手動インストールしたものも消える) |
 
 brew に残している個別の理由 (vault, libpq, ripgrep) は `darwin/homebrew.nix` のコメントを参照。

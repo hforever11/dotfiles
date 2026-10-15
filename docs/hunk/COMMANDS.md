@@ -82,9 +82,9 @@ hunk session reload --repo . -- show HEAD~1         # 表示内容の差し替�
 
 ## 使い分け
 
-| 用途                         | ツール                                     |
-| ---------------------------- | ------------------------------------------ |
-| 1 ファイルの hunk 単位の確認 | gitsigns (`<leader>ghp` など)              |
-| 変更セット全体のレビュー     | hunk (`Prefix + Shift + H`)                |
-| ステージング・コミット       | lazygit (`<leader>lg` / `Prefix + g`)      |
-| ファイル履歴・コンフリクト   | lazygit                                    |
+| 用途                         | ツール                                |
+| ---------------------------- | ------------------------------------- |
+| 1 ファイルの hunk 単位の確認 | gitsigns (`<leader>ghp` など)         |
+| 変更セット全体のレビュー     | hunk (`Prefix + Shift + H`)           |
+| ステージング・コミット       | lazygit (`<leader>lg` / `Prefix + g`) |
+| ファイル履歴・コンフリクト   | lazygit                               |
