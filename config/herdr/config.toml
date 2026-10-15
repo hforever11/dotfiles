@@ -7,19 +7,28 @@ onboarding = false
 # home/theme.nix と同じ Catppuccin Latte 相当のビルトイン
 name = "catppuccin-latte"
 
-# 生成できないため home/theme.nix と手動で揃える: panel_bg = mantle / text = text / accent = green。
+# 生成できないため home/theme.nix と手動で揃える: panel_bg = mantle / text = text /
+# mauve・green・yellow・red・blue・teal・peach = 同名の色 (マット化したアクセント)。
 # チュロームはペイン背景 (base #dce0e8) より一段暗くする
 auto_switch = false
 [theme.custom]
 panel_bg = "#d3d8e2"
 text = "#44455d"
-# accent はフォーカス中ペインの枠線とタブバー/navigate の文字色。Claude Code
-# ライトテーマの diffAddedWord と同色。Ghostty の alpha-blending = linear と
-# adjust-box-thickness = 115% で罫線が実際の値より暗く沈むため、success #2c7a39
-# ではなく一段明るいこちらを使う
+# accent はフォーカス中ペインの枠線とタブバー/navigate の文字色。パレット外の固定値で、
+# Claude Code の diffAddedWord (差分の +12 -3 の数字) と同色。マット化した green
+# (#47894f) と色相は同じ 146° で、フォーカスの目印として鮮やかさを残している。
+# Ghostty の alpha-blending = linear と adjust-box-thickness = 115% で罫線が実際の値より
+# 暗く沈むため、success #2c7a39 ではなく一段明るいこちらを使う
 # (非フォーカス枠の overlay0 #9ca0b0 との OKLab ΔE は 0.200。overlay0 は
 #  サイドバー見出しにも使われるため薄くして差を稼ぐことはしない)
 accent = "#2f9d44"
+mauve = "#69499c"
+green = "#47894f"
+yellow = "#bd8a40"
+red = "#a03e43"
+blue = "#416bb0"
+teal = "#2a797c"
+peach = "#c46f49"
 
 [keys]
 # tmux と同じ prefix (C-s)

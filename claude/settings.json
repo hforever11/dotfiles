@@ -137,5 +137,5 @@
   },
   "tui": "fullscreen",
   "skipWorkflowUsageWarning": true,
-  "theme": "light"
+  "theme": "custom:dotfiles"
 }
