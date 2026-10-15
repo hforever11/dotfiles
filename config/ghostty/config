@@ -33,7 +33,9 @@ adjust-box-thickness = 115%
 alpha-blending = linear
 
 # macOS
-macos-titlebar-style = transparent
+# タイトルバーごと消す (信号機ボタン・フォルダアイコン・タイトルも出ない)。
+# ウィンドウの移動は option を押しながら枠をクリックしてドラッグする
+macos-titlebar-style = hidden
 macos-window-shadow = false
 
 # Window
