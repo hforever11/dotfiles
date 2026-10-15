@@ -1,7 +1,7 @@
 # テーマの単一ソース。palette から各ツール向けの設定ファイルを生成する。
 # 生成しない (直リンクの設定に色を手書きしている) ため手動で合わせる箇所:
-#   config/herdr/config.toml [theme.custom] panel_bg = mantle / text = text /
-#     mauve・green・yellow・red・blue・teal・peach = 同名の色 (accent はパレット外の固定値)
+#   config/herdr/config.toml [theme.custom] panel_bg = mantle / text = text / accent = blue /
+#     mauve・green・yellow・red・blue・teal・peach = 同名の色
 #   config/delta/themes/catppuccin-latte.gitconfig file-style = text / minus 系 = red / plus 系 = green /
 #     map-styles = mauve・blue・sky・yellow
 { lib, ... }:
@@ -26,7 +26,7 @@ let
     # アクセントは公式の色相のまま (ずれ 5° 以内。yellow だけは暗くすると茶色に濁るため黄色寄りへ +6°)
     # OKLCH の彩度を 0.075〜0.13 に揃え、鮮やかさを抑えた。
     # 彩度を落として近づく組 (mauve と blue、peach と yellow など) は明度の差で見分けられるようにしてある。
-    # green の色相は herdr の accent と同じ 146° (公式 #40a02b の 140° はライト背景だとオリーブに濁る)
+    # green の色相は Claude Code の差分の数字 (#2f9d44) と同じ 146° (公式 #40a02b の 140° はライト背景だとオリーブに濁る)
     rosewater = "#bc8175";
     flamingo = "#b77473";
     pink = "#b572a2";
@@ -123,7 +123,7 @@ in
   # サブエージェントの 8 色と ultrathink の虹色 7 色は、組で揃うよう全部置き換える。
   # 差分の色 (diff*) は置き換えない。diffAddedWord は「+12 -3 の数字の色」と「差分の単語ハイライトの背景」を
   # 兼ねていて、数字が読める濃さにするとハイライト上のコードが読めなくなるため。上書きしなければ差分は
-  # Claude Code 内蔵の配色で描かれ、数字は light の #2f9d44 になる (herdr の accent はこの色に合わせている)
+  # Claude Code 内蔵の配色で描かれ、数字は light の #2f9d44 になる (パレットの green はこの色と色相を揃えている)
   home.file.".claude/themes/dotfiles.json".text = builtins.toJSON {
     name = "Catppuccin ${title variant} (dotfiles)";
     base = "light";

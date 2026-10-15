@@ -35,7 +35,7 @@ Ghostty の背景色・文字色・ANSI 16 色向けの設定ファイルを生�
 公式の値は白に近い背景 `#eff1f5` 向けの明るさなので、二段暗くした背景の上では
 明るく鮮やかな色（peach / yellow / sky / pink など）ほど浮いて光って見えるため。
 彩度を落とすと近づく組（`mauve` と `blue`、`peach` と `yellow` など）は明度の差で見分けられるようにした。
-`green` の色相は herdr の `accent` と同じ 146°（公式 `#40a02b` の 140° はライト背景だとオリーブに濁る）。
+`green` の色相は Claude Code の差分の数字（`#2f9d44`）と同じ 146°（公式 `#40a02b` の 140° はライト背景だとオリーブに濁る）。
 
 Neovim は `colorschema.lua` がパレットを丸ごと `color_overrides` に渡すため、
 ここで変えた値は Catppuccin 本体のハイライト（gitsigns / diff / 文字列など）にも反映される。
@@ -45,7 +45,7 @@ Neovim は `colorschema.lua` がパレットを丸ごと `color_overrides` に�
 
 | ファイル                                         | 項目                                                                                                            | パレットのキー                                           |
 | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| `config/herdr/config.toml`                       | `[theme.custom]` の `panel_bg` / `text` / `mauve` `green` `yellow` `red` `blue` `teal` `peach`                  | `mantle` / `text` / 同名の色                             |
+| `config/herdr/config.toml`                       | `[theme.custom]` の `panel_bg` / `text` / `accent` / `mauve` `green` `yellow` `red` `blue` `teal` `peach`       | `mantle` / `text` / `blue` / 同名の色                    |
 | `config/delta/themes/catppuccin-latte.gitconfig` | `file-style` / `line-numbers-minus-style` / `line-numbers-plus-style` と minus 系・plus 系・`map-styles` の混色 | `text` / `red` / `green` / `mauve` `blue` `sky` `yellow` |
 
 ### Neovim
@@ -89,41 +89,51 @@ name = "catppuccin-latte"
 [theme.custom]
 panel_bg = "#d3d8e2"
 text = "#44455d"
-accent = "#2f9d44"
+accent = "#416bb0"
 mauve = "#69499c"
 green = "#47894f"
 # yellow / red / blue / teal / peach も同様
 ```
 
 ビルトインテーマ名を指定するだけ。`[theme.custom]` はトークン上書き（省略可）。
-herdr は別ファイルを読み込めないため、`panel_bg` / `text` と色名のトークン
+herdr は別ファイルを読み込めないため、`panel_bg` / `text` / `accent` と色名のトークン
 （`mauve` / `green` / `yellow` / `red` / `blue` / `teal` / `peach`。エージェントの状態表示などに使われる）は
-`home/theme.nix` の `mantle` / `text` / 同名の色と手動で同じ値にする。
+`home/theme.nix` の `mantle` / `text` / `blue` / 同名の色と手動で同じ値にする。
 `panel_bg` はペイン背景（`home/theme.nix` の `base`）より一段暗い `mantle` と同じ値にして
 「グレーのチュロームが明るいペインを囲む」構成を作る。
 
 ペイン枠線の色は 2 トークンに分かれる（枠線専用トークンは無い）。
 
-| 対象               | トークン   | 現在値                                                                 |
-| ------------------ | ---------- | ---------------------------------------------------------------------- |
-| フォーカス中の枠線 | `accent`   | `#2f9d44`（パレット外の固定値。Claude Code の `diffAddedWord` と同色） |
-| 非フォーカスの枠線 | `overlay0` | Latte 既定 `#9ca0b0`                                                   |
+| 対象               | トークン   | 現在値                         |
+| ------------------ | ---------- | ------------------------------ |
+| フォーカス中の枠線 | `accent`   | `#416bb0`（パレットの `blue`） |
+| 非フォーカスの枠線 | `overlay0` | Latte 既定 `#9ca0b0`           |
 
-`accent` だけはマット化せず、Claude Code の差分の数字（`+12 -3`）と同じ `#2f9d44` に合わせている
-（Claude Code 側でこの色を変えられない理由は「Claude Code」の節を参照）。
-色相はマット化した `green` と同じ 146° なので、同じ緑の強調版として馴染む。
+`accent` は枠線のほか、選択中のタブの背景や navigate モード・メニューの強調にも使われる。
+パレットの `blue` にしている理由:
+
+- herdr はエージェントの状態を `green`（idle の ✓）/ `teal`（done）/ `yellow`（working）/ `red`（blocked）で、
+  ブランチ名を `mauve` で表示する。`accent` が緑系だとフォーカス枠が idle の色に見えるため、
+  これらと被らない `blue` にする（`blue` トークンは in-app トーストにしか使われず、
+  `[ui.toast] delivery = "terminal"` では表示されない）
+- Neovim の浮動ウィンドウの枠（`FloatBorder`）と Claude Code の確認ダイアログの枠
+  （カスタムテーマの `permission`）も `blue` なので、アクティブな枠の色が揃う
+- herdr のビルトイン `catppuccin-latte` の `accent` も公式の blue `#1e66f5`。それをマット版にした値になる
 
 `[ui] accent` も同じ用途だが `[theme.custom] accent` が優先されるため使っていない。
 `overlay0` は枠線専用ではなく **サイドバー見出し（`spaces` / `agents` など）と区切り記号**
 にも使われるため、枠線のコントラストを稼ぐ目的で薄くしてはいけない。
 
-緑を選ぶときの基準:
+`accent` を選ぶときの基準:
 
-- WCAG コントラストより **OKLCH 色相**が効く。147° 前後の青緑寄りは澄んで見え、
-  141° 以下の黄緑寄りはオリーブに濁る（Latte 公式 green `#40a02b` は 140°）
+- エージェントの状態色（`green` / `teal` / `yellow` / `red`）や `mauve` に近い色は避ける
+- フォーカス/非フォーカスの判別性は輝度比ではなく OKLab ΔE で見る（`blue` は 0.201）。
+  Catppuccin のスタイルガイドはアクティブな枠を `lavender` としているが、
+  このパレットの `lavender` `#7684c6` は `overlay0` と色相が近く ΔE 0.110 しかない
+- 選択中のタブやメニュー項目では `accent` が背景、`panel_bg` が文字色になる。
+  `panel_bg` との輝度比が低い色は文字が読みにくい（`blue` は 3.7:1）
 - Ghostty 側の `alpha-blending = linear` と `adjust-box-thickness = 115%` で
-  罫線は指定値より暗く・太く描かれる。ライトテーマでは一段明るい値を選ぶ
-- フォーカス/非フォーカスの判別性は輝度比ではなく OKLab ΔE で見る（現在 0.200）
+  罫線は指定値より暗く・太く描かれる。暗く沈んで見える場合は一段明るい値を検討する
 
 設定リファレンスは
 <https://herdr.dev/docs/configuration/> を参照。`catppuccin-latte` / `tokyo-night-day` /
@@ -168,7 +178,7 @@ statusline の色とカスタムテーマはどちらも `home/theme.nix` から
   （関数名の紫や組み込み値の青）がほぼ読めなくなる。逆に明るくすると数字が背景に溶ける
 - 単語ハイライトだけ内蔵色のまま行の背景だけマットにすると、明るい単語ハイライトが浮いて見える
 
-そのため数字は light の `#2f9d44` のままで、herdr の `accent` をこの色に合わせている。
+そのため数字は light の `#2f9d44` のままにしている（パレットの `green` はこの色と色相を揃えている）。
 
 ### lazygit
 
