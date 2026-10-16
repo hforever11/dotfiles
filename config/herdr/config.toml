@@ -32,7 +32,8 @@ peach = "#c46f49"
 # tmux と同じ prefix (C-s)
 prefix = "ctrl+s"
 
-# goto (navigate モード) はデフォルトの prefix+g を lazygit に譲り、prefix+f で開く
+# goto (セッションナビゲーター: workspace/tab/pane のツリーを名前で絞り込んで移動) は
+# デフォルトの prefix+g を lazygit に譲り、prefix+f で開く
 goto = "prefix+f"
 
 # デフォルトの open_notification_target (prefix+o) は in-app トースト表示中しか効かず、
@@ -42,8 +43,8 @@ goto = "prefix+f"
 next_agent = "prefix+o"
 previous_agent = "prefix+shift+o"
 
-# navigate モード中は j/k で workspace を上下移動 (picker はフィルタ入力があるため
-# j/k を使えない。vim ライクな workspace 切替はこちらで行う)
+# navigate モード (prefix+w) 中は j/k で workspace を上下移動。
+# デフォルトでは j/k がペインの上下移動なので、ペインの上下は矢印キーに回す
 navigate_workspace_up = "k"
 navigate_workspace_down = "j"
 navigate_pane_up = "up"

@@ -32,7 +32,7 @@ herdr はエージェント監視が主目的なので **workspace = リポジ�
 
 | 単位      | 使い方                                              | 主な操作                                                                                        |
 | --------- | --------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| workspace | リポジトリ 1 つ (ghq のディレクトリ)                | `Ctrl + t` で作成/切替、`Prefix + w` でピッカー、`Prefix + f` で navigate モード (`j/k` で上下) |
+| workspace | リポジトリ 1 つ (ghq のディレクトリ)                | `Ctrl + t` で作成/切替、`Prefix + w` で navigate モード (`j/k` で上下)、`Prefix + f` で名前検索 |
 | tab       | 作業の種類 (実装 / 調査 / サーバー起動しっぱなし等) | `Prefix + c` 作成、`Prefix + 1-9` で直接切替 (`n/p` で順送り)                                   |
 | pane      | 画面分割 (nvim + Claude + シェルなど)               | `Prefix + v`/`-` 分割、`C-h/j/k/l` 移動                                                         |
 
@@ -59,6 +59,7 @@ herdr-layout README.md   # 引数はそのまま nvim に渡す
 - 左右は半々。1080p・font-size 14 で左 118 桁、右 117 桁 × 26 行。3 列に並べると 1 列 72〜90 桁になるので、横幅を優先してこの形にしている
 - フォーカスは左の nvim に残る
 - 右の 2 つはシェルに `claude` を入力して起動している。claude を終了してもペインはシェルとして残る
+- 右の claude で `/ide` を打って Neovim を選ぶと、左の nvim とつながる (選択範囲を渡せる、変更提案が nvim の diff で開く。[nvim 側の使い方](../nvim/README.md#claude-code-と並べて使う))
 - 本体は `bin/herdr-layout` (socket API の `herdr pane split` / `herdr pane run` を呼ぶだけ)。比率や起動するコマンドはここを直す
 
 ---
@@ -71,7 +72,7 @@ herdr は pane 内の Claude Code 等を自動検出し、状態をサイドバ�
 - 🟡 working: 実行中 — 放置してよい
 - 🔵 done / 🟢 idle: 完了・待機
 
-**`Prefix + o` で「通知のあったペイン」へ直接ジャンプ**できるので、
+**`Prefix + o` で入力待ちのエージェントへ直接ジャンプ** (連打で次のエージェントへ巡回) できるので、
 複数 workspace で Claude を並走させて、blocked になったものから順に対応する運用が基本形。
 
 デスクトップ通知は Ghostty 経由 (`[ui.toast] delivery = "terminal"`) なので、
@@ -134,8 +135,8 @@ herdr wait output <pane_id> --match 'All tests passed' --timeout 300000
 
 ## スクロールバックの扱い
 
-copy-mode はなく `Prefix + e` で nvim に開く方式。長い出力から拾うときは
-nvim の `/` 検索・visual yank がそのまま使えるので、tmux の copy-mode より速い。
+ちょっと見てコピーするならコピーモード (`Prefix + [`)。長い出力から拾うときは
+`Prefix + e` で nvim に開くと、`/` 検索・visual yank がそのまま使える。
 
 CLI から機械的に取るなら:
 

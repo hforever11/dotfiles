@@ -30,18 +30,35 @@ herdr --remote <ssh先>   # リモートの herdr サーバーにアタッチ
 
 ## ワークスペース操作 (tmux のセッション相当)
 
-| キー                 | 説明                                                                                     |
-| -------------------- | ---------------------------------------------------------------------------------------- |
-| `Ctrl + t` (シェル)  | ghq + fzf で workspace を作成/フォーカス                                                 |
-| `Prefix + w`         | workspace ピッカーを開く (絞り込み入力あり。上下は矢印キー)                              |
-| `Prefix + f`         | navigate モードを開く (`j/k` で workspace 上下、`h/l`・矢印でペイン移動、`Enter` で確定) |
-| `Prefix + Shift + n` | 新しい workspace を作成                                                                  |
-| `Prefix + Shift + w` | workspace 名を変更                                                                       |
-| `Prefix + Shift + d` | workspace を閉じる (確認あり)                                                            |
-| `Prefix + Shift + g` | git worktree から workspace を作成                                                       |
+| キー                 | 説明                                                                                                       |
+| -------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `Ctrl + t` (シェル)  | ghq + fzf で workspace を作成/フォーカス (zsh のプロンプトでのみ効く)                                      |
+| `Prefix + w`         | navigate モードを開く (`j/k` で workspace 上下、`1-9` で番号指定、`h/l`・矢印でペイン移動、`Enter` で確定) |
+| `Prefix + f`         | セッションナビゲーターを開く (workspace / tab / pane のツリー。`/` で名前検索)                             |
+| `Prefix + Shift + n` | 新しい workspace を作成                                                                                    |
+| `Prefix + Shift + w` | workspace 名を変更                                                                                         |
+| `Prefix + Shift + d` | workspace を閉じる (確認あり)                                                                              |
+| `Prefix + Shift + g` | git worktree から workspace を作成                                                                         |
 
-navigate モード (`Prefix + f`) 中は prefix アクションのキー部分がそのまま**選択中の workspace** に効く:
+navigate モード (`Prefix + w`) 中は prefix アクションのキー部分がそのまま**選択中の workspace** に効く:
 `j/k` で対象に合わせて `Shift + D` で削除 (確認あり)、`Shift + W` でリネームなど。移動せずに整理できる。
+サイドバーの workspace はマウスのドラッグで並べ替えられるので、常用するものを上に置けば `1-9` で直接選べる。
+
+### セッションナビゲーター (`Prefix + f`)
+
+workspace が多いときは名前で絞り込むのが速い: `Prefix + f` → `/` → 名前の一部 → `Enter`。
+
+| キー                | 説明                                                                                            |
+| ------------------- | ----------------------------------------------------------------------------------------------- |
+| `/`                 | 検索欄に入る (開いた直後は入っていない)。打ち始めると先頭の候補が選ばれる                       |
+| `j/k`・矢印         | 上下移動 (検索欄の中では矢印か `Ctrl + n/p`)                                                    |
+| `b` `w` `i` `d` `a` | エージェントの状態で絞り込む (blocked / working / idle / done / 全件)。`b` で入力待ちだけ残せる |
+| `Space`             | workspace を展開/折りたたみ                                                                     |
+| `Enter`             | 選んだ workspace / tab / pane へ移動                                                            |
+| `Esc`               | 検索欄から出る。もう一度押すと閉じる                                                            |
+
+検索は大文字小文字を区別しない部分一致で、スペースで区切ると AND になる (例: `dot nvim`)。fuzzy ではない。
+herdr には直前の workspace に戻るキーはない (`previous_workspace` / `next_workspace` はリスト上の隣へ移るだけ)。
 
 ---
 
@@ -110,9 +127,9 @@ prefix (`C-s`) はコピーモード中も生きているのでそのままペ�
 | `Prefix + Shift + h` | [hunk](../hunk/COMMANDS.md) (diff レビュー) をテンポラリペインで開く。`--watch` 付きなので Claude の編集に追従 |
 | `Ctrl + h/j/k/l`     | ペイン移動 (`type = "shell"` バインドが `herdr-navigate` を実行。herdr 0.7.4 以上必須)                         |
 
-※ デフォルトの `goto` (`Prefix + g`) は lazygit に譲り、navigate モードは `Prefix + f` に移設。
-picker はフィルタ入力を持つため `j/k` が文字入力になる。vim ライクに workspace を
-上下移動したいときは navigate モード (`Prefix + f`) を使う。
+※ デフォルトの `goto` (`Prefix + g`、セッションナビゲーター) は lazygit に譲り、`Prefix + f` に移設。
+navigate モード (`Prefix + w`) の workspace 上下はデフォルトの矢印キーから `j/k` に変更し、
+ペインの上下を矢印キーに回している (デフォルトではペインの上下が `j/k`)。
 
 `Ctrl + h/j/k/l` は herdr の `[[keys.command]] type = "shell"` バインドが
 `herdr-navigate` を呼び、socket API で最前面プロセスを判定して vim ならキー転送
