@@ -64,13 +64,18 @@ return {
       -- gd, gD, gr, gI は Snacks picker で定義済み
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
-          local opts = { buf = args.buf, silent = true }
-          vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-          vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-          vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, opts)
-          vim.keymap.set("n", "gl", vim.diagnostic.open_float, opts)
+          local function map(mode, lhs, rhs, desc)
+            vim.keymap.set(mode, lhs, rhs, { buf = args.buf, silent = true, desc = desc })
+          end
+          map("n", "K", vim.lsp.buf.hover, "Hover")
+          map("n", "<leader>rn", vim.lsp.buf.rename, "Rename symbol")
+          map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code action")
+          map("n", "gl", vim.diagnostic.open_float, "Line diagnostics")
           -- tsserver 等の診断キャッシュが古くなったときの復旧手段
           vim.keymap.set("n", "<leader>lR", "<cmd>LspRestart<cr>", { buf = args.buf, desc = "Restart LSP" })
+          -- 色コードの表示は nvim-highlight-colors に任せる。Neovim 0.12 から既定で有効な
+          -- LSP の色表示は背景を塗るうえ、プラグインの色見本と二重に出るので切る
+          vim.lsp.document_color.enable(false, { bufnr = args.buf })
           -- Inlay Hints トグル
           local client = vim.lsp.get_client_by_id(args.data.client_id)
           if client and client:supports_method("textDocument/inlayHint") then
@@ -224,11 +229,14 @@ return {
   -- Python venv選択
   {
     "linux-cultist/venv-selector.nvim",
-    dependencies = { "neovim/nvim-lspconfig", "nvim-telescope/telescope.nvim" },
+    dependencies = { "neovim/nvim-lspconfig" },
     cmd = { "VenvSelect", "VenvSelectCached", "VenvSelectCurrent" },
     keys = {
       { "<leader>cv", "<cmd>VenvSelect<cr>", desc = "Select Venv" },
     },
-    opts = {},
+    opts = {
+      -- 既定の "auto" は telescope を最優先するので、他の picker と揃えて snacks に固定する
+      options = { picker = "snacks" },
+    },
   },
 }
