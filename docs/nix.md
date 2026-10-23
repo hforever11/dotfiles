@@ -45,9 +45,9 @@ brew に残している個別の理由 (vault, libpq, ripgrep) は `darwin/homeb
 - **直リンク方式**: `config/` は `mkOutOfStoreSymlink` でリポジトリの絶対パスへリンクする。
   リポジトリを移動する場合は `modules/identity.nix` の `dotfilesDir` を変更する
 - **テーマ生成**: `home/theme.nix` が `~/.config/fzf/config`, `~/.config/hunk/config.toml`,
-  `~/.config/theme/{palette.lua,palette.sh,ghostty}` を生成する。
+  `~/.config/theme/{palette.lua,ghostty}` を生成する。
   nvim は `config/nvim/lua/config/core/theme.lua` が palette.lua を dofile、
-  statusline は palette.sh を source、Ghostty は `config-file` で ghostty を読む
+  Ghostty は `config-file` で ghostty を読む (starship と Claude Code の statusline は ANSI 16 色で書き、このパレットに従う)
 - **herdr**: `~/.config/herdr` に session.json / ソケットを書くため config.toml のみファイル単位リンク
 - **~/.claude**: ランタイム状態を含むため、`claude/` にある設定 (settings.json, CLAUDE.md, hooks, skills など) だけをリンクする ([設定メモ](claude/recommended-settings.md))。
   Claude Code が同期する組織スキルは `claude/skills/synced/` に書かれるので gitignore している

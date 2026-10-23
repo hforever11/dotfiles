@@ -31,7 +31,7 @@ Claude Code が同期する組織スキルは `claude/skills/synced/` に書か�
 - `attribution`: commit / PR とも空 (Co-Authored-By を付けない)
 - `hooks.PostToolUse`: Edit/Write 後に `~/.claude/hooks/format.sh` (下記)
 - `statusLine`: `~/.claude/statusline.sh` (下記)
-- `theme: light` / `tui: fullscreen` / `skipWorkflowUsageWarning: true`
+- `theme: custom:dotfiles` (`home/theme.nix` が生成する `~/.claude/themes/dotfiles.json`) / `tui: fullscreen` / `skipWorkflowUsageWarning: true`
 
 ## `permissions` の方針
 
@@ -66,14 +66,16 @@ Edit/Write したファイルに、**プロジェクトに設定がある format
 ## statusLine
 
 ```
-Opus 5.5 │ ◐ 89% │ dotfiles │ ⎇ main *↑2 │ +120 -15
+Opus 5.5 │ ◐ 89% │ dotfiles │ ⎇ main │ +120 -15
 ```
 
 - モデル名 (`(1M context)` などの suffix は剥がす) / context 使用率 (`<50%` 緑・`<80%` 黄・それ以上赤) /
-  プロジェクト名 / git branch (dirty `*`, ahead/behind `↑↓`, detached 時は SHA) / セッション中の追加・削除行数 /
-  output style (default 以外のとき)
-- 配色は `home/theme.nix` から生成される `~/.config/theme/palette.sh` を source する
-- jq と git はそれぞれ 1 回だけ呼ぶ (TSV にまとめて read、`git status --porcelain=v2` 1 回)
+  プロジェクト名 / git branch (detached 時は SHA) / セッション中の追加・削除行数
+- プロジェクト名は `workspace.project_dir` (起動したディレクトリ) から取るので、Claude が cd しても変わらない。
+  ブランチは `workspace.current_dir` (今いる場所) から取る
+- git の変更状態 (dirty・ahead/behind) は starship と同じく出さない。`git status` を走らせずに済む
+- 色は ANSI 16 色で書く。実際の色は Ghostty のパレット (`home/theme.nix`) が決める (starship と同じ)
+- jq は 1 回だけ呼び、TSV にまとめて read する
 - `context_window.used_percentage` は session 初期や `/compact` 直後に null になるので、その間は表示を省く
 
 ## 避けること

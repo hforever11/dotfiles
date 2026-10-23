@@ -112,12 +112,6 @@ in
     return M
   '';
 
-  # claude statusline (claude/statusline.sh) が source で読む
-  xdg.configFile."theme/palette.sh".text = ''
-    # home/theme.nix から home-manager が生成する。編集は theme.nix 側で行うこと
-    ${lib.concatStringsSep "\n" (lib.mapAttrsToList (n: v: "THEME_${lib.toUpper n}=\"${v}\"") p)}
-  '';
-
   # Claude Code のカスタムテーマ。claude/settings.json の "theme": "custom:dotfiles" で選ぶ。
   # light を土台に、鮮やかな色 (OKLCH の彩度 0.14 超) を同じ役割のパレットの色に置き換える。
   # サブエージェントの 8 色と ultrathink の虹色 7 色は、組で揃うよう全部置き換える。
