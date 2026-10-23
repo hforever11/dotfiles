@@ -50,6 +50,17 @@ navigate_workspace_down = "j"
 navigate_pane_up = "up"
 navigate_pane_down = "down"
 
+# resize モード (prefix+r) に入らず 1 打でペインの大きさを変える。
+# option+文字は配列によって Ghostty が記号入力にするため、矢印と組み合わせる
+resize_pane_left = "ctrl+shift+alt+left"
+resize_pane_down = "ctrl+shift+alt+down"
+resize_pane_up = "ctrl+shift+alt+up"
+resize_pane_right = "ctrl+shift+alt+right"
+
+# アクティブなタブを左右に並べ替える (端では反対側へ回り込む)
+move_tab_previous = "alt+shift+left"
+move_tab_next = "alt+shift+right"
+
 # lazygit をテンポラリペインで開く (tmux の prefix+g popup 相当)
 [[keys.command]]
 key = "prefix+g"
@@ -94,12 +105,30 @@ type = "pane"
 command = "hunk diff --watch"
 description = "hunk diff"
 
+# 外枠とタブバー右端のステータスの表示を切り替える ([ui] の該当行を herdr-toggle が書き換える)
+[[keys.command]]
+key = "prefix+shift+b"
+type = "shell"
+command = "herdr-toggle borders"
+description = "toggle outer borders"
+
+[[keys.command]]
+key = "prefix+shift+s"
+type = "shell"
+command = "herdr-toggle status"
+description = "toggle tab bar status"
+
 [ui]
 # blocked (入力待ち) のエージェントを一番上に出す
 agent_panel_sort = "priority"
+# herdr-toggle status がステータスと連動して切り替える
 hide_tab_bar_when_single_tab = true
 # 境界線を隣接ペインで共有して仕切りを薄くする (デフォルト true は隙間が太い)
 pane_gaps = false
+# 外枠を消し、tmux のようにペインの間の仕切り線だけにする (herdr-toggle borders で切り替え)
+pane_outer_borders = false
+# タブバー右端にズーム中の ZOOM と日時を出す (herdr-toggle status でコメントを付け外しする)
+# tab_bar_right = [{ type = "zoom" }, { type = "datetime", format = "%m/%d (%a) %H:%M" }]
 
 # エージェント状態変化は Ghostty のデスクトップ通知へ (tmux allow-passthrough と同じ役割)
 [ui.toast]

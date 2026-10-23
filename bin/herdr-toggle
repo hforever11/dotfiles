@@ -1,0 +1,42 @@
+#!/bin/sh
+# herdr の表示設定をトグルする (config.toml の type = "shell" バインドから呼ばれる)。
+# config.toml の該当行を書き換えて実行中のサーバーに再読み込みさせる。
+# config.toml はリポジトリへの直リンクなので、切り替えたままにすると git diff が出る。
+#
+# usage: herdr-toggle borders|status
+#   borders: ペイン領域の外枠 (pane_outer_borders)
+#   status:  タブバー右端のステータス (tab_bar_right)。表示中はタブが 1 つでもタブバーを出す
+
+set -eu
+
+# /bin/sh 経由の最小 PATH でも herdr を見つけられるよう nix profile を追加
+PATH="/etc/profiles/per-user/$(id -un)/bin:/run/current-system/sw/bin:$PATH"
+
+# sed -i はシンボリックリンクを実ファイルで置き換えてしまうので、リンク先を直接書き換える
+config=$(readlink -f "$HOME/.config/herdr/config.toml")
+
+case "${1:-}" in
+  borders)
+    if grep -q '^pane_outer_borders = true$' "$config"; then
+      sed -i '' 's/^pane_outer_borders = true$/pane_outer_borders = false/' "$config"
+    else
+      sed -i '' 's/^pane_outer_borders = false$/pane_outer_borders = true/' "$config"
+    fi
+    ;;
+  status)
+    if grep -q '^# tab_bar_right = ' "$config"; then
+      sed -i '' \
+        -e 's/^# tab_bar_right = /tab_bar_right = /' \
+        -e 's/^hide_tab_bar_when_single_tab = true$/hide_tab_bar_when_single_tab = false/' \
+        "$config"
+    else
+      sed -i '' \
+        -e 's/^tab_bar_right = /# tab_bar_right = /' \
+        -e 's/^hide_tab_bar_when_single_tab = false$/hide_tab_bar_when_single_tab = true/' \
+        "$config"
+    fi
+    ;;
+  *) echo "usage: herdr-toggle borders|status" >&2; exit 1 ;;
+esac
+
+exec herdr server reload-config
