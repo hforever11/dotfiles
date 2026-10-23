@@ -237,6 +237,11 @@ return {
     },
     image = {
       enabled = true,
+      -- herdr 経由だと Markdown 内の画像はインライン (スクロールが画像の高さ分飛ぶ) も
+      -- フロート (幅 1 セルの窓が本文に重なる) も崩れる。Markdown の画像は Arto で見る
+      doc = {
+        enabled = false,
+      },
     },
     gitbrowse = {
       enabled = true,
