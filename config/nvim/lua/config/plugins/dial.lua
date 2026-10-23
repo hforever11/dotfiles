@@ -15,6 +15,7 @@ return {
     local augend = require("dial.augend")
 
     require("dial.config").augends:register_group({
+      -- stylua: ignore
       default = {
         augend.integer.alias.decimal, -- 10進（負号は別単語として扱う）
         augend.integer.alias.hex,     -- 0xff

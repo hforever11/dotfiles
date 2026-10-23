@@ -20,6 +20,7 @@ return {
         ["cmp.entry.get_documentation"] = true,
       },
     },
+    -- stylua: ignore
     presets = {
       bottom_search = true,         -- 検索を下部に表示
       command_palette = true,       -- コマンドラインをポップアップに
@@ -27,6 +28,7 @@ return {
       lsp_doc_border = true,        -- LSPドキュメントに枠線
     },
   },
+  -- stylua: ignore
   keys = {
     { "<leader>sn",  "",                                             desc = "+noice" },
     { "<leader>snl", function() require("noice").cmd("last") end,    desc = "Last Message" },

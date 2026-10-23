@@ -18,6 +18,7 @@ return {
   dependencies = { "nvim-lua/plenary.nvim" },
   event = { "BufReadPost", "BufNewFile" },
   opts = {},
+  -- stylua: ignore
   keys = {
     -- Neovim 標準の ]t / [t (:tnext / :tprevious) は上書きする
     { "]t", function() jump(true) end,  desc = "Next TODO comment" },

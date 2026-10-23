@@ -25,7 +25,6 @@ keymap.set("x", "<", "<gv", { desc = "Indent left and reselect" })
 keymap.set("x", ">", ">gv", { desc = "Indent right and reselect" })
 keymap.set("n", "J", "mzJ`z", { desc = "Join lines keeping cursor position" })
 
-
 keymap.set("n", "i", function()
   return vim.fn.empty(vim.fn.getline(".")) == 1 and '"_cc' or "i"
 end, { expr = true, desc = "Insert with auto indent on empty line" })
@@ -52,6 +51,7 @@ local function q_prefix()
     return ""
   end
 
+  -- stylua: ignore
   local mappings = {
     q = "qq",             -- マクロ記録開始
     o = "<Cmd>only!<CR>", -- ウィンドウ1つに

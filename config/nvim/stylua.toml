@@ -1,0 +1,4 @@
+# 既存の書き方 (スペース 2 つ) に合わせる。桁を揃えた表は -- stylua: ignore で守る
+column_width = 140
+indent_type = "Spaces"
+indent_width = 2

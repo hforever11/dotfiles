@@ -12,8 +12,12 @@ return {
 
     -- index.tsx, init.lua など一般的すぎるファイル名
     local generic_names = {
-      index = true, init = true, main = true,
-      mod = true, lib = true, utils = true,
+      index = true,
+      init = true,
+      main = true,
+      mod = true,
+      lib = true,
+      utils = true,
     }
 
     local function get_diagnostic_label(props)
@@ -39,15 +43,15 @@ return {
       local fullpath = vim.api.nvim_buf_get_name(buf)
       local fname = vim.fn.fnamemodify(fullpath, ":t")
       local stem = vim.fn.fnamemodify(fname, ":r")
-      local dirname = generic_names[stem]
-        and vim.fn.fnamemodify(fullpath, ":h:t")
-        or nil
+      local dirname = generic_names[stem] and vim.fn.fnamemodify(fullpath, ":h:t") or nil
       return fname, dirname
     end
 
     local function render(props)
       local fname, dirname = get_display_name(props.buf)
-      if fname == "" then return "" end
+      if fname == "" then
+        return ""
+      end
 
       local ft_icon, ft_color = devicons.get_icon_color(fname)
       local has_error = #vim.diagnostic.get(props.buf, {
@@ -55,8 +59,7 @@ return {
       }) > 0
       local is_readonly = vim.bo[props.buf].readonly
 
-      local fg_name_active = has_error and palette.red
-        or (is_readonly and palette.overlay0 or fg_active)
+      local fg_name_active = has_error and palette.red or (is_readonly and palette.overlay0 or fg_active)
       local fg_name = props.focused and fg_name_active or fg_inactive
 
       return {

@@ -28,6 +28,7 @@ return {
         go = { "goimports", "gofumpt" },
         rust = { "rustfmt" },
         nix = { "nixfmt" },
+        lua = { "stylua" },
       },
       formatters = {
         biome_check = {

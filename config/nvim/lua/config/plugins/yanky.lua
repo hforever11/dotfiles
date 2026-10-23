@@ -4,6 +4,7 @@ return {
   dependencies = { "folke/snacks.nvim" },
   opts = {},
   -- p/P・インデント揃え・gp/gP は undo-glow 側で yanky_put 統合として定義している
+  -- stylua: ignore
   keys = {
     { "y", "<Plug>(YankyYank)", mode = { "n", "x" }, desc = "Yank (record to yank ring)" },
     { "<C-p>", "<Plug>(YankyPreviousEntry)", desc = "Previous yank ring entry" },

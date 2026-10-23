@@ -22,6 +22,7 @@ return {
       end,
     })
   end,
+  -- stylua: ignore
   keys = {
     { "<leader>pd", function() require("overlook.api").peek_definition() end, desc = "Peek definition" },
     { "<leader>pp", function() require("overlook.api").peek_cursor() end,     desc = "Peek cursor" },

@@ -26,6 +26,7 @@ return {
     -- 提案の diff は新しいタブで開く。編集中のウィンドウ配置を崩さず、閉じると元のタブに戻る
     diff_opts = { open_in_new_tab = true },
   },
+  -- stylua: ignore
   keys = {
     { "<leader>as", send_selection,                   mode = "x",                desc = "Send selection to Claude" },
     { "<leader>as", "<cmd>ClaudeCodeTreeAdd<cr>",     ft = "snacks_picker_list", desc = "Add file to Claude" },

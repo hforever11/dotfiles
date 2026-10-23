@@ -418,17 +418,18 @@ herdr の隣のペインの Claude Code とつないでいるときに使う。�
 
 `<leader>fm` で実行する。対応するフォーマッターがなければ LSP で整形する。
 
-| 言語                    | フォーマッター                                              |
-| ----------------------- | ----------------------------------------------------------- |
-| Python                  | ruff_format + ruff_fix                                      |
-| TypeScript / JavaScript | biome (`check --write --unsafe` なので unsafe な修正も入る) |
-| JSON                    | biome                                                       |
-| YAML / Markdown         | prettier                                                    |
-| Nix                     | nixfmt                                                      |
-| Go                      | goimports + gofumpt                                         |
-| Rust                    | rustfmt                                                     |
-| Terraform               | terraform_fmt                                               |
-| Shell / Bash            | shfmt                                                       |
+| 言語                    | フォーマッター                                                                |
+| ----------------------- | ----------------------------------------------------------------------------- |
+| Python                  | ruff_format + ruff_fix                                                        |
+| TypeScript / JavaScript | biome (`check --write --unsafe` なので unsafe な修正も入る)                   |
+| JSON                    | biome                                                                         |
+| YAML / Markdown         | prettier                                                                      |
+| Nix                     | nixfmt                                                                        |
+| Go                      | goimports + gofumpt                                                           |
+| Rust                    | rustfmt                                                                       |
+| Terraform               | terraform_fmt                                                                 |
+| Shell / Bash            | shfmt                                                                         |
+| Lua                     | stylua (`config/nvim/stylua.toml`。桁を揃えた表は `-- stylua: ignore` で守る) |
 
 ### CSV View
 

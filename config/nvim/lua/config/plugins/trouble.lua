@@ -5,6 +5,7 @@ return {
     focus = true,
   },
   cmd = "Trouble",
+  -- stylua: ignore
   keys = {
     { "<leader>xw", "<cmd>Trouble diagnostics toggle<CR>",              desc = "Open trouble workspace diagnostics" },
     { "<leader>xd", "<cmd>Trouble diagnostics toggle filter.buf=0<CR>", desc = "Open trouble document diagnostics" },

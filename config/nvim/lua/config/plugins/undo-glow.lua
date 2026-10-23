@@ -28,8 +28,7 @@ return {
     end
 
     local function put(mode, lhs, action, desc)
-      vim.keymap.set(mode, lhs, yanky_put(action),
-        { expr = true, remap = true, desc = desc })
+      vim.keymap.set(mode, lhs, yanky_put(action), { expr = true, remap = true, desc = desc })
     end
 
     put("n", "p", "YankyPutAfter", "Put after with highlight")
