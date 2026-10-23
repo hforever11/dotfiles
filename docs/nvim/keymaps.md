@@ -40,7 +40,7 @@ Leader は `<Space>`。押して待つと which-key が続きの候補を出す�
 | csvview.nvim                | `<leader>uv`、CSV の中の `if` `af` `<Tab>` `<Enter>`                                                  | [CSV View](#csv-view)                                            |
 | venv-selector.nvim          | `<leader>cv`                                                                                          |                                                                  |
 | claudecode.nvim             | `<leader>a*`                                                                                          | [Claude Code](#leadera-claude-code)                              |
-| arto.vim                    | `:Arto` (キーなし)                                                                                    | [Markdown](#markdown)                                            |
+| arto.vim                    | `<leader>m` (Markdown のときだけ)、`:Arto`                                                            | [Markdown](#markdown)                                            |
 | lazy.nvim / mason.nvim      | キーなし。`:Lazy` / `:Mason` で開く                                                                   | [lazy.nvim](#lazynvim-lazy)、[Mason](#mason-mason)               |
 
 キーを持たず自動で動くもの: nvim-autopairs (括弧を閉じる)、nvim-ts-autotag (タグを閉じる)、which-key (候補を出す)、incline (右下のファイル名)、satellite (スクロールバー)、vimade (非アクティブなウィンドウを薄く)、modes (モードで色を変える)、nvim-early-retirement (古いバッファを閉じる)、fidget (LSP の進捗)、vimdoc-ja (`:h` を日本語で開く)、nvim-highlight-colors (色コードの手前に色見本)。
@@ -181,6 +181,7 @@ Leader は `<Space>`。押して待つと which-key が続きの候補を出す�
 | `<leader>+` / `<leader>-` | `<C-a>` / `<C-x>` と同じ                                                          |
 | `<leader>n`               | snacks の通知履歴 (※ snacks の notifier を切っているので空。`<leader>snh` を使う) |
 | `<leader>nh`              | 検索ハイライトを消す                                                              |
+| `<leader>m`               | 開いている Markdown を Arto で開く (Markdown のときだけ)                          |
 
 ### `<leader>f` ファイル
 
@@ -445,8 +446,8 @@ herdr の隣のペインの Claude Code とつないでいるときに使う。�
 
 ### Markdown
 
-バッファでは生テキストのまま編集する (装飾表示はしない)。画像はインライン表示される (snacks.image)。
-GitHub と同じ見た目でじっくり読むときは `:Arto` で別窓のビューアに開く。
+バッファでは生テキストのまま編集する (装飾表示はしない)。Markdown 内の画像も描かない (herdr 経由だと崩れるため)。
+画像込みで、GitHub と同じ見た目でじっくり読むときは `<leader>m` (`:Arto`) で別窓のビューアに開く。
 
 ### lazygit
 

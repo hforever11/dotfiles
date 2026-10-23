@@ -11,6 +11,7 @@
 | テーマ変更                              | `home/theme.nix` を編集 → rebuild ([Theme Notes](theme.md))                                   |
 | マシン固有の git identity               | `config/git/local.gitconfig` (gitignore) を編集 ([Git User Switching](git/user-switching.md)) |
 | nixpkgs 更新                            | `nix flake update` → rebuild                                                                  |
+| cask の更新                             | `brew update && brew upgrade --cask <name>` (rebuild では更新しない。`upgrade = false`)       |
 | 前世代に戻す                            | `sudo darwin-rebuild --rollback`                                                              |
 | 古い世代の掃除                          | `nix-collect-garbage --delete-older-than 14d`                                                 |
 
