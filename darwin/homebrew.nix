@@ -26,6 +26,10 @@
     casks = [
       "ghostty"
       "codex"
+      # op は unfree で、nix だと allowUnfree が要るため本体と揃えて cask にする。
+      # op をアプリで解錠するには 1Password の設定 > 開発者 > CLI と連携 を有効にする
+      "1password"
+      "1password-cli"
       "arto-app/tap/arto"
       "copilot-cli"
       "font-hackgen"
