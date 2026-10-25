@@ -52,10 +52,15 @@ function init-cache() {
     [[ $dep -nt $cache ]] && stale=1
   done
 
+  # herdr のセッション復元では多数のシェルが同時にここへ来る。他のシェルが書きかけの
+  # キャッシュや消した直後のキャッシュを source しないよう、消すのは旧バージョン名だけにし、
+  # 現行名は一時ファイルからの mv (アトミックな置き換え) でしか触らない
   if (( stale )); then
     mkdir -p -- "$ZSH_INIT_CACHE"
-    rm -f -- "$ZSH_INIT_CACHE/${cmd}-"*.zsh(N)
-    "$@" > "$cache"
+    local -a old=("$ZSH_INIT_CACHE/${cmd}-"*.zsh(N))
+    rm -f -- ${old:#$cache}
+    "$@" > "$cache.$$"
+    mv -f -- "$cache.$$" "$cache"
   fi
   source "$cache"
 }
