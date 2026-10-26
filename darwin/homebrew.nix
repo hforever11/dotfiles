@@ -36,7 +36,6 @@
       "font-udev-gothic-nf"
       "raycast"
       "session-manager-plugin"
-      "visual-studio-code"
     ];
   };
 }

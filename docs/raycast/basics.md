@@ -136,7 +136,6 @@ URL テンプレートに引数を渡して即検索。`{argument}` がクエリ
 | `⌥+T`      | Ghostty       | **T**erminal |
 | `⌥+B`      | ブラウザ      | **B**rowser  |
 | `⌥+M`      | Arto          | **M**arkdown |
-| `⌥+E`      | VS Code       | **E**ditor   |
 | `⌥+N`      | Raycast Notes | **N**otes    |
 
 機能系はこの 3 つだけ。それ以外は `⌘+Space` 検索か alias で呼ぶ
@@ -155,12 +154,11 @@ Caps Lock の Hyper キー化機能は、hidutil の caps_lock → right_control
 
 ルート検索で「Store」→ 拡張名で検索してインストール。
 
-| 拡張               | 用途                                  |
-| ------------------ | ------------------------------------- |
-| GitHub             | PR・Issue・通知の検索、自分の PR 一覧 |
-| Brew               | Homebrew パッケージの検索・情報表示   |
-| Visual Studio Code | 最近開いたプロジェクトを検索して開く  |
-| Kill Process       | 重いプロセスを検索して kill           |
+| 拡張         | 用途                                  |
+| ------------ | ------------------------------------- |
+| GitHub       | PR・Issue・通知の検索、自分の PR 一覧 |
+| Brew         | Homebrew パッケージの検索・情報表示   |
+| Kill Process | 重いプロセスを検索して kill           |
 
 ## 最初の 1 週間の習慣づけ
 
