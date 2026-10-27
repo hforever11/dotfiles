@@ -129,6 +129,7 @@
       }
     }
   },
+  "feedbackDrafts": "off",
   "effortLevel": "high",
   "modelSettings": {
     "claude-opus-5-5": {
@@ -137,5 +138,39 @@
   },
   "tui": "fullscreen",
   "skipWorkflowUsageWarning": true,
-  "theme": "custom:dotfiles"
+  "theme": "custom:dotfiles",
+  "autoMode": {
+    "soft_deny": [
+      "$defaults",
+      "Bash(sudo darwin-rebuild switch:*) in this repo — destructive system-level rebuild requiring sudo; CLAUDE.md states user should run this, not the agent",
+      "Bash(git push --force:*) on github.com:hforever11/dotfiles.git — public repo, force-push rewrites public history"
+    ],
+    "environment": [
+      "### Org-wide",
+      "**Organization**: None configured",
+      "**Cloud provider(s)**: None configured",
+      "**Repository visibility**: PUBLIC — hforever11/dotfiles (github.com) — any push here is publishing",
+      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
+      "**Secrets management**: None configured",
+      "**Default / protected branches**: Default branch is `main`; no protected branches or rulesets listed via gh for hforever11/dotfiles",
+      "**CI/CD deploy targets**: None configured",
+      "**Network posture**: None configured",
+      "**Host containment**: None configured — assume Claude Code runs on an ordinary developer machine with open internet",
+      "**Source control**: The trusted repo (hforever11/dotfiles on github.com) and its remote(s) only — public repo, so only this repo's own work should be pushed there",
+      "**Trusted internal domains**: None configured",
+      "**Trusted cloud buckets**: None configured",
+      "**Key internal services**: None configured",
+      "**Internal package registry**: None configured",
+      "**Sensitive data locations & audiences**: any file or store holding personal data, confidential business data, credentials, regulated data, or similarly sensitive material; preserve exact handles when known and share only with audiences cleared at the [named+specifics] bar. Note: `config/git/*.local.gitconfig` is gitignored machine-specific git identity data per CLAUDE.md — do not commit or output its contents",
+      "**Data retention / declassification**: None configured",
+      "**Sensitive remote targets**: any namespace, host, or container whose name carries `prod` or `production` as a whole word or name segment",
+      "**Protected deployment namespaces / environments**: None configured — fall back to the Sensitive remote targets heuristic",
+      "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries `prod` or `production` as a whole word or name segment",
+      "### User-specific",
+      "**Primary use of Claude Code**: software development (personal dotfiles management — nix-darwin + home-manager configuration)",
+      "**Trusted repo**: /Users/sfukunaga/ghq/github.com/hforever11/dotfiles (origin: github.com:hforever11/dotfiles.git) — PUBLIC repo, so only this repo's own work is safe to push; confidential/secret material must never be committed regardless of visibility",
+      "**Org-specific CLIs**: None configured — frequently used project-specific tools include nix, nixfmt, darwin-rebuild, colima, lazygit, ghostty, herdr (personal toolchain, not org-mandated)",
+      "Routine under claude/settings.json: per CLAUDE.md, changes to `claude/settings.json` (Claude Code's own settings, symlinked from ~/.claude/) require user confirmation before editing"
+    ]
+  }
 }
