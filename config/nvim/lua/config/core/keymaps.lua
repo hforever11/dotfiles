@@ -25,11 +25,12 @@ keymap.set("x", "<", "<gv", { desc = "Indent left and reselect" })
 keymap.set("x", ">", ">gv", { desc = "Indent right and reselect" })
 keymap.set("n", "J", "mzJ`z", { desc = "Join lines keeping cursor position" })
 
+-- 回数付き (3i など) で "_cc を返すと 3"_cc になり下の行まで消えるので、そのときは素の i / A にする
 keymap.set("n", "i", function()
-  return vim.fn.empty(vim.fn.getline(".")) == 1 and '"_cc' or "i"
+  return vim.v.count == 0 and vim.fn.empty(vim.fn.getline(".")) == 1 and '"_cc' or "i"
 end, { expr = true, desc = "Insert with auto indent on empty line" })
 keymap.set("n", "A", function()
-  return vim.fn.empty(vim.fn.getline(".")) == 1 and '"_cc' or "A"
+  return vim.v.count == 0 and vim.fn.empty(vim.fn.getline(".")) == 1 and '"_cc' or "A"
 end, { expr = true, desc = "Append with auto indent on empty line" })
 keymap.set("o", "x", "d", { desc = "Use x as d in operator-pending mode" })
 
