@@ -132,6 +132,7 @@ prefix (`C-s`) はコピーモード中も生きているのでそのままペ�
 | `Prefix + g`         | lazygit をテンポラリペインで開く (閉じると消える)                                                              |
 | `Prefix + Shift + h` | [hunk](../hunk/COMMANDS.md) (diff レビュー) をテンポラリペインで開く。`--watch` 付きなので Claude の編集に追従 |
 | `Ctrl + h/j/k/l`     | ペイン移動 (`type = "shell"` バインドが `herdr-navigate` を実行。herdr 0.7.4 以上必須)                         |
+| `Prefix + t`         | 今のペインを 2×2 の 4 つに等分する (`herdr-grid`。[使い方](USAGE.md#4-等分する-prefix--t))                     |
 | `Prefix + Shift + b` | ペイン領域の外枠の表示を切り替える (`herdr-toggle borders`)                                                    |
 | `Prefix + Shift + s` | タブバー右端のステータス (ズーム中の ZOOM と日時) の表示を切り替える (`herdr-toggle status`)                   |
 

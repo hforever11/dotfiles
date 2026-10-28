@@ -1,0 +1,26 @@
+#!/bin/sh
+# 今いる herdr のペインを 2×2 の 4 つに等分する (config.toml の prefix+t から呼ばれる)。
+# 新しい 3 つは元のペインと同じディレクトリで開き、フォーカスは左上 (元のペイン) に残る。
+#
+# usage: herdr-grid [PANE_ID]   (省略時は今のペイン)
+
+set -eu
+
+# /bin/sh 経由の最小 PATH でも herdr を見つけられるよう nix profile を追加
+PATH="/etc/profiles/per-user/$(id -un)/bin:/run/current-system/sw/bin:$PATH"
+
+# herdr の JSON 出力から最初の "<key>":"<値>" の値を取り出す (herdr-navigate と同じ方法)
+field() { grep -o "\"$1\":\"[^\"]*\"" | head -1 | cut -d'"' -f4; }
+
+if [ $# -gt 0 ]; then
+  info=$(herdr pane get "$1")
+else
+  info=$(herdr pane current)
+fi
+pane=$(printf '%s' "$info" | field pane_id)
+cwd=$(printf '%s' "$info" | field cwd)
+
+# 左右に半分ずつ割ってから、左右それぞれを上下に半分ずつ割る
+right=$(herdr pane split "$pane" --direction right --ratio 0.5 --cwd "$cwd" --no-focus | field pane_id)
+herdr pane split "$pane" --direction down --ratio 0.5 --cwd "$cwd" --no-focus >/dev/null
+herdr pane split "$right" --direction down --ratio 0.5 --cwd "$cwd" --no-focus >/dev/null

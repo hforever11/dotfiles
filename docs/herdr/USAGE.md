@@ -62,6 +62,22 @@ herdr-layout README.md   # 引数はそのまま nvim に渡す
 - 右の claude で `/ide` を打って Neovim を選ぶと、左の nvim とつながる (選択範囲を渡せる、変更提案が nvim の diff で開く。[nvim 側の使い方](../nvim/README.md#claude-code-と並べて使う))
 - 本体は `bin/herdr-layout` (socket API の `herdr pane split` / `herdr pane run` を呼ぶだけ)。比率や起動するコマンドはここを直す
 
+### 4 等分する: `Prefix + t`
+
+今いる pane を 2×2 の 4 つに等分する (t は tile)。シェルから `herdr-grid` を実行しても同じ。
+
+```
+┌──────────────┬──────────────┐
+│ 元の pane    │              │
+├──────────────┼──────────────┤
+│              │              │
+└──────────────┴──────────────┘
+```
+
+- 新しい 3 つは元の pane と同じディレクトリでシェルが開く。フォーカスは左上 (元の pane) に残る
+- 分割済みの tab で押すと、今いる pane の範囲だけを 4 等分する
+- 本体は `bin/herdr-grid`
+
 ---
 
 ## エージェント監視ワークフロー

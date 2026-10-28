@@ -43,6 +43,7 @@ in
     ".claude/skills".source = link "claude/skills";
 
     ".local/bin/git-unlock".source = link "bin/git-unlock";
+    ".local/bin/herdr-grid".source = link "bin/herdr-grid";
     ".local/bin/herdr-layout".source = link "bin/herdr-layout";
     ".local/bin/herdr-navigate".source = link "bin/herdr-navigate";
     ".local/bin/herdr-toggle".source = link "bin/herdr-toggle";

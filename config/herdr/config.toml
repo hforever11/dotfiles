@@ -105,6 +105,13 @@ type = "pane"
 command = "hunk diff --watch"
 description = "hunk diff"
 
+# 今のペインを 2×2 の 4 つに等分する (t は tile)
+[[keys.command]]
+key = "prefix+t"
+type = "shell"
+command = "herdr-grid"
+description = "split pane into 2x2 grid"
+
 # 外枠とタブバー右端のステータスの表示を切り替える ([ui] の該当行を herdr-toggle が書き換える)
 [[keys.command]]
 key = "prefix+shift+b"
