@@ -44,7 +44,8 @@ window-padding-y = 4
 window-padding-balance = true
 scrollbar = never
 
-scrollback-limit = 5000000
+# 単位はバイト (約 5 MB。デフォルトは 50 MB)。1.4.0 で scrollback-limit から改名された
+scrollback-limit-bytes = 5000000
 
 palette-generate = false
 

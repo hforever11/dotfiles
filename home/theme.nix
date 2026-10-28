@@ -51,6 +51,9 @@ in
     # home/theme.nix から home-manager が生成する。編集は theme.nix 側で行うこと
     background = ${p.base}
     foreground = ${p.text}
+    # 選択範囲。同梱の Catppuccin Latte は 1.4.0 で rosewater 地に白文字へ変わったため、それ以前のグレーに固定する
+    selection-background = ${p.surface2}
+    selection-foreground = ${p.text}
     # ANSI 16 色。割り当ては Ghostty 同梱の Catppuccin Latte と同じで、bright (9〜14) は通常色と同じ値
     palette = 0=${p.subtext1}
     palette = 1=${p.red}
