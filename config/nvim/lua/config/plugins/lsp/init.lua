@@ -31,7 +31,7 @@ return {
         "cssls",
         "gopls",
         "rust_analyzer",
-        -- nixd は mason-lspconfig のレジストリに存在しないため対象外 (home/default.nix で nix 管理)
+        -- nixd は mason-lspconfig のレジストリに存在しないため対象外 (home/packages.nix で nix 管理)
       },
     },
   },
@@ -190,10 +190,10 @@ return {
             },
             options = {
               ["nix-darwin"] = {
-                expr = ('(builtins.getFlake "%s").darwinConfigurations.work.options'):format(dotfiles_flake),
+                expr = ('(builtins.getFlake "%s").darwinConfigurations.mac.options'):format(dotfiles_flake),
               },
               ["home-manager"] = {
-                expr = ('(builtins.getFlake "%s").darwinConfigurations.work.options.home-manager.users.type.getSubOptions []'):format(
+                expr = ('(builtins.getFlake "%s").darwinConfigurations.mac.options.home-manager.users.type.getSubOptions []'):format(
                   dotfiles_flake
                 ),
               },
