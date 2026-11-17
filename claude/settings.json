@@ -87,6 +87,7 @@
       "Bash(brew cleanup --prune:*)"
     ]
   },
+  "model": "opus",
   "hooks": {
     "PostToolUse": [
       {
@@ -116,12 +117,6 @@
     "yomiyasu@yomiyasu": true
   },
   "extraKnownMarketplaces": {
-    "karpathy-skills": {
-      "source": {
-        "source": "github",
-        "repo": "forrestchang/andrej-karpathy-skills"
-      }
-    },
     "yomiyasu": {
       "source": {
         "source": "github",
@@ -134,6 +129,9 @@
   "modelSettings": {
     "claude-opus-5-5": {
       "effortLevel": "xhigh"
+    },
+    "claude-fable-5-2": {
+      "effortLevel": "high"
     }
   },
   "tui": "fullscreen",
