@@ -81,22 +81,6 @@ in
     --color=marker:${p.rosewater},fg+:${p.text},prompt:${p.mauve},hl+:${p.red}
   '';
 
-  xdg.configFile."hunk/config.toml".text = ''
-    # home/theme.nix から home-manager が生成する。編集は theme.nix 側で行うこと。
-    # "auto" はライト背景だと github-light-default に解決されるため使わない。
-    # custom でビルトイン catppuccin-latte を継承し、背景系だけ dotfiles の
-    # 暗め Latte (Ghostty background / herdr panel_bg と同じ値) に上書きする
-    theme = "custom"
-
-    [custom_theme]
-    base = "${name}-${variant}"
-    label = "Catppuccin ${title variant} (dotfiles)"
-    background = "${p.base}"
-    panel = "${p.mantle}"
-    panelAlt = "${p.surface0}"
-    text = "${p.text}"
-  '';
-
   # nvim (config/nvim/lua/config/core/theme.lua) が dofile で読む
   xdg.configFile."theme/palette.lua".text = ''
     -- home/theme.nix から home-manager が生成する。編集は theme.nix 側で行うこと

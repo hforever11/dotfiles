@@ -1,4 +1,4 @@
-# zsh-abbr の略語定義 (Space / Enter で展開)。zeno.zsh の snippets から移行
+# zsh-abbr の略語定義 (Space / Enter で展開)
 # `abbr add` で対話的に足すとこのファイルに追記される
 
 # ===== Git =====

@@ -63,10 +63,3 @@ mouse-hide-while-typing = true
 resize-overlay = never
 
 keybind = ctrl+left_bracket=text:\x1b
-
-# ⌘+hjkl → unique escape sequences (tmux pane / Neovim window navigation)
-# Kitty keyboard protocol: CSI <unicode_codepoint> ; <modifier+1> u (super=8, +1=9)
-keybind = super+h=text:\x1b[104;9u
-keybind = super+j=text:\x1b[106;9u
-keybind = super+k=text:\x1b[107;9u
-keybind = super+l=text:\x1b[108;9u

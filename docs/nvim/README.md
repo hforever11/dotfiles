@@ -123,17 +123,17 @@ picker の中でよく使うキー (全部は [keymaps.md の Picker](keymaps.md
 
 ### Git
 
-| やりたいこと                 | キー                                                                          |
-| ---------------------------- | ----------------------------------------------------------------------------- |
-| 変更箇所 (hunk) へ移動       | `]h` / `[h` (続けて移動するなら `;` / `,`)                                    |
-| hunk の差分を見る            | `<leader>ghp`                                                                 |
-| hunk をステージ / 元に戻す   | `<leader>ghs` / `<leader>ghr`                                                 |
-| この行を誰がいつ書いたか     | `<leader>ghb`                                                                 |
-| ステージング・コミット・push | `<leader>lg` (lazygit。操作は [lazygit.md](../git/lazygit.md))                |
-| このファイルの履歴           | `<leader>lf` (lazygit) / `<leader>gf` (picker)                                |
-| この行の履歴                 | `<leader>gL`                                                                  |
-| GitHub で開く                | `<leader>gB`                                                                  |
-| 変更全体をレビューする       | nvim の外の hunk (herdr の `Prefix + Shift + H`。[操作](../hunk/COMMANDS.md)) |
+| やりたいこと                 | キー                                                           |
+| ---------------------------- | -------------------------------------------------------------- |
+| 変更箇所 (hunk) へ移動       | `]h` / `[h` (続けて移動するなら `;` / `,`)                     |
+| hunk の差分を見る            | `<leader>ghp`                                                  |
+| hunk をステージ / 元に戻す   | `<leader>ghs` / `<leader>ghr`                                  |
+| この行を誰がいつ書いたか     | `<leader>ghb`                                                  |
+| ステージング・コミット・push | `<leader>lg` (lazygit。操作は [lazygit.md](../git/lazygit.md)) |
+| このファイルの履歴           | `<leader>lf` (lazygit) / `<leader>gf` (picker)                 |
+| この行の履歴                 | `<leader>gL`                                                   |
+| GitHub で開く                | `<leader>gB`                                                   |
+| 変更全体をレビューする       | `<leader>gd` (変更箇所の一覧)                                  |
 
 ### 複数ファイルを一括置換
 
@@ -173,7 +173,6 @@ nvim は起動すると Claude Code からの接続を待つ (claudecode.nvim)�
   一部の変更だけ断る手順は [editing.md の Claude Code の提案を一部だけ断る](editing.md#claude-code-の提案を一部だけ断る)
 - つながっていなくても、`<leader>cp` で相対パスをコピーして Claude Code のプロンプトに `@` を付けて貼れる
 - Claude Code の編集は自動で読み直されるので、`]h` と `<leader>ghp` でそのまま差分を確かめられる
-- まとまった変更は hunk を横のペインに開いておく (`--watch` で編集に追従する)
 
 ### 困ったとき
 

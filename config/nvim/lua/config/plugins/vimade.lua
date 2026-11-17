@@ -20,7 +20,6 @@ return {
             filetype = {
               "lazy",
               "mason",
-              "neo-tree",
               "snacks_dashboard",
               "snacks_picker_input",
               "snacks_picker_list",

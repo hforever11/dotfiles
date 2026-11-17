@@ -44,7 +44,7 @@ brew に残している個別の理由 (vault, libpq, ripgrep) は `darwin/homeb
   Nix の pure-eval は非 store の絶対パスを読めないため、gitignore したファイルの値を Nix で扱うことはできない
 - **直リンク方式**: `config/` は `mkOutOfStoreSymlink` でリポジトリの絶対パスへリンクする。
   リポジトリを移動する場合は `modules/identity.nix` の `dotfilesDir` を変更する
-- **テーマ生成**: `home/theme.nix` が `~/.config/fzf/config`, `~/.config/hunk/config.toml`,
+- **テーマ生成**: `home/theme.nix` が `~/.config/fzf/config`,
   `~/.config/theme/{palette.lua,ghostty}` を生成する。
   nvim は `config/nvim/lua/config/core/theme.lua` が palette.lua を dofile、
   Ghostty は `config-file` で ghostty を読む (starship と Claude Code の statusline は ANSI 16 色で書き、このパレットに従う)

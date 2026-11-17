@@ -46,11 +46,9 @@
 例: `gs` + Space → `git status` に展開される。alias と違い実行前に展開されるので、
 履歴にはフルコマンドが残り、展開後に編集もできる。
 
-- 定義ファイル: `~/.config/zsh-abbr/user-abbreviations`（chezmoi 管理）
+- 定義ファイル: `~/.config/zsh-abbr/user-abbreviations`（リポジトリの `config/zsh-abbr/user-abbreviations` への直リンク）
 - その場で追加: `abbr add xxx="..."`（定義ファイルに追記される）
 - 展開させたくないとき: `Ctrl+v` を挟んで Space（quoted-insert）
-
-※ zeno.zsh から移行（2026-07）。Deno 依存と独自実装を排して定番ツールに寄せた。
 
 ### Git
 
@@ -98,7 +96,7 @@
 
 ## Tab 補完（fzf-tab）
 
-Tab を押すと zsh 標準の補完候補が **fzf で絞り込める**。zeno の独自パターン定義と違い、
+Tab を押すと zsh 標準の補完候補が **fzf で絞り込める**。
 zsh の補完関数が文脈を理解するので `git switch <Tab>` のブランチ一覧、
 `docker stop <Tab>` のコンテナ一覧、`kubectl logs <Tab>` の Pod 一覧などが定義なしで出る。
 

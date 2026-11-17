@@ -9,7 +9,6 @@ return {
       "help",
       "lazy",
       "mason",
-      "neo-tree",
       "qf",
     },
     ignoreAltFile = true,

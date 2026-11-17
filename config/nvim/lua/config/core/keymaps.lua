@@ -7,7 +7,6 @@ keymap.set("i", "<C-g><C-u>", "<Esc>gUiwgi", { desc = "Uppercase word" })
 keymap.set("i", "<C-g><C-l>", "<Esc>guiwgi", { desc = "Lowercase word" })
 keymap.set("i", "<C-g><C-k>", "<Esc>bgUlgi", { desc = "Capitalize word (first letter)" })
 keymap.set("i", "<C-g><C-t>", "<Esc>g~iwgi", { desc = "Toggle case word" })
-keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR><Esc>", { desc = "Clear search highlights" })
 
 keymap.set({ "n", "x" }, "/", "/\\v", { desc = "Search with very magic" })
@@ -125,9 +124,8 @@ keymap.set("n", "<leader>cN", function()
   vim.notify("Copied: " .. stem)
 end, { desc = "Copy filename without extension" })
 
--- C-h/j/k/l: vim のウィンドウ移動、端に達したら herdr/tmux のペインへ抜ける
--- (vim-tmux-navigator 相当。herdr 対応のため自前実装。herdr 内でも TMUX が
--- 継承されているので HERDR_PANE_ID を先に見る)
+-- C-h/j/k/l: vim のウィンドウ移動、端に達したら herdr のペインへ抜ける
+-- (vim-tmux-navigator 相当を herdr 向けに自前実装)
 local function navigate(wincmd_key, direction)
   return function()
     local before = vim.api.nvim_get_current_win()
@@ -137,9 +135,6 @@ local function navigate(wincmd_key, direction)
     end
     if vim.env.HERDR_PANE_ID then
       vim.system({ "herdr", "pane", "focus", "--direction", direction, "--pane", vim.env.HERDR_PANE_ID })
-    elseif vim.env.TMUX then
-      local flags = { left = "-L", down = "-D", up = "-U", right = "-R" }
-      vim.system({ "tmux", "select-pane", flags[direction] })
     end
   end
 end

@@ -3,7 +3,7 @@
 現在のテーマは `Catppuccin Latte` をマット（くすみ）にしたライトテーマ。
 
 パレット（色コード）は `home/theme.nix` が単一ソースで、
-home-manager が fzf / hunk / Neovim / Claude Code（statusline とカスタムテーマ）/
+home-manager が fzf / Neovim / Claude Code（カスタムテーマ）/
 Ghostty の背景色・文字色・ANSI 16 色向けの設定ファイルを生成する
 （生成するのは色だけで、各ツールの色以外の設定は直リンク側に置く）。
 テーマ名の指定と、herdr / delta / lazygit / bat の色は
@@ -11,13 +11,13 @@ Ghostty の背景色・文字色・ANSI 16 色向けの設定ファイルを生�
 
 ## 変更ポイント
 
-### パレット (Neovim + fzf + hunk + Claude Code + Ghostty 共通)
+### パレット (Neovim + fzf + Claude Code + Ghostty 共通)
 
 - 単一ソース兼生成ロジック: [`home/theme.nix`](../home/theme.nix)
 
 パレットの色コードを書き換えて rebuild すれば、
-`~/.config/fzf/config`, `~/.config/hunk/config.toml`,
-`~/.config/theme/palette.lua`, `~/.config/theme/palette.sh`, `~/.config/theme/ghostty`,
+`~/.config/fzf/config`,
+`~/.config/theme/palette.lua`, `~/.config/theme/ghostty`,
 `~/.claude/themes/dotfiles.json` に反映される。
 パレットのキー名（`base` / `surface0` / `text` など）は Catppuccin のロール名を
 そのまま使い、別テーマに移る場合は対応色をマッピングする。
@@ -158,11 +158,11 @@ herdr は別ファイルを読み込めないため、`panel_bg` / `text` / `acc
 ### Claude Code
 
 - statusline: [`claude/statusline.sh`](../claude/statusline.sh)
-  が生成済みの `~/.config/theme/palette.sh` を実行時に `source` する
+  は ANSI 16 色で書いてあり、実際の色は Ghostty のパレットが決める (starship と同じ)
 - UI テーマ: `home/theme.nix` が生成するカスタムテーマ `~/.claude/themes/dotfiles.json` を
   [`claude/settings.json`](../claude/settings.json) の `"theme": "custom:dotfiles"` で選ぶ
 
-statusline の色とカスタムテーマはどちらも `home/theme.nix` から生成するため、パレットの変更に自動追従する。
+statusline は Ghostty のパレット経由で、カスタムテーマは生成ファイル経由で、どちらも `home/theme.nix` の変更に追従する。
 カスタムテーマは Claude Code の機能で、ビルトインテーマ（`base`）を土台に色キーを上書きする
 （`/theme` の一覧に「Catppuccin Latte (dotfiles)」として出る。ファイルの変更は監視されて即反映）。
 土台は `light` で、鮮やかな色（OKLCH の彩度 0.14 超。権限確認の青、auto-accept の紫、bash モードのピンクなど）
@@ -200,17 +200,6 @@ fzf はファイルと環境変数の両方を読む。fzf-tab は既定で `FZF
 Ghostty のターミナル ANSI カラーに委ねている。bat のみデフォルトがダーク用の
 Monokai Extended のため、[`config/bat/config`](../config/bat/config) で `--theme=ansi` を明示している。
 
-### hunk
-
-- 色: `home/theme.nix` が生成する `~/.config/hunk/config.toml`
-
-背景系（`background` / `panel` / `panelAlt`）と `text` だけをパレットで上書きしていて、
-コードの色と差分の色はビルトイン `catppuccin-latte` の公式値（マット化していない鮮やかな色）のまま。
-hunk の色は土台テーマから計算した値で、上書きしたキー以外は計算し直されない。
-コードの色を変えるには `[custom_theme.syntax]` を使うが、これを指定すると土台テーマのハイライトの代わりに
-hunk 独自の配色になり、決まった色だけが置き換わる。そのため括弧やカンマはほぼ黒（`#0a0a0a`）、
-コメントはグレー（`#737373`）に固定され、Neovim と見た目が揃わない（hunk 0.17.3 で確認）。
-
 ## 明るさ・チュロームの調整手順
 
 画面は「チュローム（herdr のサイドバー・タブバー）」が「ペイン（ターミナル領域）」を
@@ -218,7 +207,7 @@ hunk 独自の配色になり、決まった色だけが置き換わる。その
 
 | レイヤー   | 設定箇所                                                                                | 現在値                       |
 | ---------- | --------------------------------------------------------------------------------------- | ---------------------------- |
-| ペイン背景 | `home/theme.nix` の `base`（Ghostty / Neovim / hunk はここから生成）                    | `#dce0e8` (Latte crust 相当) |
+| ペイン背景 | `home/theme.nix` の `base`（Ghostty / Neovim はここから生成）                           | `#dce0e8` (Latte crust 相当) |
 | チュローム | `home/theme.nix` の `mantle` と `config/herdr/config.toml` の `[theme.custom] panel_bg` | `#d3d8e2`                    |
 
 Neovim の背景は `colorschema.lua` の `color_overrides` が `theme.palette()` を丸ごと
@@ -237,7 +226,7 @@ Neovim の背景は `colorschema.lua` の `color_overrides` が `theme.palette()
 
 手順:
 
-1. `home/theme.nix` の色コードを書き換えて rebuild（fzf / hunk / Neovim / Claude Code / Ghostty 用に再生成される）
+1. `home/theme.nix` の色コードを書き換えて rebuild（fzf / Neovim / Claude Code / Ghostty 用に再生成される）
 2. `config/herdr/config.toml` の `panel_bg` を合わせる（直リンクなので保存で即反映）
 3. herdr: `herdr server reload-config`（起動中のまま即反映）
 4. Ghostty: `Cmd + Shift + ,` で設定リロード

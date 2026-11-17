@@ -18,7 +18,7 @@ Nix の役割は「パッケージの導入」「`config/` へのシンボリッ
 | `darwin/homebrew.nix`  | GUI アプリ (cask) と、nix で扱えない/扱いにくいものだけ                                               |
 | `home/packages.nix`    | CLI パッケージ一覧 (nixpkgs)                                                                          |
 | `home/links.nix`       | `config/` 等への直リンク一覧                                                                          |
-| `home/theme.nix`       | テーマ色の単一ソース。fzf / hunk / Neovim / statusline / Ghostty 背景色・文字色を生成                 |
+| `home/theme.nix`       | テーマ色の単一ソース。fzf / Neovim / Claude Code のテーマ / Ghostty の色を生成                        |
 | `home/colima.nix`      | colima (Docker ランタイム) のログイン時自動起動                                                       |
 | `home/mise.nix`        | mise と、rebuild 時の `mise install`                                                                  |
 

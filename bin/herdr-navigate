@@ -2,7 +2,7 @@
 # herdr の C-h/j/k/l 直接ペイン移動 (config.toml の type = "shell" バインドから呼ばれる)。
 # tmux の is_vim 分岐 (vim-tmux-navigator) を socket API で再現する:
 # vim ならキーを転送、それ以外は herdr のペインを移動。
-# type = "shell" のゾンビリークは herdr 0.7.4 で修正済み (z-ai/herdr-zombie-leak.md)。
+# type = "shell" のゾンビリークは herdr 0.7.4 で修正済み。
 # herdr が動いていなければ set -e で黙って no-op になる。
 #
 # usage: herdr-navigate left|down|up|right

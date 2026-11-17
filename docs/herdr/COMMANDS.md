@@ -127,14 +127,13 @@ prefix (`C-s`) はコピーモード中も生きているのでそのままペ�
 
 ## カスタムキーバインド (config.toml で定義)
 
-| キー                 | 説明                                                                                                           |
-| -------------------- | -------------------------------------------------------------------------------------------------------------- |
-| `Prefix + g`         | lazygit をテンポラリペインで開く (閉じると消える)                                                              |
-| `Prefix + Shift + h` | [hunk](../hunk/COMMANDS.md) (diff レビュー) をテンポラリペインで開く。`--watch` 付きなので Claude の編集に追従 |
-| `Ctrl + h/j/k/l`     | ペイン移動 (`type = "shell"` バインドが `herdr-navigate` を実行。herdr 0.7.4 以上必須)                         |
-| `Prefix + t`         | 今のペインを 2×2 の 4 つに等分する (`herdr-grid`。[使い方](USAGE.md#4-等分する-prefix--t))                     |
-| `Prefix + Shift + b` | ペイン領域の外枠の表示を切り替える (`herdr-toggle borders`)                                                    |
-| `Prefix + Shift + s` | タブバー右端のステータス (ズーム中の ZOOM と日時) の表示を切り替える (`herdr-toggle status`)                   |
+| キー                 | 説明                                                                                         |
+| -------------------- | -------------------------------------------------------------------------------------------- |
+| `Prefix + g`         | lazygit をテンポラリペインで開く (閉じると消える)                                            |
+| `Ctrl + h/j/k/l`     | ペイン移動 (`type = "shell"` バインドが `herdr-navigate` を実行。herdr 0.7.4 以上必須)       |
+| `Prefix + t`         | 今のペインを 2×2 の 4 つに等分する (`herdr-grid`。[使い方](USAGE.md#4-等分する-prefix--t))   |
+| `Prefix + Shift + b` | ペイン領域の外枠の表示を切り替える (`herdr-toggle borders`)                                  |
+| `Prefix + Shift + s` | タブバー右端のステータス (ズーム中の ZOOM と日時) の表示を切り替える (`herdr-toggle status`) |
 
 `herdr-toggle` は config.toml の `[ui]` の該当行を書き換えて `herdr server reload-config` する。
 シェルから `herdr-toggle borders` / `herdr-toggle status` と打っても同じ。
@@ -149,13 +148,11 @@ navigate モード (`Prefix + w`) の workspace 上下はデフォルトの矢�
 `Ctrl + h/j/k/l` は herdr の `[[keys.command]] type = "shell"` バインドが
 `herdr-navigate` を呼び、socket API で最前面プロセスを判定して vim ならキー転送
 (vim 内のウィンドウ移動を優先)、それ以外は `pane focus` する。
-`type = "shell"` の子プロセス未回収によるゾンビ蓄積 (詳細: z-ai/herdr-zombie-leak.md) は
-**herdr 0.7.4 (#1360) で修正済み**のため、0.7.4 以上が必須 (`pkgs/herdr.nix` の overlay で先取り。
-2026-07-13〜16 は Karabiner-Elements が Ghostty フロント時のみ横取りする方式で回避していた)。
+`type = "shell"` の子プロセス未回収によるゾンビ蓄積は
+**herdr 0.7.4 (#1360) で修正済み**のため、0.7.4 以上が必須。
 
-SSH 先など herdr 外用のフォールバックとして、zsh (`.zshrc` の
-herdr-focus ウィジェット、プロンプトのみ) と nvim (`keymaps.lua`、ウィンドウ端で
-`herdr pane focus` / tmux フォールバック) にも同じ移動が実装してある。
+vim に転送されたキーは nvim (`keymaps.lua`) が受け、ウィンドウの端では
+`herdr pane focus` を呼んで隣のペインへ抜ける。
 
 トレードオフ (tmux 時代と同じ):
 
@@ -195,29 +192,3 @@ herdr wait <...>                 # エージェントの状態変化を待つ
 
 日本語 IME 対策として、prefix モード中は ASCII 入力ソースへ自動切替する
 (`[experimental] switch_ascii_input_source_in_prefix`)。
-
----
-
-## tmux からの移行メモ
-
-tmux の設定・パッケージは削除済み (2026-07-10)。以下はキー対応の参考記録。
-
-### キーの読み替え
-
-| tmux                      | herdr                                                       |
-| ------------------------- | ----------------------------------------------------------- |
-| `Prefix + \|` / `-` 分割  | `Prefix + v` / `-`                                          |
-| `Ctrl + h/j/k/l` 移動     | `Ctrl + h/j/k/l` (同じ)                                     |
-| `Prefix + d` デタッチ     | `Prefix + q`                                                |
-| `Prefix + r` リロード     | `Prefix + Shift + r`                                        |
-| copy-mode (`Prefix + [`)  | `Prefix + [` (同じ。v0.6.5〜)。nvim で開くなら `Prefix + e` |
-| `Prefix + g` lazygit      | `Prefix + g` (同じ)                                         |
-| `Ctrl + t` ghq セッション | `Ctrl + t` ghq workspace (同じ)                             |
-
-### 未移植 (必要になったら対応)
-
-- **Ghostty の `⌘ + h/j/k/l`**: tmux の user-keys 用エスケープシーケンスのため herdr では効かない
-  (herdr 内で押すと制御シーケンスがペインに素通しされる)
-- **`Shift + Enter`** (Claude Code の改行): tmux 側で CSI-u に変換していた。herdr 経由で通るか要確認
-- **`Prefix + a` / `Prefix + D`** (Claude Code レイアウト)、**`Ctrl + f`** (fzf ファイルピッカー popup):
-  workspace 単位の運用でしばらく試し、必要なら `[[keys.command]]` か socket API で再現する

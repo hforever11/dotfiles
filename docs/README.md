@@ -14,18 +14,10 @@
 - [Zsh Cheatsheet](zsh/cheatsheet.md)
 - [コマンドラインショートカット](zsh/shortcuts.md)
 
-## Terminal
-
-- [Ghostty Cheatsheet](ghostty/cheatsheet.md)
-
 ## herdr
 
 - [herdr Commands](herdr/COMMANDS.md)
 - [herdr 活用ガイド](herdr/USAGE.md)
-
-## hunk (diff レビュー)
-
-- [hunk Commands](hunk/COMMANDS.md)
 
 ## Raycast
 

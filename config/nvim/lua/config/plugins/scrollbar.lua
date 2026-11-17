@@ -6,7 +6,7 @@ return {
     winblend = 50,
     zindex = 40,
     width = 2,
-    excluded_filetypes = { "neo-tree", "lazy", "mason", "help", "snacks_dashboard" },
+    excluded_filetypes = { "lazy", "mason", "help", "snacks_dashboard" },
     handlers = {
       cursor = {
         enable = true,

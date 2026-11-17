@@ -1,4 +1,4 @@
-# herdr 設定 (tmux からの移行。dot_config/tmux/ はフォールバックとして残置)
+# herdr 設定 (tmux からの移行)
 # スキーマ全体: herdr --default-config
 
 onboarding = false
@@ -71,9 +71,8 @@ description = "lazygit"
 # C-h/j/k/l で prefix なしペイン移動 (tmux の is_vim 分岐を herdr-navigate で再現。
 # vim ならキーを転送し vim 内のウィンドウ移動を優先、それ以外はペイン移動)。
 # type = "shell" のゾンビリークは 0.7.4 で修正済みのため herdr 0.7.4 以上が必須
-# (0.7.1〜0.7.3 ではゾンビ蓄積 → fork EAGAIN が再発する。pkgs/herdr.nix の overlay 参照)。
-# SSH 先など herdr 外用のフォールバックとして nvim (keymaps.lua) と
-# zsh (.zshrc の herdr-focus ウィジェット) にも同じ移動が実装してある
+# (0.7.1〜0.7.3 ではゾンビ蓄積 → fork EAGAIN が再発する)。
+# vim に転送したキーは nvim (keymaps.lua) が受け、ウィンドウの端では herdr pane focus でペインへ抜ける
 [[keys.command]]
 key = "ctrl+h"
 type = "shell"
@@ -97,13 +96,6 @@ key = "ctrl+l"
 type = "shell"
 command = "herdr-navigate right"
 description = "pane right (vim-aware)"
-
-# 変更セットレビュー (hunk)。--watch で Claude の編集に追従
-[[keys.command]]
-key = "prefix+shift+h"
-type = "pane"
-command = "hunk diff --watch"
-description = "hunk diff"
 
 # 今のペインを 2×2 の 4 つに等分する (t は tile)
 [[keys.command]]

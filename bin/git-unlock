@@ -2,7 +2,7 @@
 #
 # git-unlock — git の index.lock を安全に診断・除去する。
 #
-# lazygit を commit/stage 中に強制終了（tmux popup やターミナルを閉じる等）すると、
+# lazygit を commit/stage 中に強制終了（herdr のペインやターミナルを閉じる等）すると、
 # 子 git が index.lock を消す前に死に、stale lock が残って以後の git 操作を弾く。
 # 生存プロセスが保持中の lock を消すと進行中の操作を破壊するため、lsof で保持
 # プロセスの有無を確認し、誰も開いていない場合にのみ除去する。
