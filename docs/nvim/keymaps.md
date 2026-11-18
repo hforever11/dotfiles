@@ -15,33 +15,32 @@ Leader は `<Space>`。押して待つと which-key が続きの候補を出す�
 
 このページは用途別 (prefix 別) に並べているので、プラグインから引くときはここを見る。
 
-| プラグイン                  | キー                                                                                                  | 詳しくは                                                         |
-| --------------------------- | ----------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| snacks.nvim (picker)        | `<leader><space>` `<leader>,` `<leader>/` `<leader>:` `<leader>f*` `<leader>s*`                       | [Leader キー](#leader-キー)、[Picker](#picker)                   |
-| snacks.nvim (LSP・Git)      | `gd` `gD` `gr` `gI` `gy`、`<leader>g*` (`<leader>gh*` 以外)、`<leader>lg` `<leader>lf`                | [LSP](#lsp)、[Leader キー](#leader-キー)                         |
-| snacks.nvim (その他)        | `<leader>e` explorer、`<leader>z` `<leader>Z` `<leader>D`、`<leader>cR`、`ii` `ai` `[i` `]i` (scope)  | [Explorer](#explorer)、[ダッシュボード](#ダッシュボード)         |
-| nvim-treesitter-textobjects | `af` `if` `ac` `ic` `aa` `ia`、`]f` `[f` `]c` `[c` `]a` `[a` (大文字で末尾)、`;` `,` (移動の繰り返し) | [テキストオブジェクト](#テキストオブジェクト)、[Normal](#normal) |
-| nvim-treesitter-context     | `<leader>ut`                                                                                          |                                                                  |
-| gitsigns.nvim               | `]h` `[h` `]H` `[H`、`<leader>gh*`、`ih`                                                              | [Leader キー](#leader-キー)                                      |
-| nvim-surround               | `ys{motion}{c}` `yss{c}` `ds{c}` `cs{old}{new}`、Visual `S{c}` `gS{c}`、Insert `<C-g>s`               | [editing.md](editing.md#surround)                                |
-| Comment.nvim                | `gcc` `gc{motion}` `gbc` `gb{motion}` `gco` `gcO` `gcA`                                               | [editing.md](editing.md#コメント)                                |
-| dial.nvim                   | `<C-a>` `<C-x>` (Normal・Visual)、Visual `g<C-a>` `g<C-x>`、`<leader>+` `<leader>-`                   | [editing.md](editing.md#増減と切り替え)                          |
-| yanky.nvim                  | `y`、`<C-p>` `<C-n>` (貼った直後)、`<leader>y`                                                        | [Normal](#normal)                                                |
-| undo-glow.nvim              | `u` `U`、`p` `P` `gp` `gP` `]p` `[p` (yanky の貼り付けを光らせる)                                     | [Normal](#normal)                                                |
-| vim-matchup                 | `M` (自前のラッパー)、`%` `g%` `[%` `]%`、`i%` `a%`                                                   | [Normal](#normal)                                                |
-| better-escape.nvim          | `jk`                                                                                                  | [Insert](#insert)                                                |
-| nvim-lspconfig (LSP)        | `K` `gl` `<leader>rn` `<leader>ca` `<leader>uh` `<leader>lR`                                          | [LSP](#lsp)                                                      |
-| blink.cmp                   | 補完メニューの中の `<C-j>` `<C-k>` `<CR>` `<C-e>` など                                                | [補完](#補完-blinkcmp)                                           |
-| conform.nvim                | `<leader>fm`                                                                                          | [整形](#整形-conform)                                            |
-| trouble.nvim                | `<leader>xw` `<leader>xd` `<leader>xq` `<leader>xl` `<leader>xt`                                      | [Trouble](#trouble)                                              |
-| todo-comments.nvim          | `]t` `[t` (`<leader>xt` の一覧もこれが前提)                                                           |                                                                  |
-| overlook.nvim               | `<leader>p*`                                                                                          | [Leader キー](#leader-キー)                                      |
-| noice.nvim                  | `<leader>sn*`                                                                                         | [Leader キー](#leader-キー)                                      |
-| csvview.nvim                | `<leader>uv`、CSV の中の `if` `af` `<Tab>` `<Enter>`                                                  | [CSV View](#csv-view)                                            |
-| venv-selector.nvim          | `<leader>cv`                                                                                          |                                                                  |
-| claudecode.nvim             | `<leader>a*`                                                                                          | [Claude Code](#leadera-claude-code)                              |
-| arto.vim                    | `<leader>m` (Markdown のときだけ)、`:Arto`                                                            | [Markdown](#markdown)                                            |
-| lazy.nvim / mason.nvim      | キーなし。`:Lazy` / `:Mason` で開く                                                                   | [lazy.nvim](#lazynvim-lazy)、[Mason](#mason-mason)               |
+| プラグイン                  | キー                                                                                                                                                     | 詳しくは                                                         |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| snacks.nvim (picker)        | `<leader><space>` `<leader>,` `<leader>/` `<leader>:` `<leader>f*` `<leader>s*`                                                                          | [Leader キー](#leader-キー)、[Picker](#picker)                   |
+| snacks.nvim (LSP・Git)      | `gd` `gD` `gr` `gI` `gy`、`<leader>g*` (`<leader>gh*` 以外)、`<leader>lg` `<leader>lf`                                                                   | [LSP](#lsp)、[Leader キー](#leader-キー)                         |
+| snacks.nvim (その他)        | `<leader>e` explorer、`<C-/>` ターミナル、`<leader>.` `<leader>S` メモ帳、`<leader>z` `<leader>Z` `<leader>D`、`<leader>cR`、`ii` `ai` `[i` `]i` (scope) | [Explorer](#explorer)、[ダッシュボード](#ダッシュボード)         |
+| nvim-treesitter-textobjects | `af` `if` `ac` `ic` `aa` `ia`、`]f` `[f` `]c` `[c` `]a` `[a` (大文字で末尾)、`;` `,` (移動の繰り返し)                                                    | [テキストオブジェクト](#テキストオブジェクト)、[Normal](#normal) |
+| nvim-treesitter-context     | `<leader>ut`                                                                                                                                             |                                                                  |
+| gitsigns.nvim               | `]h` `[h` `]H` `[H`、`<leader>gh*`、`ih`                                                                                                                 | [Leader キー](#leader-キー)                                      |
+| nvim-surround               | `ys{motion}{c}` `yss{c}` `ds{c}` `cs{old}{new}`、Visual `S{c}` `gS{c}`、Insert `<C-g>s`                                                                  | [editing.md](editing.md#surround)                                |
+| Comment.nvim                | `gcc` `gc{motion}` `gbc` `gb{motion}` `gco` `gcO` `gcA`                                                                                                  | [editing.md](editing.md#コメント)                                |
+| dial.nvim                   | `<C-a>` `<C-x>` (Normal・Visual)、Visual `g<C-a>` `g<C-x>`、`<leader>+` `<leader>-`                                                                      | [editing.md](editing.md#増減と切り替え)                          |
+| yanky.nvim                  | `y`、`<C-p>` `<C-n>` (貼った直後)、`<leader>y`                                                                                                           | [Normal](#normal)                                                |
+| undo-glow.nvim              | `u` `U`、`p` `P` `gp` `gP` `]p` `[p` (yanky の貼り付けを光らせる)                                                                                        | [Normal](#normal)                                                |
+| vim-matchup                 | `M` (自前のラッパー)、`%` `g%` `[%` `]%`、`i%` `a%`                                                                                                      | [Normal](#normal)                                                |
+| better-escape.nvim          | `jk`                                                                                                                                                     | [Insert](#insert)                                                |
+| nvim-lspconfig (LSP)        | `K` `gl` `<leader>rn` `<leader>ca` `<leader>uh` `<leader>lR`                                                                                             | [LSP](#lsp)                                                      |
+| blink.cmp                   | 補完メニューの中の `<C-j>` `<C-k>` `<CR>` `<C-e>` など                                                                                                   | [補完](#補完-blinkcmp)                                           |
+| conform.nvim                | `<leader>fm`                                                                                                                                             | [整形](#整形-conform)                                            |
+| trouble.nvim                | `<leader>xw` `<leader>xd` `<leader>xq` `<leader>xl` `<leader>xt`                                                                                         | [Trouble](#trouble)                                              |
+| todo-comments.nvim          | `]t` `[t` (`<leader>xt` の一覧もこれが前提)                                                                                                              |                                                                  |
+| overlook.nvim               | `<leader>p*`                                                                                                                                             | [Leader キー](#leader-キー)                                      |
+| noice.nvim                  | `<leader>sn*`                                                                                                                                            | [Leader キー](#leader-キー)                                      |
+| csvview.nvim                | `<leader>uv`、CSV の中の `if` `af` `<Tab>` `<Enter>`                                                                                                     | [CSV View](#csv-view)                                            |
+| venv-selector.nvim          | `<leader>cv`                                                                                                                                             |                                                                  |
+| arto.vim                    | `<leader>m` (Markdown のときだけ)、`:Arto`                                                                                                               | [Markdown](#markdown)                                            |
+| lazy.nvim / mason.nvim      | キーなし。`:Lazy` / `:Mason` で開く                                                                                                                      | [lazy.nvim](#lazynvim-lazy)、[Mason](#mason-mason)               |
 
 キーを持たず自動で動くもの: nvim-autopairs (括弧を閉じる)、nvim-ts-autotag (タグを閉じる)、which-key (候補を出す)、incline (右下のファイル名)、satellite (スクロールバー)、vimade (非アクティブなウィンドウを薄く)、modes (モードで色を変える)、nvim-early-retirement (古いバッファを閉じる)、fidget (LSP の進捗)、vimdoc-ja (`:h` を日本語で開く)、nvim-highlight-colors (色コードの手前に色見本)。
 
@@ -49,29 +48,29 @@ Leader は `<Space>`。押して待つと which-key が続きの候補を出す�
 
 ### Normal
 
-| キー                            | 動作                                                                                      | 素の Vim          |
-| ------------------------------- | ----------------------------------------------------------------------------------------- | ----------------- |
-| `x`                             | レジスタを汚さない削除オペレータ (`xx` で行、`xiw` で単語、`xl` で 1 文字)                | 1 文字削除        |
-| `X`                             | 行末までレジスタを汚さず削除                                                              | 前の 1 文字を削除 |
-| `y`                             | ヤンク (ヤンク履歴に記録)                                                                 |                   |
-| `p` / `P`                       | 後ろ / 前に貼る (貼った範囲がハイライト)                                                  |                   |
-| `gp` / `gP`                     | 貼って、カーソルを貼った範囲の直後へ (続けて貼れる)                                       |                   |
-| `]p` / `[p`                     | 今の行のインデントに揃えて下 / 上に行単位で貼る                                           |                   |
-| `<C-p>` / `<C-n>`               | 貼った直後に、ヤンク履歴の前 / 次の項目へ差し替える (カーソルを動かすと解除)              | 上下移動          |
-| `u` / `U`                       | undo / redo (変わった範囲がハイライト)                                                    | `U` は行の undo   |
-| `q`                             | prefix。`qq` で記録開始、`qo` で `:only!`、`qt` で直前のバッファ。記録中は停止            | 記録開始          |
-| `Q`                             | `@q` を再生 (`3Q` で 3 回)。記録中に押すと停止してすぐ 1 回再生                           | Ex モード         |
-| `M`                             | 対応する括弧・`if` / `else` / `end` へ (`if` からは `end` へ直行)                         | 画面中央の行へ    |
-| `;` / `,`                       | 直前の移動を同じ向き / 逆向きに繰り返す。`f` `t` に加えて `]h` `]t` `]f` `]c` `]a` も対象 | `f` `t` だけ      |
-| `/`                             | very magic で前方検索 (`/\v`)                                                             |                   |
-| `?`                             | リテラルで後方検索 (`?\V`)                                                                |                   |
-| `n` / `N`                       | 次 / 前の一致へ移動して画面中央に                                                         |                   |
-| `<Esc>`                         | 検索ハイライトを消す                                                                      |                   |
-| `<C-d>` / `<C-u>`               | 半ページ移動して画面中央に                                                                |                   |
-| `J`                             | 行を結合してもカーソルを動かさない (マーク `z` を上書きする)                              |                   |
-| `i` / `A`                       | 空行ならインデント位置から書き始める                                                      |                   |
-| `<C-a>` / `<C-x>`               | カーソル下の値を増減・切り替え ([対象](editing.md#増減と切り替え))                        | 数値のみ          |
-| `<C-h>` `<C-j>` `<C-k>` `<C-l>` | ウィンドウ移動。端なら herdr のペインへ (Terminal モードでも有効)                         |                   |
+| キー                            | 動作                                                                                                                 | 素の Vim          |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| `x`                             | レジスタを汚さない削除オペレータ (`xx` で行、`xiw` で単語、`xl` で 1 文字)                                           | 1 文字削除        |
+| `X`                             | 行末までレジスタを汚さず削除                                                                                         | 前の 1 文字を削除 |
+| `y`                             | ヤンク (ヤンク履歴に記録)                                                                                            |                   |
+| `p` / `P`                       | 後ろ / 前に貼る (貼った範囲がハイライト)                                                                             |                   |
+| `gp` / `gP`                     | 貼って、カーソルを貼った範囲の直後へ (続けて貼れる)                                                                  |                   |
+| `]p` / `[p`                     | 今の行のインデントに揃えて下 / 上に行単位で貼る                                                                      |                   |
+| `<C-p>` / `<C-n>`               | 貼った直後に、ヤンク履歴の前 / 次の項目へ差し替える (カーソルを動かすと解除)                                         | 上下移動          |
+| `u` / `U`                       | undo / redo (変わった範囲がハイライト)                                                                               | `U` は行の undo   |
+| `q`                             | prefix。`qq` で記録開始、`qo` で `:only!`、`qt` で直前のバッファ、`qd` でバッファを閉じる (分割は残す)。記録中は停止 | 記録開始          |
+| `Q`                             | `@q` を再生 (`3Q` で 3 回)。記録中に押すと停止してすぐ 1 回再生                                                      | Ex モード         |
+| `M`                             | 対応する括弧・`if` / `else` / `end` へ (`if` からは `end` へ直行)                                                    | 画面中央の行へ    |
+| `;` / `,`                       | 直前の移動を同じ向き / 逆向きに繰り返す。`f` `t` に加えて `]h` `]t` `]f` `]c` `]a` も対象                            | `f` `t` だけ      |
+| `/`                             | very magic で前方検索 (`/\v`)                                                                                        |                   |
+| `?`                             | リテラルで後方検索 (`?\V`)                                                                                           |                   |
+| `n` / `N`                       | 次 / 前の一致へ移動して画面中央に                                                                                    |                   |
+| `<Esc>`                         | 検索ハイライトを消す                                                                                                 |                   |
+| `<C-d>` / `<C-u>`               | 半ページ移動して画面中央に                                                                                           |                   |
+| `J`                             | 行を結合してもカーソルを動かさない (マーク `z` を上書きする)                                                         |                   |
+| `i` / `A`                       | 空行ならインデント位置から書き始める                                                                                 |                   |
+| `<C-a>` / `<C-x>`               | カーソル下の値を増減・切り替え ([対象](editing.md#増減と切り替え))                                                   | 数値のみ          |
+| `<C-h>` `<C-j>` `<C-k>` `<C-l>` | ウィンドウ移動。端なら herdr のペインへ (Terminal モードでも有効)                                                    |                   |
 
 ### Visual
 
@@ -105,6 +104,7 @@ Leader は `<Space>`。押して待つと which-key が続きの候補を出す�
 | `jk`                            | Normal モードへ (lazygit の中では `k` をそのまま送る) |
 | `<Esc><Esc>`                    | Normal モードへ                                       |
 | `<C-h>` `<C-j>` `<C-k>` `<C-l>` | ウィンドウ / ペイン移動                               |
+| `<C-/>`                         | 浮動ターミナルを隠す (Normal でも同じキーで出し入れ)  |
 
 ## LSP
 
@@ -175,6 +175,7 @@ Leader は `<Space>`。押して待つと which-key が続きの候補を出す�
 | `<leader>/`               | grep (リテラル)                                                        |
 | `<leader>:`               | コマンド履歴                                                           |
 | `<leader>e`               | エクスプローラー                                                       |
+| `<leader>.` / `<leader>S` | メモ帳 (Markdown) を出す・隠す / メモの一覧から選ぶ                    |
 | `<leader>y`               | ヤンク履歴から選んで貼る                                               |
 | `<leader>z` / `<leader>Z` | Zen モード / 今のウィンドウを最大化                                    |
 | `<leader>D`               | カーソルのあるスコープ以外を暗くする                                   |
@@ -226,31 +227,33 @@ Leader は `<Space>`。押して待つと which-key が続きの候補を出す�
 
 ### `<leader>g` Git (picker)
 
-| キー         | 動作                                       |
-| ------------ | ------------------------------------------ |
-| `<leader>gs` | git status                                 |
-| `<leader>gd` | 変更 (hunk) の一覧                         |
-| `<leader>gl` | git log                                    |
-| `<leader>gf` | このファイルの log                         |
-| `<leader>gL` | この行の log                               |
-| `<leader>gb` | ブランチ                                   |
-| `<leader>gS` | stash                                      |
-| `<leader>gB` | リモート (GitHub) のページをブラウザで開く |
+| キー         | 動作                                                          |
+| ------------ | ------------------------------------------------------------- |
+| `<leader>gs` | git status                                                    |
+| `<leader>gd` | 変更 (hunk) の一覧                                            |
+| `<leader>gD` | 既定ブランチから分かれて以降の変更の一覧 (コミット済みも含む) |
+| `<leader>gl` | git log                                                       |
+| `<leader>gf` | このファイルの log                                            |
+| `<leader>gL` | この行の log                                                  |
+| `<leader>gb` | ブランチ                                                      |
+| `<leader>gS` | stash                                                         |
+| `<leader>gB` | リモート (GitHub) のページをブラウザで開く                    |
 
 ### `<leader>gh` hunk (gitsigns)
 
-| キー          | 動作                                                                |
-| ------------- | ------------------------------------------------------------------- |
-| `<leader>ghp` | hunk の差分をその場に表示                                           |
-| `<leader>ghs` | hunk をステージ (Visual なら選択行だけ)                             |
-| `<leader>ghr` | hunk を元に戻す (Visual なら選択行だけ)                             |
-| `<leader>ghu` | 直前のステージを取り消す                                            |
-| `<leader>ghS` | ファイル全体をステージ                                              |
-| `<leader>ghR` | ファイル全体を元に戻す                                              |
-| `<leader>ghb` | この行の blame (コミット全文)                                       |
-| `<leader>ghB` | ファイル全体の blame                                                |
-| `<leader>ghd` | index との diff を分割で開く                                        |
-| `<leader>ghD` | `HEAD~` との diff を分割で開く (直前のコミットの変更も含めて見える) |
+| キー          | 動作                                                                                               |
+| ------------- | -------------------------------------------------------------------------------------------------- |
+| `<leader>ghp` | hunk の差分をその場に表示                                                                          |
+| `<leader>ghs` | hunk をステージ (Visual なら選択行だけ)                                                            |
+| `<leader>ghr` | hunk を元に戻す (Visual なら選択行だけ)                                                            |
+| `<leader>ghu` | 直前のステージを取り消す                                                                           |
+| `<leader>ghS` | ファイル全体をステージ                                                                             |
+| `<leader>ghR` | ファイル全体を元に戻す                                                                             |
+| `<leader>ghb` | この行の blame (コミット全文)                                                                      |
+| `<leader>ghB` | ファイル全体の blame                                                                               |
+| `<leader>ghd` | index との diff を分割で開く                                                                       |
+| `<leader>ghD` | `HEAD~` との diff を分割で開く (直前のコミットの変更も含めて見える)                                |
+| `<leader>ghm` | 差分の基準を既定ブランチとの分岐点に切り替える / 戻す (行頭の印と `]h` がコミット済みの変更も指す) |
 
 ### `<leader>l` lazygit
 
@@ -258,17 +261,6 @@ Leader は `<Space>`。押して待つと which-key が続きの候補を出す�
 | ------------ | ------------------------------------ |
 | `<leader>lg` | lazygit を開く                       |
 | `<leader>lf` | このファイルの log を lazygit で開く |
-
-### `<leader>a` Claude Code
-
-herdr の隣のペインの Claude Code とつないでいるときに使う。つなぎ方は [README の Claude Code と並べて使う](README.md#claude-code-と並べて使う)。
-
-| キー                        | 動作                                                          |
-| --------------------------- | ------------------------------------------------------------- |
-| `<leader>as` (Visual)       | 選択範囲を Claude の入力欄に入れる (`@ファイル#L10-20` の形)  |
-| `<leader>as` (Explorer)     | カーソル下のファイルを Claude の入力欄に入れる                |
-| `<leader>ab`                | 今のファイルを Claude の入力欄に入れる                        |
-| `<leader>aa` / `<leader>ad` | Claude の変更提案 (diff) を採用 / 却下 (`:w` / `:q` でも同じ) |
 
 ### `<leader>c` コード / コピー
 
@@ -425,7 +417,7 @@ herdr の隣のペインの Claude Code とつないでいるときに使う。�
 | Nix                     | nixfmt                                                                        |
 | Go                      | goimports + gofumpt                                                           |
 | Rust                    | rustfmt                                                                       |
-| Terraform               | terraform_fmt                                                                 |
+| Terraform               | tofu_fmt (OpenTofu の `tofu fmt`)                                             |
 | Shell / Bash            | shfmt                                                                         |
 | Lua                     | stylua (`config/nvim/stylua.toml`。桁を揃えた表は `-- stylua: ignore` で守る) |
 

@@ -59,7 +59,6 @@ herdr-layout README.md   # 引数はそのまま nvim に渡す
 - 左右は半々。1080p・font-size 14 で左 118 桁、右 117 桁 × 26 行。3 列に並べると 1 列 72〜90 桁になるので、横幅を優先してこの形にしている
 - フォーカスは左の nvim に残る
 - 右の 2 つはシェルに `claude` を入力して起動している。claude を終了してもペインはシェルとして残る
-- 右の claude で `/ide` を打って Neovim を選ぶと、左の nvim とつながる (選択範囲を渡せる、変更提案が nvim の diff で開く。[nvim 側の使い方](../nvim/README.md#claude-code-と並べて使う))
 - 本体は `bin/herdr-layout` (socket API の `herdr pane split` / `herdr pane run` を呼ぶだけ)。比率や起動するコマンドはここを直す
 
 ### 4 等分する: `Prefix + t`

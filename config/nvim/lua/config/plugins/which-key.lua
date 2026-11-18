@@ -11,7 +11,6 @@ return {
     spec = {
       {
         mode = { "n", "x" },
-        { "<leader>a", group = "Claude Code" },
         { "<leader>c", group = "コード / コピー" },
         { "<leader>f", group = "ファイル" },
         { "<leader>g", group = "Git" },

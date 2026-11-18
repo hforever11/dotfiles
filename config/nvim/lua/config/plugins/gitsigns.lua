@@ -1,3 +1,29 @@
+-- 差分の基準を「既定ブランチとの分岐点」に切り替える / 戻す。
+-- 切り替えている間は、コミット済みの変更も行頭の印と ]h の対象になる (Claude がブランチで変えた箇所を追う用)
+local branch_base = false
+local function toggle_branch_base()
+  local gs = require("gitsigns")
+  if branch_base then
+    gs.reset_base(true)
+    branch_base = false
+    vim.notify("差分の基準: 未コミットの変更だけ (既定)")
+    return
+  end
+  local base, branch, at_head = require("config.core.git").branch_point()
+  if not base then
+    vim.notify("既定ブランチとの分岐点が見つかりません", vim.log.levels.WARN)
+    return
+  end
+  -- 分岐点が今のコミットと同じなら、切り替えても印は変わらない。効いていないように見えるので知らせて止める
+  if at_head then
+    vim.notify(("%s から先のコミットがありません。印は未コミットの変更だけのままです"):format(branch))
+    return
+  end
+  gs.change_base(base, true)
+  branch_base = true
+  vim.notify(("差分の基準: %s との分岐点 (%s)"):format(branch, base:sub(1, 7)))
+end
+
 return {
   "lewis6991/gitsigns.nvim",
   event = { "BufReadPre", "BufNewFile" },
@@ -51,6 +77,7 @@ return {
       map("n", "<leader>ghB", function() gs.blame() end, "Blame Buffer")
       map("n", "<leader>ghd", gs.diffthis, "Diff This")
       map("n", "<leader>ghD", function() gs.diffthis("~") end, "Diff This ~")
+      map("n", "<leader>ghm", toggle_branch_base, "Toggle base: branch point")
       map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
     end,
   },

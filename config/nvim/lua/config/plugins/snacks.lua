@@ -5,6 +5,9 @@ local lazygit_env = { GIT_OPTIONAL_LOCKS = "0" }
 -- gitsigns は自動更新では --no-optional-locks の読み取りしかせず index.lock を取らないので、
 -- lazygit の間も外さない (detach_all で外すと、ブランチ切り替え後のリロードで assert が落ちる)
 
+-- コマンドなしの Snacks.terminal は既定で下の分割に開くので、浮動ウィンドウを指定する
+local float_term = { win = { position = "float", border = "rounded" } }
+
 -- gitignore 込み検索(<leader>fa / <leader>sG)で中身を見る価値の無いノイズを除外
 local search_exclude = {
   -- 依存・成果物
@@ -49,6 +52,15 @@ return {
         Snacks.lazygit({ env = lazygit_env })
       end, desc = "Lazygit" },
     { "<leader>lf", function() Snacks.lazygit.log_file({ env = lazygit_env }) end, desc = "Lazygit file log" },
+    -- シェルを浮動ウィンドウで出し入れする。隠してもシェルは生きたままなので、履歴と cd 先が残る。
+    -- コマンドを打つたびに herdr のペインを分割しなくて済む。
+    -- Ctrl+/ は端末によって <C-/> か <C-_> で届くので両方に割り当てる
+    { "<C-/>", function() Snacks.terminal.toggle(nil, float_term) end, mode = { "n", "t" }, desc = "Toggle Terminal" },
+    { "<C-_>", function() Snacks.terminal.toggle(nil, float_term) end, mode = { "n", "t" }, desc = "which_key_ignore" },
+    -- メモ帳 (Markdown) を浮動ウィンドウで出し入れする。隠すと自動で保存され、リポジトリとブランチごとに別になる。
+    -- Claude に送る長いプロンプトの下書き用。開いているファイルの種類で別のメモにならないよう Markdown に固定する
+    { "<leader>.", function() Snacks.scratch({ ft = "markdown" }) end, desc = "Toggle Scratch Buffer" },
+    { "<leader>S", function() Snacks.scratch.select() end,             desc = "Select Scratch Buffer" },
     -- Top Pickers & Explorer
     {
       "<leader><space>",
@@ -94,6 +106,8 @@ return {
     { "<leader>gs", function() Snacks.picker.git_status() end,                              desc = "Git Status" },
     { "<leader>gS", function() Snacks.picker.git_stash() end,                               desc = "Git Stash" },
     { "<leader>gd", function() Snacks.picker.git_diff() end,                                desc = "Git Diff (Hunks)" },
+    -- 既定ブランチから分かれて以降の変更すべて (コミット済みも含む)
+    { "<leader>gD", function() Snacks.picker.git_diff({ base = require("config.core.git").default_branch() }) end, desc = "Git Diff (since branch point)" },
     { "<leader>gf", function() Snacks.picker.git_log_file() end,                            desc = "Git Log File" },
     -- Grep
     { "<leader>sb", function() Snacks.picker.lines() end,                                   desc = "Buffer Lines" },
@@ -232,6 +246,11 @@ return {
       enabled = true,
     },
     quickfile = {
+      enabled = true,
+    },
+    -- 1.5MB 超、または 1 行が極端に長いファイル (minify 済みの JS など) は
+    -- treesitter や LSP を付けずに開く。開いたまま固まるのを防ぐ
+    bigfile = {
       enabled = true,
     },
     dashboard = {

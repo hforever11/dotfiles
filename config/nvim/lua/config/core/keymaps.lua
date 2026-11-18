@@ -56,6 +56,7 @@ local function q_prefix()
     q = "qq",             -- マクロ記録開始
     o = "<Cmd>only!<CR>", -- ウィンドウ1つに
     t = "<C-^>",          -- 前のバッファ
+    d = "<Cmd>lua Snacks.bufdelete()<CR>", -- バッファを閉じる (ウィンドウの分割は残す)
   }
 
   return mappings[char] or ""

@@ -22,7 +22,7 @@ return {
         json = { "biome" },
         yaml = { "prettier" },
         markdown = { "prettier" },
-        terraform = { "terraform_fmt" },
+        terraform = { "tofu_fmt" }, -- terraform は入れておらず、tofu (mise) を使う
         sh = { "shfmt" },
         bash = { "shfmt" },
         go = { "goimports", "gofumpt" },

@@ -34,6 +34,15 @@ return {
       "rust",
       "toml",
       "nix",
+      -- OpenTofu / Terraform (.tf は terraform、それ以外の HCL は hcl)
+      "hcl",
+      "terraform",
+      -- コミットメッセージの編集画面と、その中に出る差分・rebase の指示書
+      "gitcommit",
+      "git_rebase",
+      "diff",
+      -- noice がコマンドラインの検索パターンを色付けするのに使う
+      "regex",
     })
 
     -- Highlight and indent are now Neovim builtins

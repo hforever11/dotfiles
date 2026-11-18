@@ -42,6 +42,8 @@ return {
     dependencies = {
       "saghen/blink.cmp",
       "williamboman/mason-lspconfig.nvim",
+      -- jsonls に渡すスキーマの一覧 (package.json, tsconfig.json, Claude Code の settings.json など)
+      "b0o/SchemaStore.nvim",
     },
     config = function()
       local capabilities = require("blink.cmp").get_lsp_capabilities()
@@ -131,6 +133,17 @@ return {
         settings = {
           typescript = { inlayHints = ts_inlay_hints },
           javascript = { inlayHints = ts_inlay_hints },
+        },
+      })
+      -- JSON: jsonls は自分ではスキーマを探さないので、SchemaStore の対応表 (ファイル名 → スキーマ) を渡す。
+      -- これで $schema を書いていない package.json などでも補完と検証が効く。
+      -- YAML は yamlls が自分で SchemaStore を引くので設定しない
+      vim.lsp.config("jsonls", {
+        settings = {
+          json = {
+            schemas = require("schemastore").json.schemas(),
+            validate = { enable = true },
+          },
         },
       })
       -- Go
