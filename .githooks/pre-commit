@@ -1,5 +1,16 @@
 #!/bin/sh
-# ステージ済み .nix ファイルを nixfmt --check する。core.hooksPath 経由で自動有効化 (config/git/dotfiles-repo.gitconfig)
+# core.hooksPath 経由で自動有効化 (config/git/dotfiles-repo.gitconfig)。
+# 1. ステージ済みの差分に秘密情報がないか gitleaks で調べる (公開リポジトリのため)
+# 2. ステージ済み .nix ファイルを nixfmt --check する
+# どちらもコマンドが無いマシンでは飛ばす
+
+if command -v gitleaks >/dev/null 2>&1; then
+  # 誤検知は該当行の末尾に gitleaks:allow と書くか、.gitleaksignore に fingerprint を足して通す
+  gitleaks git --pre-commit --staged --redact --verbose --no-banner --log-level warn || {
+    echo "gitleaks: ステージ済みの差分に秘密情報らしき文字列があります。" >&2
+    exit 1
+  }
+fi
 
 command -v nixfmt >/dev/null 2>&1 || exit 0
 

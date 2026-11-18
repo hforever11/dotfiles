@@ -87,7 +87,7 @@
       "Bash(brew cleanup --prune:*)"
     ]
   },
-  "model": "opus",
+  "model": "fable",
   "hooks": {
     "PostToolUse": [
       {
@@ -114,7 +114,9 @@
     "context7@claude-plugins-official": true,
     "skill-creator@claude-plugins-official": true,
     "rust-analyzer-lsp@claude-plugins-official": true,
-    "yomiyasu@yomiyasu": true
+    "yomiyasu@yomiyasu": true,
+    "gopls-lsp@claude-plugins-official": true,
+    "security-guidance@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "yomiyasu": {

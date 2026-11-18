@@ -40,6 +40,16 @@
     # markdown / yaml の整形。CJK を 2 桁幅で計算するためテーブルが端末上で揃う
     # (nodePackages は 2026-03-03 に nixpkgs から削除済み。トップレベルを使う)
     prettier
+    # シェルスクリプトの検査と整形。shfmt は nvim (conform) も参照する
+    shellcheck
+    shfmt
+    # Go。gopls は Claude Code の gopls-lsp プラグインが PATH から探す (nvim は Mason の gopls を使う)。
+    # gofumpt と gotools (goimports) は nvim (conform) が参照する
+    gopls
+    gofumpt
+    gotools
+    # コミット前の秘密情報の検査 (.githooks/pre-commit)
+    gitleaks
 
     # ===== Containers =====
     # ランタイムは colima (colima.nix)。docker は buildx / compose プラグインと zsh 補完を同梱する

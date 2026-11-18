@@ -24,8 +24,9 @@ Claude Code が同期する組織スキルは `claude/skills/synced/` に書か�
 ## `settings.json` の中身
 
 - `modelSettings`: Opus 5.5 は `effortLevel: xhigh`。全体の既定は `effortLevel: high`
-- `enabledPlugins`: pyright / lua / typescript / rust-analyzer の LSP, context7, skill-creator,
-  yomiyasu (日本語の推敲。[yomiyasu.md](yomiyasu.md))
+- `enabledPlugins`: pyright / lua / typescript / rust-analyzer / gopls の LSP, context7, skill-creator,
+  yomiyasu (日本語の推敲。[yomiyasu.md](yomiyasu.md)),
+  security-guidance (Claude が書いたコードのセキュリティレビュー。下記)
 - `extraKnownMarketplaces`: yomiyasu
 - `env`: `BASH_DEFAULT_TIMEOUT_MS=180000` (3 分), `BASH_MAX_OUTPUT_LENGTH=30000` (context 消費抑制)
 - `attribution`: commit / PR とも空 (Co-Authored-By を付けない)
@@ -58,10 +59,25 @@ Edit/Write したファイルに、**プロジェクトに設定がある format
 | go | `go.mod` | gofmt |
 | rs | `rustfmt.toml` / `.rustfmt.toml` | rustfmt |
 | py | `ruff.toml` / pyproject の `[tool.ruff]` (`[tool.black]` なら black) | ruff format |
+| sh / bash | `.editorconfig` | shfmt (インデントは `.editorconfig` に従う) |
 | nix | `flake.nix` に `formatter` がある | `nix fmt` (1 回 1〜2 秒) |
 | js / ts / json / md / yaml など | `biome.json` / prettier の設定 | biome / prettier (node_modules 優先) |
 
 設定ファイルは編集したファイルの位置から git root まで遡って探す。
+
+## プラグイン: security-guidance
+
+Claude が書いたコードを 3 段で見る。
+
+- Edit / Write のたびに、危険なパターン (`yaml.load`, 生の `innerHTML`, 秘密情報の直書きなど) を正規表現で警告する
+- ターンの終わりに、差分を LLM (既定は最新の Opus) がレビューし、重大な指摘を Claude に返す
+- `git commit` のときに、関連ファイルまで読むレビューが走る
+
+LLM のレビューは使用量と待ち時間が増える。重いときは `settings.json` の `env` で段ごとに切る
+(`ENABLE_STOP_REVIEW=0` でターン終わりだけ、`ENABLE_CODE_SECURITY_REVIEW=0` で LLM のレビュー全部、
+`SECURITY_GUIDANCE_DISABLE=1` でプラグイン全体)。python3 が PATH に要る (mise の python を使う)。
+
+gopls-lsp は PATH の `gopls` を使う (`home/packages.nix`)。
 
 ## statusLine
 

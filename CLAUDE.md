@@ -8,5 +8,6 @@
 - rebuild 前の検証は `nix build .#darwinConfigurations.mac.system -o <一時パス>` (sudo 不要)
 - flake は git 管理下のファイルしか見ない。新しい `.nix` ファイルは `git add` してから評価する
 - `.nix` は nixfmt で整形する (pre-commit が `nixfmt --check` する)
+- 公開リポジトリなので、pre-commit が gitleaks でステージ済みの差分を調べる。誤検知は行末の `gitleaks:allow` か `.gitleaksignore` で通し、`--no-verify` は使わない
 - 仕事用マシンでの FOD のハッシュ不一致は ESET が原因。ハッシュを書き換えて回避しない
 - マシン固有の git identity は `config/git/*.local.gitconfig` (gitignore)。中身をコミットや出力に含めない

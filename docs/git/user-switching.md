@@ -12,7 +12,7 @@ include の相対パスは `~/.config/git/` 基準で解決される。
 config/git/
 ├── config                   … includeIf の入口 (下記)
 ├── personal.gitconfig       … 個人用 [user]。~/ghq/github.com/hforever11/ 配下で有効
-├── dotfiles-repo.gitconfig  … このリポジトリだけ core.hooksPath = .githooks (pre-commit で nixfmt)
+├── dotfiles-repo.gitconfig  … このリポジトリだけ core.hooksPath = .githooks (pre-commit で gitleaks と nixfmt)
 ├── local.gitconfig          … マシン固有 (gitignore)。仕事用 identity の includeIf を書く
 └── work.local.gitconfig     … 仕事用 [user] (gitignore)。local.gitconfig から include される
 ```

@@ -52,6 +52,10 @@ py)
     fi
   fi
   ;;
+sh | bash)
+  # shfmt は .editorconfig のインデント設定に従う。無いプロジェクトでは既定 (タブ) に直してしまうので動かさない
+  find_up "$dir" .editorconfig >/dev/null && run shfmt -w "$file"
+  ;;
 nix)
   # flake に formatter が宣言されているプロジェクトだけ、その formatter に任せる (nix fmt は flake のあるディレクトリで実行する)
   if cfg="$(find_up "$dir" flake.nix)" && grep -q 'formatter' "$cfg"; then
