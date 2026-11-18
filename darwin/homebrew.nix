@@ -34,6 +34,8 @@
       "copilot-cli"
       "font-hackgen"
       "font-udev-gothic-nf"
+      # 外部モニター (Dell 等) の明るさを DDC/CI でキーボードから変える。macOS 単体ではできない
+      "monitorcontrol"
       "raycast"
       "session-manager-plugin"
     ];
