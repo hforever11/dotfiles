@@ -87,7 +87,7 @@
       "Bash(brew cleanup --prune:*)"
     ]
   },
-  "model": "fable",
+  "model": "claude-fable-5-2[1m]",
   "hooks": {
     "PostToolUse": [
       {
